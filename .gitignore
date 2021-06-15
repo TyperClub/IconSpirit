@@ -2,6 +2,8 @@
 node_modules
 /dist
 
+run/
+typings/
 
 # local env files
 .env.local

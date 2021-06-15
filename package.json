@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "egg:start": "egg-scripts start --daemon --title=egg-server-tester",
+    "egg:stop": "egg-scripts stop --title=egg-server-tester",
+    "egg:dev": "egg-bin dev",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
@@ -12,7 +15,13 @@
     "core-js": "^3.6.5",
     "element-plus": "^1.0.2-beta.46",
     "vue": "^3.0.0",
-    "vue-router": "^4.0.8"
+    "vue-router": "^4.0.8",
+    "egg": "^2.15.1",
+    "egg-mongoose": "^3.3.1",
+    "egg-mysql-typescript-lib": "^1.0.2",
+    "egg-scripts": "^2.11.0",
+    "egg-validate": "^1.0.0",
+    "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -23,7 +32,13 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
     "less": "^3.12.2",
-    "less-loader": "^7.0.2"
+    "less-loader": "^7.0.2",
+    "autod": "^3.0.1",
+    "autod-egg": "^1.1.0",
+    "egg-bin": "^4.11.0",
+    "egg-ci": "^1.11.0",
+    "egg-mock": "^3.21.0",
+    "eslint-config-egg": "^7.1.0"
   },
   "eslintConfig": {
     "root": true,
