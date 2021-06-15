@@ -4,9 +4,9 @@
 
 ### 在线字体生成
 
-在线生成链接地址
+通过 font-carrier 在线生成链接地址
 
-![preview](https://segmentfault.com/img/bVbtb9i?w=684&h=94/view)
+![preview](https://web-data.zmlearn.com/image/cwyi1FF2iSbJtqXKrKiy1b/502280468-5cec90de12b0a_fix732.png)
 
 生成输出
 
