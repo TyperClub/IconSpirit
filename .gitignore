@@ -4,6 +4,7 @@ node_modules
 
 run/
 typings/
+logs/
 
 # local env files
 .env.local
