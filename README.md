@@ -1,24 +1,33 @@
-# ops-iconfont
+#  Icon 技术方案
 
-## Project setup
+
+
+### 在线字体生成
+
+在线生成链接地址
+
+![preview](https://segmentfault.com/img/bVbtb9i?w=684&h=94/view)
+
+生成输出
+
+1. 生成 js 文件
+2. 生成字体文件
+
+
+
+### 在线组件生成
+
 ```
-npm install
+<iconpark-icon icon-id="15885"></iconpark-icon>
+<iconpark-icon icon-id="15886"></iconpark-icon>
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
+### 前端页面渲染 svg
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+1：根据接口返回渲染 html
+
+
+
+#### 上传 svg 
