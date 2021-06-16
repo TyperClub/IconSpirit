@@ -11,4 +11,5 @@ module.exports = app => {
   router.post('/api/v1/signup', controller.user.signup)
 
   router.post('/api/v1/iconfont/generate', controller.iconfont.generate)
+  router.post('/api/v1/iconfont/list', controller.iconfont.list)
 };
