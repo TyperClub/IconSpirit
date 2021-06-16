@@ -8,7 +8,7 @@ module.exports = options => {
     if (method === 'get') {
       await next();
     } else if (!token) {
-      if (ctx.path === '/api/v1/signup' || ctx.path === '/api/v1/signin') {
+      if (ctx.path === '/api/v1/signup' || ctx.path === '/api/v1/signin' || ctx.path === '/api/v1/iconfont/generate') {
         await next();
       } else {
         ctx.throw(401, '未登录, 请先登录!!!');
