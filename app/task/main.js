@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 const cheerio = require("cheerio");
-
+const request = require('request')
 
 const open = async (browser, url) =>{
     let page = await browser.newPage();
@@ -21,7 +21,7 @@ const open = async (browser, url) =>{
                 content: $(obj).find('.icon-twrap').html()
             })
         })
-        postData(data)
+        requestData(data)
     }catch (error) { 
         console.log('open url is error：', error)
     }
@@ -29,8 +29,20 @@ const open = async (browser, url) =>{
     await browser.close();
 }
 
-function postData(data){
-    console.log(data)
+function requestData(data){
+    console.log(`add ${data.length} icon...`)
+    request({
+        url: "http://127.0.0.1:7001/api/v1/iconfont/add",
+        method:'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            data: data
+        })
+    }, function (err, response, body) {
+        console.log(body)
+    })
 }
 
 (async () => {
