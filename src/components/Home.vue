@@ -41,7 +41,7 @@
                   <div class="icon-base-view-left" v-html="item.content"></div>
                   <div class="icon-base-view-right">
                       <div class="ellipsis">{{item.CH_Name}}</div>
-                      <div class="name">{{item.ENG_Name}}</div>
+                      <div class="name">{{item.ENG_Name || 'other'}}</div>
                   </div>
                 </div>
               </el-card>
@@ -50,8 +50,11 @@
         <el-pagination
         class="m-page"
         background
+        @current-change="handleCurrentChange"
         layout="prev, pager, next"
-        :total="1000">
+        :page-size="pageInfo.pagesize"
+        :current-page="pageInfo.current"
+        :total="pageInfo.total">
       </el-pagination>
       </div>
     </el-main>
@@ -68,7 +71,12 @@ import {iconList} from '../services/index';
       return {
         activeIndex: '2',
         input: "",
-        tableData: []
+        tableData: [],
+        pageInfo: {
+          pagesize: 10,
+          current: 1,
+          total: 0
+        }
       }
     },
     mounted(){
@@ -87,19 +95,23 @@ import {iconList} from '../services/index';
       },
       getIconsList(){
         iconList({
-          "pageNum": 1,
+          "pageNum": this.pageInfo.current,
           "pageSize": 10
         }).then(res => {
           let data = res.data
-          console.log(11, data)
           data.forEach(item => {
             item.status = false
           })
           this.tableData = data
-          console.log(111, res.data)
+          this.pageInfo.current = res.pageNum
+          this.pageInfo.total = res.total
         }).catch(err => {
-          console.log(112342341, err)
+          console.log('错误', err)
         })
+      },
+      handleCurrentChange(val){
+        this.pageInfo.current = val
+        this.getIconsList()
       }
     }
   };
@@ -122,6 +134,9 @@ import {iconList} from '../services/index';
       color: #d90029;
     }
   }
+}
+.icon {
+  font-size: 36px;
 }
 </style>
 <style lang="less" scoped>

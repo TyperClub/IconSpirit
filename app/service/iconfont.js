@@ -18,7 +18,7 @@ class IconfontSevice extends Service {
         res.data = await ctx.model.Iconfont.find().skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort({ isSetTop: -1, sort: 1, editTime: -1 });
         res.code = 1;
         res.msg = '查询成功';
-        res.count = await ctx.model.Iconfont.find().count()
+        res.total = await ctx.model.Iconfont.find().count()
         return res
     }
 }
