@@ -9,12 +9,14 @@ const open = async (browser, url) =>{
 
     try{
         const pageHtml = await page.$eval('.page-collection-detail-wrap .block-icon-list', (e) => e.outerHTML);
-        var $ = cheerio.load(pageHtml);
+        const groupText = await page.$eval('.block-sub-banner .right-content .title', (e) => e.outerText);
+        let $ = cheerio.load(pageHtml);
         let data = []
         $('li').each((index,obj) => {
             data.push({
                 id:  $(obj).attr('class'),
-                gurop: "alibaba",
+                type: "alibaba",
+                gurop: groupText,
                 CH_Name: $(obj).text(),
                 ENG_Name: "",
                 createTime: new Date(),
@@ -74,8 +76,10 @@ function requestData(data, url){
     aList.forEach(url => {
         open(browser, url)
     })
-  } catch (error) { 
+    // open(browser, aList[0])
+  } catch (error) {
     console.log(11, error)
+    await page.close()
   }
   
   await page.close()

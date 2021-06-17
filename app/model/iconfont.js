@@ -11,6 +11,10 @@ module.exports = app => {
       unique: true,
       required: true,
     },
+    type: {
+      type: String,
+      required: true,
+    },
     gurop: {
       type: String,
       required: true,
