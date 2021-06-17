@@ -10,7 +10,14 @@ class IconfontController extends Controller {
 
   async list(){
     const { ctx } = this;
-    ctx.body = 'hi, egg';
+    const rule = {
+        pageNum: { type: 'number', required: true, message: '必填项' },
+        pageSize: { type: 'number', required: true, message: '必填项' },
+    };
+    const body = ctx.request.body;
+    await ctx.validate(rule, body);
+    const result = await ctx.service.iconfont.list(body);
+    ctx.body = result
   }
 
   async add(){
