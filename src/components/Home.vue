@@ -73,7 +73,7 @@ import {iconList} from '../services/index';
         input: "",
         tableData: [],
         pageInfo: {
-          pagesize: 10,
+          pagesize: 42,
           current: 1,
           total: 0
         }
@@ -96,7 +96,7 @@ import {iconList} from '../services/index';
       getIconsList(){
         iconList({
           "pageNum": this.pageInfo.current,
-          "pageSize": 10
+          "pageSize": this.pageInfo.pagesize
         }).then(res => {
           let data = res.data
           data.forEach(item => {
