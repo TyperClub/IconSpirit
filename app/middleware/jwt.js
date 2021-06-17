@@ -8,7 +8,8 @@ module.exports = options => {
     if (method === 'get') {
       await next();
     } else if (!token) {
-      if (ctx.path === '/api/v1/signup' || ctx.path === '/api/v1/signin' || ctx.path === '/api/v1/iconfont/generate' || ctx.path === '/api/v1/iconfont/list') {
+      if (ctx.path === '/api/v1/signup' || ctx.path === '/api/v1/signin' || ctx.path === '/api/v1/iconfont/generate' || ctx.path === '/api/v1/iconfont/list'
+      || ctx.path === '/api/v1/iconfont/add') {
         await next();
       } else {
         ctx.throw(401, '未登录, 请先登录!!!');

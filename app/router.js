@@ -12,4 +12,5 @@ module.exports = app => {
 
   router.post('/api/v1/iconfont/generate', controller.iconfont.generate)
   router.post('/api/v1/iconfont/list', controller.iconfont.list)
+  router.post('/api/v1/iconfont/add', controller.iconfont.add)
 };
