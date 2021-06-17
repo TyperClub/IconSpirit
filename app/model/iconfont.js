@@ -5,7 +5,7 @@ module.exports = app => {
   const mongoose = app.mongoose;
   const Schema = mongoose.Schema;
 
-  const IconListSchema = new Schema({
+  const IconfontSchema = new Schema({
     id: {
       type: String,
       unique: true,
@@ -30,5 +30,5 @@ module.exports = app => {
     }
   });
 
-  return mongoose.model('IconList', IconListSchema);
+  return mongoose.model('Iconfont', IconfontSchema);
 };
