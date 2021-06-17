@@ -49,9 +49,9 @@
         </el-row>
         <el-pagination
         class="m-page"
-        background
         @current-change="handleCurrentChange"
-        layout="prev, pager, next"
+        layout="total, prev, pager, next, jumper"
+        :page-sizes="[10, 30, 50,100]"
         :page-size="pageInfo.pagesize"
         :current-page="pageInfo.current"
         :total="pageInfo.total">
