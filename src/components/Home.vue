@@ -2,7 +2,7 @@
 <el-container style="height: 100%; border: 1px solid #eee">
   <el-container>
     <el-header style="text-align: right; font-size: 12px">
-        <el-row style="wdith:100%">
+        <el-row class="m-header" style="wdith:100%">
             <el-col :span="6">
                 <div class="m-logo">
                     <a class="home-link" href="#">
@@ -147,7 +147,11 @@
     z-index: 20;
     top: 0;
     right: 0;
-    box-shadow: 0 2px 8px #f0f1f2;
+    .m-header{
+      height: 60px;
+      box-shadow: 0 2px 8px #f0f1f2;
+      z-index: 101;
+    }
     .m-logo{
         text-align: left;
         .home-link{
