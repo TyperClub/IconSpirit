@@ -27,14 +27,14 @@
             </el-col>
         </el-row>
         <div class="m-search center-search">
-          <el-input size="medium" class="search" v-model="input" placeholder="输入图标关键词" clearable>
-            <template #append><el-button size="medium" icon="el-icon-search"></el-button></template>
+          <el-input size="medium" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
+            <template #append><el-button size="medium" icon="el-icon-search" @click="querySearch('click')"></el-button></template>
           </el-input>
         </div>
     </el-header>
     <el-main class="home">
       <div>
-        <el-row class="u-row" :gutter="20">
+        <el-row v-if="tableData.length > 0" class="u-row" :gutter="20">
           <el-col :span="4" v-for="(item,index) in tableData" :key="index" class="u-item">
               <el-card :shadow="item.status ? 'never' : 'hover'"  v-bind:class=" item.status ? 'selected' : '' " @mouseenter="showUI(item)" @mouseleave="hideUI(item)" @click="selectUI(item, index)">
                 <div class="icon-base-view">
@@ -45,8 +45,16 @@
                   </div>
                 </div>
               </el-card>
-        </el-col>
+          </el-col>
         </el-row>
+        <div class="m-tips" v-else>
+          <div>
+            <img src="https://sf3-dycdn-tos.pstatp.com/obj/eden-cn/bqaeh7vhobd/feedback.svg">
+          </div>
+          <div class="tips">
+              <span>图标太少？点击上传图标</span> <i class="el-icon-upload upload"></i>
+          </div>
+        </div>
         <el-pagination
         class="m-page"
         @current-change="handleCurrentChange"
@@ -70,7 +78,7 @@ import {iconList} from '../services/index';
 
       return {
         activeIndex: '2',
-        input: "",
+        searchName: "",
         tableData: [],
         pageInfo: {
           pagesize: 42,
@@ -93,11 +101,13 @@ import {iconList} from '../services/index';
         item.status = !item.status
         this.tableData[index] = item
       },
-      getIconsList(){
-        iconList({
+      getIconsList(name){
+        let parames = {
           "pageNum": this.pageInfo.current,
           "pageSize": this.pageInfo.pagesize
-        }).then(res => {
+        }
+        if (name) parames.name = name
+        iconList(parames).then(res => {
           let data = res.data
           data.forEach(item => {
             item.status = false
@@ -108,6 +118,17 @@ import {iconList} from '../services/index';
         }).catch(err => {
           console.log('错误', err)
         })
+      },
+      querySearch(e){
+        this.pageInfo.current = 1
+        if(e === "click"){
+           this.getIconsList(this.searchName)
+        }else{
+          let keyCode = window.event ? e.keyCode : e.which;
+          if (keyCode == 13) {
+            this.getIconsList(this.searchName)
+          }
+        }
       },
       handleCurrentChange(val){
         this.pageInfo.current = val
@@ -216,6 +237,22 @@ import {iconList} from '../services/index';
   }
   .u-item{
     margin-top: 20px;
+  }
+  .m-tips{
+    color: #999;
+    text-align: center;
+    .tips{
+      font-size: 14px;
+    }
+    span{
+      vertical-align: middle;
+    }
+    .upload{
+      cursor: pointer;
+      font-size: 28px;
+      vertical-align: middle;
+      color: #444;
+    }
   }
   .icon-base{
       background: #fff;
