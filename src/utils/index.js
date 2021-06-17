@@ -1,25 +1,21 @@
 import axios from 'axios'
-import router from '../router'
+// import router from '../router'
 
 // axios.defaults.baseURL = process.env.NODE_ENV == 'development' ? 'http://127.0.0.1:7001' : 'http://127.0.0.1:7001'
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 axios.interceptors.response.use(res => {
-  if (typeof res.data !== 'object') {
-    this.$message.error("服务开小差啦！")
-    return Promise.reject(res)
-  }
-  if (res.data.resultCode != 200) {
-    if (res.data.message) this.$message.error(res.data.message)
-    if (res.data.resultCode == 416) {
-      router.push({ path: '/login' })
-    }
-    return Promise.reject(res.data)
-  }
+  // if (res.data.resultCode != 200) {
+  //   if (res.data.message) this.$message.error(res.data.message)
+  //   if (res.data.resultCode == 416) {
+  //     router.push({ path: '/login' })
+  //   }
+  //   // return Promise.reject(res.data)
+  // }
   return res.data
 }, err => {
-  console.log('错误')
+  console.log('错误', err)
   return Promise.reject(err);
 })
 
