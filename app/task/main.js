@@ -5,7 +5,7 @@ const request = require('request')
 const open = async (browser, url) =>{
     let page = await browser.newPage();
     await page.goto(url);
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(3000);
 
     try{
         const pageHtml = await page.$eval('.page-collection-detail-wrap .block-icon-list', (e) => e.outerHTML);
@@ -21,16 +21,15 @@ const open = async (browser, url) =>{
                 content: $(obj).find('.icon-twrap').html()
             })
         })
-        requestData(data)
+        requestData(data, url)
     }catch (error) { 
         console.log('open url is error：', error)
     }
-
-    await browser.close();
+    await page.close()
 }
 
-function requestData(data){
-    console.log(`add ${data.length} icon...`)
+function requestData(data, url){
+    console.log(`add ${data.length} icon..., url ${url}`)
     request({
         url: "http://127.0.0.1:7001/api/v1/iconfont/add",
         method:'POST',
@@ -41,7 +40,20 @@ function requestData(data){
             data: data
         })
     }, function (err, response, body) {
-        console.log(body)
+        if (body) {
+           try {
+                let data = JSON.parse(body)
+                if(data.code == 1){
+                    console.log(`add ${data.length} icon of data successfully, url ${url}`)
+                }else{
+                    console.log('添加失败：', data, `url ${url}`)
+                }
+           } catch (error) {
+               console.log(`添加失败：url ${url}`)
+           }
+        }else{
+            console.log('添加失败', err)
+        }
     })
 }
 
@@ -58,10 +70,23 @@ function requestData(data){
     const aList = await page.$$eval('.page-collections-wrap a',  eles => eles.map(ele => ele.href))
     console.log('pages', pages)
     console.log('aList', aList)
-
-    open(browser, aList[0])
+    
+    aList.forEach(url => {
+        open(browser, url)
+    })
   } catch (error) { 
     console.log(11, error)
-    await browser.close();
   }
+  
+  await page.close()
+  // handle a page being closed
+  browser.on('targetdestroyed', async target => {
+    const openPages = await browser.pages();
+    console.log('Open pages:', openPages.length);
+    if (openPages.length == 1) {
+      console.log('Closing empty browser');
+      await browser.close();
+      console.log('Browser closed');
+    }
+  });
 })();
