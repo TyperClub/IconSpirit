@@ -21,7 +21,7 @@ async function getIconName(id){
             console.log("Get Icon name is error", body)
         }
     } catch (error){
-        console.log("Get Icon name is error: ", error, rpbody)
+        console.log("Get Icon name is error: 无权限访问")
     }
     return data
 }
@@ -55,7 +55,7 @@ function requestData(data, url){
     })
 }
 
-const open = async (browser, url) =>{
+const open = async (browser, url, itemIndex) =>{
     let page = await browser.newPage();
     await page.goto(url);
     await page.waitForTimeout(3000);
@@ -83,13 +83,14 @@ const open = async (browser, url) =>{
                 })
                 if(index == $('li').length - 1){
                     requestData(data, url)
+                    await page.close()
                 }
-            }, 2200 * index + Math.ceil(Math.random()*1000))
+            }, 2200 * index * itemIndex + Math.ceil(Math.random()*1000))
         })
     }catch (error) { 
         console.log('open url is error：', error)
+        await page.close()
     }
-    await page.close()
 }
 
 (async () => {
@@ -99,20 +100,20 @@ const open = async (browser, url) =>{
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36'
  );
   await page.goto('https://www.iconfont.cn/collections/index');
-  await page.waitForTimeout(2000);
+  await page.waitForTimeout(3000);
   try {
     const pages = await page.$eval('#J_collections_lists .total', (e) => e.textContent.replace(/[^0-9]/ig,""));
     const aList = await page.$$eval('.page-collections-wrap a',  eles => eles.map(ele => ele.href))
     console.log('pages', pages)
     console.log('aList', aList)
     
-    aList.forEach(url => {
-        open(browser, url)
+    aList.forEach((url,index) => {
+        open(browser, url, index+1)
     })
-    // open(browser, aList[0])
   } catch (error) {
-    console.log(11, error)
+    console.log('page goto is error: ', error)
     await page.close()
+    await browser.close();
   }
   
   await page.close()
