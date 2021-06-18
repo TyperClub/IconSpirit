@@ -2,7 +2,7 @@
 <el-container style="height: 100%; border: 1px solid #eee">
   <el-container>
     <el-header style="text-align: right; font-size: 12px">
-        <navigation></navigation>
+        <navigation @searchIcons="searchIcons"></navigation>
         <div class="m-search center-search">
           <div class="item">
             <el-input size="medium" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
@@ -67,7 +67,7 @@ import Navigation from './Navigation';
     data() {
       return {
         activeIndex: '2',
-        searchName: "",
+        searchName: this.$route.query.search,
         tableData: [],
         pageInfo: {
           pagesize: 42,
@@ -77,7 +77,7 @@ import Navigation from './Navigation';
       }
     },
     mounted(){
-      this.getIconsList()
+      this.getIconsList(this.searchName)
     },
     methods: {
       showUI(){
@@ -89,6 +89,11 @@ import Navigation from './Navigation';
       selectUI(item, index){
         item.status = !item.status
         this.tableData[index] = item
+      },
+      searchIcons(val){
+        this.searchName = val
+        this.pageInfo.current = 1
+        this.getIconsList(this.searchName)
       },
       getIconsList(name){
         let parames = {

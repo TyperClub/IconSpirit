@@ -41,24 +41,29 @@ export default {
         }
     },
     methods: {
-        querySearch(){
-            this.pageInfo.current = 1
+        querySearch(e){
             if(e === "click"){
-                this.$router.push({
-                    name: 'home',
-                    query: {
-                        search: this.searchName
-                    }
-                })
-            }else{
-                let keyCode = window.event ? e.keyCode : e.which;
-                if (keyCode == 13) {
+                this.$emit('searchIcons',this.searchName)
+                if(this.$route.path != '/home'){
                     this.$router.push({
                         name: 'home',
                         query: {
                             search: this.searchName
                         }
                     })
+                }
+            }else{
+                let keyCode = window.event ? e.keyCode : e.which;
+                if (keyCode == 13) {
+                    this.$emit('searchIcons',this.searchName)
+                    if(this.$route.path != '/home'){
+                        this.$router.push({
+                            name: 'home',
+                            query: {
+                                search: this.searchName
+                            }
+                        })
+                    }
                 }
             }
         }
