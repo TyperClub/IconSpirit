@@ -40,11 +40,11 @@ function requestData(data, url){
     }, function (err, response, body) {
         if (body) {
            try {
-                let data = JSON.parse(body)
-                if(data.code == 1){
+                let d = JSON.parse(body)
+                if(d.code == 1){
                     console.log(`add ${data.length} icon of data successfully, url ${url}`)
                 }else{
-                    console.log('添加失败：', data, `url ${url}`)
+                    console.log('添加失败：', d, `url ${url}`)
                 }
            } catch (error) {
                console.log(`添加失败：url ${url}`)
@@ -67,11 +67,11 @@ const open = async (browser, url, itemIndex) =>{
         let data = []
 
         $('li').each(async (index,obj) => {
-            setTimeout(async ()=>{
+            // setTimeout(async ()=>{
                 let classNameId = $(obj).attr('class')
                 let id = classNameId.replace(/[^0-9]/ig,"")
-                let iconData = await getIconName(id)
-                console.log("index", index, iconData.font_class)
+                let iconData = {} //await getIconName(id)
+                // console.log("index", index, iconData.font_class)
                 data.push({
                     id: classNameId,
                     type: "alibaba",
@@ -85,7 +85,7 @@ const open = async (browser, url, itemIndex) =>{
                     requestData(data, url)
                     await page.close()
                 }
-            }, 2200 * index * itemIndex + Math.ceil(Math.random()*1000))
+            // }, 2200 * index * itemIndex + Math.ceil(Math.random()*1000))
         })
     }catch (error) { 
         console.log('open url is error：', error)
