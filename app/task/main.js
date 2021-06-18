@@ -78,6 +78,7 @@ const open = async (browser, url, itemIndex) =>{
     try{
         const pageHtml = await page.$eval('.page-collection-detail-wrap .block-icon-list', (e) => e.outerHTML);
         const groupText = await page.$eval('.block-sub-banner .right-content .title', (e) => e.outerText);
+        const authors = await page.$$eval('.block-sub-banner .right-content .content', eles => eles.map(ele => ele.outerText));
         let $ = cheerio.load(pageHtml);
         let data = []
 
@@ -85,11 +86,12 @@ const open = async (browser, url, itemIndex) =>{
             setTimeout(async ()=>{
                 let classNameId = $(obj).attr('class')
                 let ENG_Name = await getIconName($(obj).text())
-                console.log(index, $(obj).text(), ENG_Name)
+                console.log(index, authors[1], $(obj).text(), ENG_Name)
                 data.push({
                     id: classNameId,
                     type: "alibaba",
                     gurop: groupText,
+                    author: authors[1],
                     CH_Name: $(obj).text(),
                     ENG_Name: ENG_Name || '',
                     createTime: new Date(),
