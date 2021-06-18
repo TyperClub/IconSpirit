@@ -2,30 +2,7 @@
 <el-container style="height: 100%; border: 1px solid #eee">
   <el-container>
     <el-header style="text-align: right; font-size: 12px">
-        <el-row class="m-header" style="wdith:100%">
-            <el-col :span="6">
-                <div class="m-logo">
-                    <a class="home-link" href="#">
-                        <img class="logo" src="../assets/logo.png" alt="">
-                        <span class="site-name">OPS-ICONS</span> 
-                    </a>
-                </div>
-            </el-col>
-            <el-col :span="18">
-                <div class="grid-content f-fr">
-                    <i class="el-icon-upload upload"></i>
-                    <span class="userName">wiwi</span>
-                </div>
-                <div class="grid-center f-fr">
-                    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-                        <el-menu-item index="1">首页</el-menu-item>
-                        <el-menu-item index="2">图标库</el-menu-item>
-                        <el-menu-item index="3">项目管理</el-menu-item>
-                        <el-menu-item index="4">使用指南</el-menu-item>
-                    </el-menu>
-                </div>
-            </el-col>
-        </el-row>
+        <navigation></navigation>
         <div class="m-search center-search">
           <div class="item">
             <el-input size="medium" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
@@ -84,10 +61,10 @@
 
 <script>
 import {iconList} from '../services/index';
+import Navigation from './Navigation';
 
   export default {
     data() {
-
       return {
         activeIndex: '2',
         searchName: "",
@@ -146,6 +123,9 @@ import {iconList} from '../services/index';
         this.pageInfo.current = val
         this.getIconsList()
       }
+    },
+    components: {
+      Navigation
     }
   };
 </script>
@@ -182,55 +162,6 @@ import {iconList} from '../services/index';
   color: #000;
   font-weight: bold;
 }
-.el-header {
-    padding: 0;
-    position: fixed;
-    left: 0;
-    background-color: #fff;
-    box-sizing: border-box;
-    z-index: 20;
-    top: 0;
-    right: 0;
-    .m-header{
-      height: 60px;
-      box-shadow: 0 2px 8px #f0f1f2;
-      z-index: 101;
-    }
-    .m-logo{
-        text-align: left;
-        .home-link{
-            display: flex;
-            align-items: center;
-            line-height: 4rem;
-            text-decoration: none
-        }
-        .logo{
-            height: 2.5rem;
-            min-width: 2.125rem;
-            margin: 0 .8rem 0 2.4rem;
-        }
-        .site-name{
-          font-size: 1.3rem;
-          font-weight: 500;
-          color: #2a2a2a;
-          position: relative;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-    }
-    .grid-content{
-        font-size: 1.1rem;
-        line-height: 60px;
-        padding: 0 20px;
-        .upload{
-          cursor: pointer;
-        }
-        .userName{
-          padding-left: 10px;
-        }
-    }
-  }
   .home{
       padding-top: 134px;
   }

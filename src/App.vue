@@ -90,4 +90,14 @@ html, body {
 .van-badge--fixed {
   z-index: 1000;
 }
+.el-header {
+    padding: 0;
+    position: fixed;
+    left: 0;
+    background-color: #fff;
+    box-sizing: border-box;
+    z-index: 20;
+    top: 0;
+    right: 0;
+  }
 </style>

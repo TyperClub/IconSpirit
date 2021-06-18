@@ -15,6 +15,22 @@ const router = createRouter({
         index: 1
       }
     },
+    {
+      path: '/projects',
+      name: 'projects',
+      component: () => import('../components/Projects'),
+      meta: {
+        index: 1
+      }
+    },
+    {
+      path: '/help',
+      name: 'help',
+      component: () => import('../components/Help'),
+      meta: {
+        index: 1
+      }
+    },
   ]
 })
 
