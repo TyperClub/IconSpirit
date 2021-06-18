@@ -2,28 +2,42 @@ const puppeteer = require('puppeteer');
 const cheerio = require("cheerio");
 const request = require('request')
 const rp  = require('request-promise');
+const MD5  = require('./md5');
 
-async function getIconName(id){
+async function getIconName(name){
+    let appid = '20210618000866226';
+    let key = 'yGxXuSKiDxaasPC06Wy7';
+    let salt = (new Date).getTime();
+    let query = name;
+    // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
+    let from = 'zh';
+    let to = 'en';
+    let str1 = appid + query + salt +key;
+    let sign = MD5(str1);
     let rpbody = await rp({
-        uri: `https://www.iconfont.cn/api/icon/iconInfo.json?id=${id}`,
+        uri: `http://api.fanyi.baidu.com/api/trans/vip/translate`,
         method:'GET',
         headers: {
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36",
             'Content-Type': 'application/json'
+        },
+        qs: {
+            q: query,
+            appid: appid,
+            salt: salt,
+            from: from,
+            to: to,
+            sign: sign
         }
     });
-    let data = {}
+    let Eg_name = ""
     try {
         let body = JSON.parse(rpbody)
-        if(body.code == 200){
-            data = body.data
-        }else{
-            console.log("Get Icon name is error", body)
-        }
+        Eg_name = body.trans_result[0].dst.replace(/\s+/g, '-').toLowerCase()
     } catch (error){
-        console.log("Get Icon name is error: 无权限访问")
+        console.log("Get Icon name is error:", error, rpbody)
     }
-    return data
+    return Eg_name
 }
 
 function requestData(data, url){
@@ -67,17 +81,16 @@ const open = async (browser, url, itemIndex) =>{
         let data = []
 
         $('li').each(async (index,obj) => {
-            // setTimeout(async ()=>{
+            setTimeout(async ()=>{
                 let classNameId = $(obj).attr('class')
-                let id = classNameId.replace(/[^0-9]/ig,"")
-                let iconData = {} //await getIconName(id)
-                // console.log("index", index, iconData.font_class)
+                let ENG_Name = await getIconName($(obj).text())
+                console.log(index, $(obj).text(), ENG_Name)
                 data.push({
                     id: classNameId,
                     type: "alibaba",
                     gurop: groupText,
                     CH_Name: $(obj).text(),
-                    ENG_Name: iconData.font_class || '',
+                    ENG_Name: ENG_Name || '',
                     createTime: new Date(),
                     content: $(obj).find('.icon-twrap').html()
                 })
@@ -85,10 +98,10 @@ const open = async (browser, url, itemIndex) =>{
                     requestData(data, url)
                     await page.close()
                 }
-            // }, 2200 * index * itemIndex + Math.ceil(Math.random()*1000))
+            }, 200 * index * itemIndex)
         })
     }catch (error) { 
-        console.log('open url is error：', error)
+        console.log('open url is error：', error, url)
         await page.close()
     }
 }
