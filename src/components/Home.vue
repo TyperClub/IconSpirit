@@ -27,9 +27,19 @@
             </el-col>
         </el-row>
         <div class="m-search center-search">
-          <el-input size="medium" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
-            <template #append><el-button size="medium" icon="el-icon-search" @click="querySearch('click')"></el-button></template>
-          </el-input>
+          <div class="item">
+            <el-input size="medium" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
+              <template #append><el-button size="medium" icon="el-icon-search" @click="querySearch('click')"></el-button></template>
+            </el-input>
+            <div class="m-tab">
+              <span>
+              <i class="el-icon-s-grid grid"></i>
+              </span>
+              <span>
+                <i class="el-icon-menu menu"></i>
+              </span>
+            </div>
+          </div>
         </div>
     </el-header>
     <el-main class="home">
@@ -226,9 +236,40 @@ import {iconList} from '../services/index';
     background: #fff;
     padding: 15px 0;
     text-align: center;
+    .item{
+      flex: 1;
+    }
     .search{
       width: 500px;
       margin: 0 auto;
+    }
+    .m-tab{
+      display: inline-block;
+      margin-left: 20px;
+      span{
+        display: inline-block;
+        border-radius: 4px;
+        height: 34px;
+        line-height: 34px;
+        width: 34px;
+        text-align: center;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      span:not(:last-child){
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      span:not(:first-child){
+        margin-left: -1px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+      i{
+        position: relative;
+        top: 1px;
+      }
     }
   }
 

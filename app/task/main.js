@@ -99,7 +99,7 @@ const open = async (browser, url, itemIndex) =>{
   await page.setUserAgent(
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36'
  );
-  await page.goto('https://www.iconfont.cn/collections/index');
+  await page.goto('https://www.iconfont.cn/collections/index?page=2');
   await page.waitForTimeout(3000);
   try {
     const pages = await page.$eval('#J_collections_lists .total', (e) => e.textContent.replace(/[^0-9]/ig,""));
