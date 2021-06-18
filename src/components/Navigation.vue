@@ -13,6 +13,11 @@
             <i class="el-icon-upload upload"></i>
             <span class="userName">wiwi</span>
         </div>
+         <div class="m-nav-search f-fr">
+            <el-input size="mini" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
+              <template #append><el-button size="mini" icon="el-icon-search" @click="querySearch('click')"></el-button></template>
+            </el-input>
+        </div>
         <div class="grid-center f-fr">
             <el-menu router :default-active="$route.path" class="el-menu-demo" mode="horizontal" @select="handleSelect">
                 <el-menu-item index="/">首页</el-menu-item>
@@ -31,7 +36,31 @@ export default {
     name: "Navigation",
     data() {
         return {
+            searchName: "",
             activeIndex: '2'
+        }
+    },
+    methods: {
+        querySearch(){
+            this.pageInfo.current = 1
+            if(e === "click"){
+                this.$router.push({
+                    name: 'home',
+                    query: {
+                        search: this.searchName
+                    }
+                })
+            }else{
+                let keyCode = window.event ? e.keyCode : e.which;
+                if (keyCode == 13) {
+                    this.$router.push({
+                        name: 'home',
+                        query: {
+                            search: this.searchName
+                        }
+                    })
+                }
+            }
         }
     }
 }
@@ -78,6 +107,12 @@ export default {
     }
     .userName{
         padding-left: 10px;
+    }
+}
+.m-nav-search{
+    line-height:  60px;
+    .search{
+        width: 200px;
     }
 }
 </style>
