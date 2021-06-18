@@ -5,6 +5,9 @@ const rp  = require('request-promise');
 const MD5  = require('./md5');
 
 async function getIconName(name){
+    if(/^[a-zA-Z]+$/.test(name.replace(/-+/g, ''))){
+        return name
+    }
     let appid = '20210618000866226';
     let key = 'yGxXuSKiDxaasPC06Wy7';
     let salt = (new Date).getTime();

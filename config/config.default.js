@@ -43,6 +43,12 @@ module.exports = appInfo => {
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
   };
 
+  config.bodyParser = {
+		formLimit: '30mb',
+	  jsonLimit: '30mb',
+	  textLimit: '30mb'
+	}
+
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
