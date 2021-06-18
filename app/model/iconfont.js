@@ -26,6 +26,9 @@ module.exports = app => {
     ENG_Name: {
       type: String,
     },
+    author: {
+        type: String,
+    },
     createTime: {
       type: String,
     },

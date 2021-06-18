@@ -54,6 +54,7 @@
                       <div class="ellipsis">{{item.CH_Name}}</div>
                       <div class="name">{{item.ENG_Name || 'other'}}</div>
                   </div>
+                  <span class="author"> <i class="el-icon-user user"></i> {{item.author || 'other'}}</span>
                 </div>
               </el-card>
           </el-col>
@@ -315,6 +316,7 @@ import {iconList} from '../services/index';
   }
   .icon-base-view{
     display: flex;
+    position: relative;
     align-items: center;
     background: var(--card-bg);
     cursor: pointer;
@@ -363,6 +365,18 @@ import {iconList} from '../services/index';
             color: #999;
         }
     }
+    .author{
+        position: absolute;
+        right: 10px;
+        bottom: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 12px;
+        line-height: 20px;
+        color: #999;
+      }
   }
   .m-page{
     margin-top: 20px;
