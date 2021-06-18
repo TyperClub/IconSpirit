@@ -58,7 +58,7 @@ function requestData(data, url){
 const open = async (browser, url, itemIndex) =>{
     let page = await browser.newPage();
     await page.goto(url);
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(3000*itemIndex);
 
     try{
         const pageHtml = await page.$eval('.page-collection-detail-wrap .block-icon-list', (e) => e.outerHTML);
