@@ -31,6 +31,7 @@
             <el-input size="medium" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
               <template #append><el-button size="medium" icon="el-icon-search" @click="querySearch('click')"></el-button></template>
             </el-input>
+            <span class="u-icons">{{pageInfo.total}} free icons</span>
             <div class="m-tab">
               <span>
               <i class="el-icon-s-grid grid"></i>
@@ -173,6 +174,12 @@ import {iconList} from '../services/index';
 <style lang="less" scoped>
 .f-fr{
   float: right;
+}
+.u-icons{
+  margin-left: 20px;
+  font-size: 18px;
+  color: #000;
+  font-weight: bold;
 }
 .el-header {
     padding: 0;
