@@ -34,6 +34,7 @@ async function getIconName(name){
     try {
         let body = JSON.parse(rpbody)
         Eg_name = body.trans_result[0].dst.replace(/\s+/g, '-').toLowerCase()
+        Eg_name = Eg_name.replace(/-+/g, '-')
     } catch (error){
         console.log("Get Icon name is error:", error, rpbody)
     }
