@@ -66,8 +66,7 @@
             :key="index.id">
         <div class="move_dot"
               ref="ball"
-              v-if="item" :style="{top:elTop+'px',left:elLeft+'px'}">
-            <img :src="imgUrl?imgUrl:'https://cdn.qimai.cn/aso100/201710/06b463b971efff3da8c99764f5933750.png'" alt="">
+              v-if="item" :style="{top:elTop+'px',left:elLeft+'px'}" v-html="imgUrl">
         </div>
         </transition>
     </el-main>
@@ -118,11 +117,11 @@ import Navigation from './Navigation';
               this.count +=1;
           },810)
       },
-        enter(el, done) {
+      enter(el, done) {
           el.offsetWidth;
           // 获取徽标在页面中的位置
           let badgePosition = document.getElementById('appCart').getBoundingClientRect();
-          const xDist = badgePosition.left - this.elLeft + 10;
+          const xDist = badgePosition.left - this.elLeft - 10;
           const yDist = badgePosition.top - this.elTop;
           el.style.transform = `translate(${xDist}px, ${yDist}px)`;
           el.style.transition = 'all 0.8s cubic-bezier(0.12,0.78,0.53,0.92)';
@@ -130,12 +129,12 @@ import Navigation from './Navigation';
           done()
       },
       addToCart(event, row){
-        console.log(111, event)
+        console.log(1111, event, row)
         this.showMoveDot = [...this.showMoveDot, true];
-        //显示图片
-        this.imgUrl = row.imgUrl;
+        // //显示图片
+        this.imgUrl = row.content;
         this.elLeft = event.target.getBoundingClientRect().left;
-        this.elTop = event.target.getBoundingClientRect().top;
+        this.elTop = event.target.getBoundingClientRect().top + 20;
       },
       selectUI(item, index){
         // item.status = !item.status
