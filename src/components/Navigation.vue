@@ -10,11 +10,11 @@
     </el-col>
     <el-col :span="18">
         <div class="grid-content f-fr">
-            <!-- <el-badge :value="12" class="item">
-                <i id="appCart" class="opsfont ops-3"></i>
-            </el-badge> -->
-            <i id="appCart" class="opsfont ops-03"></i>
-            <i class="el-icon-upload upload"></i>
+            <el-badge :value="0" class="item">
+                <i id="appCart" class="opsfont ops-03"></i>
+            </el-badge>
+            <!-- <i id="appCart" class="opsfont ops-03"></i> -->
+            <i class="el-icon-upload icon-upload"></i>
             <span class="userName">wiwi</span>
         </div>
          <div class="m-nav-search f-fr">
@@ -110,8 +110,8 @@ export default {
 }
 .grid-content{
     font-size: 1.1rem;
-    line-height: 60px;
-    padding: 0 20px;
+    // line-height: 60px;
+    padding: 16px 20px 0;
     .upload{
         cursor: pointer;
     }
@@ -127,8 +127,13 @@ export default {
 }
 .ops-03{
     cursor: pointer;
-    padding-right: 8px;
-    font-size: 16px;
+    font-size: 22px;
     font-weight: bold;
+}
+.icon-upload{
+    cursor: pointer;
+    font-size: 26px;
+    padding: 0 4px;
+    margin-left: 10px;
 }
 </style>
