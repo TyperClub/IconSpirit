@@ -10,6 +10,7 @@
     </el-col>
     <el-col :span="18">
         <div class="grid-content f-fr">
+            <i class="opsfont ops-3"></i>
             <i class="el-icon-upload upload"></i>
             <span class="userName">wiwi</span>
         </div>
@@ -119,5 +120,10 @@ export default {
     .search{
         width: 200px;
     }
+}
+.ops-3{
+    cursor: pointer;
+    padding-right: 8px;
+    font-size: 16px;
 }
 </style>
