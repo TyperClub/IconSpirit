@@ -31,7 +31,10 @@
                       <div class="ellipsis">{{item.CH_Name}}</div>
                       <div class="name">{{item.ENG_Name || 'other'}}</div>
                   </div>
-                  <span class="author"> <i class="el-icon-user user"></i> {{item.author || 'other'}}</span>
+                  <div class="icon-base-view-mask">
+                    <i class="opsfont ops-3"></i>
+                  </div>
+                  <!-- <span class="author"> <i class="el-icon-user user"></i> {{item.author || 'other'}}</span> -->
                 </div>
               </el-card>
           </el-col>
@@ -250,7 +253,21 @@ import Navigation from './Navigation';
   .selected{
     border-color: #409EFF;
   }
+   .icon-base-view-mask{
+      display: none;
+      i{
+        font-size: 20px;
+      }
+      &:hover{
+        display: block;
+      }
+    }
   .icon-base-view{
+    &:hover{
+      .icon-base-view-mask{
+        display: block;
+      }
+    }
     display: flex;
     position: relative;
     align-items: center;
