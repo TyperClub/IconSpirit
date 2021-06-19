@@ -32,7 +32,7 @@
                       <div class="name">{{item.ENG_Name || 'other'}}</div>
                   </div>
                   <div class="icon-base-view-mask">
-                    <i class="opsfont ops-3" @click="addToCart($event, item)"></i>
+                    <i :class="item.status ? 'ops-03f': 'ops-03'" class="opsfont" @click="addToCart($event, item)"></i>
                   </div>
                   <!-- <span class="author"> <i class="el-icon-user user"></i> {{item.author || 'other'}}</span> -->
                 </div>
@@ -129,13 +129,14 @@ import Navigation from './Navigation';
           this.showMoveDot = this.showMoveDot.map(() => false);
           done()
       },
-      addToCart(event, row){
-        console.log(1111, event, row)
+      addToCart(event, item){
         this.showMoveDot = [...this.showMoveDot, true];
         // //显示图片
-        this.imgUrl = row.content;
+        this.imgUrl = item.content;
         this.elLeft = event.target.getBoundingClientRect().left;
         this.elTop = event.target.getBoundingClientRect().top + 20;
+        item.status = !item.status
+        // this.tableData[index] = item
       },
       selectUI(item, index){
         // item.status = !item.status
