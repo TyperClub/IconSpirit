@@ -8,7 +8,7 @@
             <el-input size="medium" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
               <template #append><el-button size="medium" icon="el-icon-search" @click="querySearch('click')"></el-button></template>
             </el-input>
-            <span class="u-icons">{{pageInfo.total}} free icons</span>
+            <span class="u-icons">{{(pageInfo.total+'').replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g,'$1,')}} free icons</span>
             <div class="m-tab">
               <span>
               <i class="el-icon-s-grid grid"></i>
@@ -302,6 +302,8 @@ import Navigation from './Navigation';
     border-color: #409EFF;
   }
    .icon-base-view-mask{
+     position: absolute;
+     right: 15px;
       display: none;
       i{
         font-size: 20px;
