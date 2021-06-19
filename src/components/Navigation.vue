@@ -10,7 +10,7 @@
     </el-col>
     <el-col :span="18">
         <div class="grid-content f-fr">
-            <el-badge :value="0" class="item">
+            <el-badge :value="count" class="item">
                 <i id="appCart" class="opsfont ops-03"></i>
             </el-badge>
             <!-- <i id="appCart" class="opsfont ops-03"></i> -->
@@ -71,6 +71,16 @@ export default {
                     }
                 }
             }
+        },
+        addIcons (type,id) {
+            if(type === "add"){
+                setTimeout(()=>{
+                    this.count +=1;
+                },810)
+            }else{
+                this.count--
+            }
+            console.log('id', id)
         }
     }
 }

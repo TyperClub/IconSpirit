@@ -2,7 +2,7 @@
 <el-container style="height: 100%; border: 1px solid #eee">
   <el-container>
     <el-header style="text-align: right; font-size: 12px">
-        <navigation @searchIcons="searchIcons"></navigation>
+        <navigation ref="navigation" @searchIcons="searchIcons"></navigation>
         <div class="m-search center-search">
           <div class="item">
             <el-input size="medium" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
@@ -130,15 +130,17 @@ import Navigation from './Navigation';
           done()
       },
       addToCart(event, item){
+        let type = 'remove'
         if(!item.status){
-           this.showMoveDot = [...this.showMoveDot, true];
+          type = 'add'
+          this.showMoveDot = [...this.showMoveDot, true];
           // //显示图片
           this.imgUrl = item.content;
           this.elLeft = event.target.getBoundingClientRect().left;
           this.elTop = event.target.getBoundingClientRect().top + 20;
         }
         item.status = !item.status
-        // this.tableData[index] = item
+        this.$refs.navigation.addIcons(type, item.id)
       },
       selectUI(item, index){
         // item.status = !item.status
