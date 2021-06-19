@@ -10,6 +10,9 @@
     </el-col>
     <el-col :span="18">
         <div class="grid-content f-fr">
+            <!-- <el-badge :value="12" class="item">
+                <i id="appCart" class="opsfont ops-3"></i>
+            </el-badge> -->
             <i id="appCart" class="opsfont ops-3"></i>
             <i class="el-icon-upload upload"></i>
             <span class="userName">wiwi</span>
@@ -38,7 +41,8 @@ export default {
     data() {
         return {
             searchName: "",
-            activeIndex: '2'
+            activeIndex: '2',
+            count:0,
         }
     },
     methods: {

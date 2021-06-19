@@ -88,6 +88,7 @@ import Navigation from './Navigation';
         imgUrl:'',
         elLeft: 0, //当前点击购物车按钮在网页中的绝对top值
         elTop: 0, //当前点击购物车按钮在网页中的绝对left值
+        count:0,
         pageInfo: {
           pagesize: 42,
           current: 1,
@@ -109,8 +110,8 @@ import Navigation from './Navigation';
             // 设置transform值
             el.style.opacity = 0;
             el.style.transform = 'translate(0, 0)'
-        },
-        afterEnter(el) {
+      },
+      afterEnter(el) {
           // 设置透明度
           el.style.opacity = 1;
           setTimeout(()=>{
