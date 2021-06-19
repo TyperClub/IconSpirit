@@ -130,11 +130,13 @@ import Navigation from './Navigation';
           done()
       },
       addToCart(event, item){
-        this.showMoveDot = [...this.showMoveDot, true];
-        // //显示图片
-        this.imgUrl = item.content;
-        this.elLeft = event.target.getBoundingClientRect().left;
-        this.elTop = event.target.getBoundingClientRect().top + 20;
+        if(!item.status){
+           this.showMoveDot = [...this.showMoveDot, true];
+          // //显示图片
+          this.imgUrl = item.content;
+          this.elLeft = event.target.getBoundingClientRect().left;
+          this.elTop = event.target.getBoundingClientRect().top + 20;
+        }
         item.status = !item.status
         // this.tableData[index] = item
       },
