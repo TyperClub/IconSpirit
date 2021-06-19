@@ -83,7 +83,7 @@ import Navigation from './Navigation';
     font-size: 14px;
 }
 .home{
-    padding-top: 100px;
+    padding-top: 70px;
 }
 .padding-top-20{
     padding-top: 20px;
