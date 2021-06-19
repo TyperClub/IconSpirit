@@ -24,7 +24,7 @@
       <div>
         <el-row v-if="tableData.length > 0" class="u-row" :gutter="20">
           <el-col :span="4" v-for="(item,index) in tableData" :key="index" class="u-item">
-              <el-card :shadow="item.status ? 'never' : 'hover'"  v-bind:class=" item.status ? 'selected' : '' " @mouseenter="showUI(item)" @mouseleave="hideUI(item)" @click="selectUI(item, index)">
+              <el-card :shadow="item.status ? 'never' : 'hover'"  v-bind:class=" item.status ? 'selected' : '' " @mouseenter="showUI($event,item)" @mouseleave="hideUI($event,item)" @click="selectUI($event, item, index)">
                 <div class="icon-base-view">
                   <div class="icon-base-view-left" v-html="item.content"></div>
                   <div class="icon-base-view-right">
@@ -32,7 +32,7 @@
                       <div class="name">{{item.ENG_Name || 'other'}}</div>
                   </div>
                   <div class="icon-base-view-mask">
-                    <i class="opsfont ops-3"></i>
+                    <i class="opsfont ops-3" @click="addToCart($event, item)"></i>
                   </div>
                   <!-- <span class="author"> <i class="el-icon-user user"></i> {{item.author || 'other'}}</span> -->
                 </div>
@@ -57,6 +57,19 @@
         :total="pageInfo.total">
       </el-pagination>
       </div>
+       <!-- 小球 -->
+        <transition appear
+            @before-appear="beforeEnter"
+            @enter="enter"
+            @after-appear='afterEnter'
+            v-for="(item,index) in showMoveDot"
+            :key="index.id">
+        <div class="move_dot"
+              ref="ball"
+              v-if="item" :style="{top:elTop+'px',left:elLeft+'px'}">
+            <img :src="imgUrl?imgUrl:'https://cdn.qimai.cn/aso100/201710/06b463b971efff3da8c99764f5933750.png'" alt="">
+        </div>
+        </transition>
     </el-main>
   </el-container>
 </el-container>
@@ -72,6 +85,10 @@ import Navigation from './Navigation';
         activeIndex: '2',
         searchName: this.$route.query.search,
         tableData: [],
+        showMoveDot: [],
+        imgUrl:'',
+        elLeft: 0, //当前点击购物车按钮在网页中的绝对top值
+        elTop: 0, //当前点击购物车按钮在网页中的绝对left值
         pageInfo: {
           pagesize: 42,
           current: 1,
@@ -83,14 +100,45 @@ import Navigation from './Navigation';
       this.getIconsList(this.searchName)
     },
     methods: {
-      showUI(){
-        // console.log(1111)
+      showUI(event){
+        event.target.querySelector(".icon-base-view-mask").style.display="block"
       },
-      hideUI(){
-        // console.log(222)
+      hideUI(event){
+        event.target.querySelector(".icon-base-view-mask").style.display="none"
+      },
+       beforeEnter(el) {
+            // 设置transform值
+            el.style.opacity = 0;
+            el.style.transform = 'translate(0, 0)'
+        },
+        afterEnter(el) {
+          // 设置透明度
+          el.style.opacity = 1;
+          setTimeout(()=>{
+              this.count +=1;
+          },810)
+      },
+        enter(el, done) {
+          el.offsetWidth;
+          // 获取徽标在页面中的位置
+          let badgePosition = document.getElementById('appCart').getBoundingClientRect();
+          const xDist = badgePosition.left - this.elLeft + 10;
+          const yDist = badgePosition.top - this.elTop;
+          el.style.transform = `translate(${xDist}px, ${yDist}px)`;
+          el.style.transition = 'all 0.8s cubic-bezier(0.12,0.78,0.53,0.92)';
+          this.showMoveDot = this.showMoveDot.map(() => false);
+          done()
+      },
+      addToCart(event, row){
+        console.log(111, event)
+        this.showMoveDot = [...this.showMoveDot, true];
+        //显示图片
+        this.imgUrl = row.imgUrl;
+        this.elLeft = event.target.getBoundingClientRect().left;
+        this.elTop = event.target.getBoundingClientRect().top;
       },
       selectUI(item, index){
-        item.status = !item.status
+        // item.status = !item.status
         this.tableData[index] = item
       },
       searchIcons(val){
@@ -335,4 +383,87 @@ import Navigation from './Navigation';
     margin-top: 20px;
     text-align: right;
   }
+
+  .move_dot {
+        width: 50px;
+        height: 50px;
+        /*border-radius: 50%;*/
+        /*background-color: #00b38a;*/
+        position: fixed;
+        z-index: 99;
+        img {
+            animation: 0.8s move ease-in-out;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+    }
+    @keyframes move {
+        0% {
+            transform: scale(1);
+        }
+        25% {
+            transform: scale(0.8);
+        }
+        50% {
+            transform: scale(0.6);
+        }
+        75% {
+            transform: scale(0.4);
+        }
+        100% {
+            transform: scale(0.2);
+        }
+    }
+    @-moz-keyframes move {
+        0% {
+            transform: scale(1);
+        }
+        25% {
+            transform: scale(0.8);
+        }
+        50% {
+            transform: scale(0.6);
+        }
+        75% {
+            transform: scale(0.4);
+        }
+        100% {
+            transform: scale(0.2);
+        }
+    }
+    @-webkit-keyframes move {
+        0% {
+            transform: scale(1);
+        }
+        25% {
+            transform: scale(0.8);
+        }
+        50% {
+            transform: scale(0.6);
+        }
+        75% {
+            transform: scale(0.4);
+        }
+        100% {
+            transform: scale(0.2);
+        }
+    }
+    @-o-keyframes move {
+        0% {
+            transform: scale(1);
+        }
+        25% {
+            transform: scale(0.8);
+        }
+        50% {
+            transform: scale(0.6);
+        }
+        75% {
+            transform: scale(0.4);
+        }
+        100% {
+            transform: scale(0.2);
+        }
+    }
 </style>
