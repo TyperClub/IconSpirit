@@ -12,11 +12,32 @@
                 </div>
                 <div class="user-info">
                     <div>Hi,wiwi</div>
-                    <p>部门：效能研发部</p>
+                    <p class="f-size-14">部门：效能研发部</p>
                 </div>
             </div>
             <el-tabs class="padding-top-20" v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane label="我的项目" name="1">我的项目</el-tab-pane>
+                <el-tab-pane label="我的项目" name="1">
+                    <el-row class="m-project-box">
+                        <div class="m-project">
+                            <div class="u-project">
+                                <div><i class="el-icon-menu menu"></i><span class="project-title">我发起的项目</span></div>
+                                <div class="project-list">
+                                    <div class="item current"><span>ops-ui</span></div>
+                                    <div class="item"><span>测试项目</span></div>
+                                </div>
+                            </div>
+                            <div class="u-project">
+                                <div><i class="el-icon-menu menu"></i><span class="project-title">我参入的项目</span></div>
+                                <div class="project-list">
+                                    <div class="item"><span>ops-ui</span></div>
+                                    <div class="item"><span>测试项目</span></div>
+                                </div>
+                            </div>
+                        </div>
+                         <el-col>
+                         </el-col>
+                    </el-row>
+                </el-tab-pane>
                 <el-tab-pane label="我的收藏" name="2">我的收藏</el-tab-pane>
                 <el-tab-pane label="我的部门" name="3">我的部门</el-tab-pane>
             </el-tabs>
@@ -50,10 +71,6 @@ import Navigation from './Navigation';
 
 
 <style lang="less">
-.el-card__body{
-  padding: 0;
-}
-
 .icon {
   font-size: 36px;
 }
@@ -61,6 +78,9 @@ import Navigation from './Navigation';
 <style lang="less" scoped>
 .f-fr{
   float: right;
+}
+.f-size-14{
+    font-size: 14px;
 }
 .home{
     padding-top: 100px;
@@ -105,6 +125,54 @@ import Navigation from './Navigation';
         p{
             color: #999;
             font-size: 14px;
+        }
+    }
+}
+.m-project-box{
+    padding-top: 10px;
+}
+.m-project{
+    width: 150px;
+    border-right: 1px solid #ccc;
+}
+.u-project{
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 25px;
+    .project-title{
+        padding-left: 3px;
+    }
+    .project-list{
+        margin-top: 12px;
+        .item{
+            padding-left: 18px;
+            font-size: 12px;
+            height: 35px;
+            line-height: 35px;
+            white-space: nowrap;
+            width: 90px;
+            overflow: hidden;
+            color: #999;
+            cursor: pointer;
+            text-overflow: ellipsis;
+        }
+        .item :hover {
+            color: #333;
+        }
+        .current{
+            position: relative;
+            color: #333;
+            &:before{
+                content: '';
+                position: absolute;
+                left: 3px;
+                top: 50%;
+                margin-top: -.5em;
+                height: 1em;
+                width: 2px;
+                border-radius: 2px;
+                background-color: #409EFF;
+            }
         }
     }
 }
