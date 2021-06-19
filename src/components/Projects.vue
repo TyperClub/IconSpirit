@@ -14,8 +14,11 @@
                     <div>Hi,wiwi</div>
                     <p class="f-size-14">部门：效能研发部</p>
                 </div>
+                <div class="m-tool">
+                    <div class="create-project"><i class="el-icon-plus"></i> 创建项目</div>
+                </div>
             </div>
-            <el-tabs class="padding-top-20" v-model="activeName" @tab-click="handleClick">
+            <el-tabs class="m-menu padding-top-20" v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane name="1">
                     <template #label>
                         <span><i class="opsfont ops-base_itemxiangmuguanli"></i> 我的项目</span>
@@ -97,8 +100,20 @@ import Navigation from './Navigation';
 .home{
     padding-top: 70px;
 }
+.m-menu{
+    position: relative;
+}
 .padding-top-20{
     padding-top: 20px;
+}
+.m-tool{
+    position: absolute;
+    right: 0;
+    bottom: -50px;
+    .create-project{
+        cursor: pointer;
+        font-size: 14px;
+    }
 }
 .m-content{
     position: relative;
@@ -110,7 +125,6 @@ import Navigation from './Navigation';
 .m-row-user{
     display: flex;
     align-items: center;
-    color: #fff;
     z-index: 2;
     position: relative;
     max-width: 1200px;
