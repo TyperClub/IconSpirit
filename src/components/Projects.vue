@@ -16,7 +16,10 @@
                 </div>
             </div>
             <el-tabs class="padding-top-20" v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane label="我的项目" name="1">
+                <el-tab-pane name="1">
+                    <template #label>
+                        <span><i class="opsfont ops-base_itemxiangmuguanli"></i> 我的项目</span>
+                    </template>
                     <el-row class="m-project-box">
                         <div class="m-project">
                             <div class="u-project">
@@ -38,8 +41,17 @@
                          </el-col>
                     </el-row>
                 </el-tab-pane>
-                <el-tab-pane label="我的收藏" name="2">我的收藏</el-tab-pane>
-                <el-tab-pane label="我的部门" name="3">我的部门</el-tab-pane>
+                <el-tab-pane name="2">
+                    <template #label>
+                        <span><i class="opsfont ops-shoucang"></i> 我的收藏</span>
+                    </template>
+                    我的收藏
+                </el-tab-pane>
+                <el-tab-pane name="3">我的部门
+                    <template #label>
+                        <span><i class="opsfont ops-bumenguanli"></i> 我的部门</span>
+                    </template>
+                </el-tab-pane>
             </el-tabs>
         </div>
    
