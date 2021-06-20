@@ -1,5 +1,6 @@
 <template>
- <el-row class="m-header" style="wdith:100%">
+<div>
+<el-row class="m-header" style="wdith:100%">
     <el-col :span="6">
         <div class="m-logo">
             <a class="home-link" href="#">
@@ -11,7 +12,7 @@
     <el-col :span="18">
         <div class="grid-content f-fr">
             <el-badge :value="count" class="item">
-                <i id="appCart" class="opsfont ops-03"></i>
+                <i id="appCart" @click="drawer = true" class="opsfont ops-03"></i>
             </el-badge>
             <!-- <i id="appCart" class="opsfont ops-03"></i> -->
             <i class="el-icon-upload icon-upload"></i>
@@ -32,6 +33,13 @@
         </div>
     </el-col>
 </el-row>
+    <el-drawer
+        modal-class="m-drawer"
+        v-model="drawer"
+        :direction="direction"
+        :before-close="handleClose" destroy-on-close>
+    </el-drawer>
+</div>
 </template>
 
 <script>
@@ -43,6 +51,8 @@ export default {
             searchName: "",
             activeIndex: '2',
             count:0,
+            drawer: false,
+            direction: 'rtl',
         }
     },
     methods: {
@@ -145,5 +155,12 @@ export default {
     font-size: 26px;
     padding: 0 4px;
     margin-left: 10px;
+}
+.m-drawer{
+    span{
+text-align: left;
+    font-size: 14px;
+    }
+    
 }
 </style>
