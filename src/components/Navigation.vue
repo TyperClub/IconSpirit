@@ -38,15 +38,16 @@
 </el-row>
     <el-drawer
         modal-class="m-drawer"
+        size="350px"
+        title="购物车"
         v-model="drawer"
         :direction="direction"
-        :before-close="handleClose" destroy-on-close>
+        destroy-on-close>
     </el-drawer>
     <el-dialog
         custom-class="m-login"
         v-model="dialogVisible"
-        width="400px"
-        :before-close="handleClose">
+        width="400px">
         <login></login>
     </el-dialog>
 </div>
@@ -106,6 +107,9 @@ export default {
         },
         login(){
             this.dialogVisible = true
+        },
+        handleClose(){
+            console.log(111)
         }
     },
     components: {
@@ -118,6 +122,14 @@ export default {
 .m-login{
     text-align: left;
 }
+.m-drawer{
+    background-color: initial;
+    text-align: left;
+    .el-drawer{
+        top: 60px;
+        box-shadow: 0 12px 12px 0 rgba(0, 0, 0, 0.1);
+    }
+} 
 </style>
 <style lang="less" scoped>
 .f-fr{
