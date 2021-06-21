@@ -43,6 +43,9 @@
         v-model="drawer"
         :direction="direction"
         destroy-on-close>
+        <div>
+            
+        </div>
     </el-drawer>
     <el-dialog
         custom-class="m-login"
@@ -108,9 +111,6 @@ export default {
         login(){
             this.dialogVisible = true
         },
-        handleClose(){
-            console.log(111)
-        }
     },
     components: {
         Login
@@ -125,8 +125,8 @@ export default {
 .m-drawer{
     background-color: initial;
     text-align: left;
+    top: 60px;
     .el-drawer{
-        top: 60px;
         box-shadow: 0 12px 12px 0 rgba(0, 0, 0, 0.1);
     }
 } 
