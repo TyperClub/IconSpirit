@@ -11,12 +11,15 @@
     </el-col>
     <el-col :span="18">
         <div class="grid-content f-fr">
-            <el-badge :value="count" class="item">
-                <i id="appCart" @click="drawer = true" class="opsfont ops-03"></i>
-            </el-badge>
+            <span class="shopping">
+                 <el-badge :value="count" class="item">
+                    <i id="appCart" @click="drawer = true" class="opsfont ops-03"></i>
+                </el-badge>
+            </span>
             <!-- <i id="appCart" class="opsfont ops-03"></i> -->
             <i class="el-icon-upload icon-upload"></i>
-            <span class="userName">wiwi</span>
+            <el-button class="login" @click="login" type="primary" size="small" round>登录</el-button>
+            <!-- <span class="userName">wiwi</span> -->
         </div>
          <div class="m-nav-search f-fr">
             <el-input size="mini" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
@@ -39,6 +42,25 @@
         :direction="direction"
         :before-close="handleClose" destroy-on-close>
     </el-drawer>
+    <el-dialog
+  title="登录"
+  custom-class="m-login"
+  v-model="dialogVisible"
+  width="30%"
+  :before-close="handleClose">
+  
+  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="70px" class="demo-ruleForm">
+  <el-form-item label="账 号" prop="account">
+    <el-input v-model="ruleForm.account" placeholder="请输入 Ldap 账号" clearable></el-input>
+  </el-form-item>
+   <el-form-item label="密 码" prop="password">
+    <el-input type="password" v-model="ruleForm.password" placeholder="请输入 Ldap 密码" clearable></el-input>
+  </el-form-item>
+  <el-form-item>
+    <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+  </el-form-item>
+</el-form>
+</el-dialog>
 </div>
 </template>
 
@@ -48,11 +70,20 @@ export default {
     name: "Navigation",
     data() {
         return {
+            dialogVisible: false,
             searchName: "",
             activeIndex: '2',
             count:0,
             drawer: false,
             direction: 'rtl',
+            ruleForm:{
+                account: "",
+                password: ""
+            },
+            rules: {
+                account: { required: true, message: '请输入 Ldap 账号', trigger: 'blur' },
+                password: { required: true, message: '请输入 Ldap 密码', trigger: 'blur' }
+            }
         }
     },
     methods: {
@@ -91,11 +122,22 @@ export default {
                 this.count--
             }
             console.log('id', id)
+        },
+        login(){
+            this.dialogVisible = true
+        },
+        submitForm(form){
+            console.log(111, form)
         }
     }
 }
 </script>
 
+<style lang="less">
+.m-login{
+    text-align: left;
+}
+</style>
 <style lang="less" scoped>
 .f-fr{
   float: right;
@@ -128,15 +170,22 @@ export default {
         text-overflow: ellipsis;
     }
 }
+.m-login{
+    text-align: left;
+}
 .grid-content{
     font-size: 1.1rem;
-    // line-height: 60px;
-    padding: 16px 20px 0;
+    line-height: 60px;
+    padding: 0px 20px;
+    .shopping{
+        padding-top: 16px;
+        line-height: 20px;
+    }
     .upload{
         cursor: pointer;
     }
-    .userName{
-        padding-left: 10px;
+    .login{
+        margin-left: 5px;
     }
 }
 .m-nav-search{
