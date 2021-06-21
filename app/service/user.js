@@ -27,7 +27,6 @@ class UserSevice extends Service {
     const { ctx } = this;
     const res = {};
     const options = AUTH_CONFIG[this.app.env]({ username, password })
-    console.log(111, options)
 
     try {
       return await authenticate(options)
