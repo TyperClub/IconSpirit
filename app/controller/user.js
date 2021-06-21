@@ -48,6 +48,33 @@ class UserController extends Controller {
         const result = await ctx.service.user.signin(signinMsg);
         ctx.body = result;
     }
+
+    //ldap 登录
+    async login(){
+        const { ctx } = this;
+        const { username, password } = ctx.request.body;
+        const res = await ctx.service.user.login({ username, password })
+
+        ctx.session.cas = {
+            user: res.telephoneNumber
+        }
+
+        ctx.helper.success({
+            ctx,
+            res: ctx.session
+        })
+    }
+
+    async logout() {
+        const { ctx } = this;
+    
+        ctx.session = null;
+    
+        ctx.helper.success({
+          ctx,
+          message: '退出成功!'
+        })
+    }
 }
 
 module.exports = UserController;

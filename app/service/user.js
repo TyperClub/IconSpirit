@@ -1,6 +1,8 @@
 // service -> user.js
 const Service = require('egg').Service
 const JWT = require('jsonwebtoken');
+const { authenticate } = require('ldap-authentication');
+const AUTH_CONFIG = require('../config/ldap_config')
 
 class UserSevice extends Service {
     /**
@@ -20,6 +22,19 @@ class UserSevice extends Service {
             list: mockUsers
         })
     }
+
+  async login({ username, password }){
+    const { ctx } = this;
+    const res = {};
+    const options = AUTH_CONFIG[this.app.env]({ username, password })
+    console.log(111, options)
+
+    try {
+      return await authenticate(options)
+    } catch (e) {
+      this.ctx.throw(500, e);
+    }
+  }
 
     // 登录接口
   async signin(signinMsg) {

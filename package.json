@@ -5,7 +5,9 @@
   "scripts": {
     "egg:start": "egg-scripts start --daemon --title=egg-server-tester",
     "egg:stop": "egg-scripts stop --title=egg-server-tester",
-    "egg:dev": "egg-bin dev",
+    "egg:fat": "egg-bin dev",
+    "egg:uat": "EGG_SERVER_ENV=fat egg-bin dev",
+    "egg:pro": "EGG_SERVER_ENV=fat egg-bin dev",
     "task": "node app/task/main.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -23,6 +25,7 @@
     "egg-validate": "^1.0.0",
     "element-plus": "^1.0.2-beta.46",
     "jsonwebtoken": "^8.5.1",
+    "ldap-authentication": "^2.2.7",
     "puppeteer": "^10.0.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",

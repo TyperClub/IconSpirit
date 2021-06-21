@@ -21,4 +21,19 @@ module.exports = {
     }
     return rnd;
   },
+  success({
+    ctx,
+    res = null,
+    message = '请求成功',
+    page = null,
+  }){
+    ctx.body = {
+      code: 200,
+      data: res,
+      paginate: page || null,
+      message,
+    };
+  
+    ctx.status = 200;
+  },
 };
