@@ -106,9 +106,6 @@ export default {
         },
         login(){
             this.dialogVisible = true
-        },
-        submitForm(form){
-            console.log(111, form)
         }
     },
     components: {
