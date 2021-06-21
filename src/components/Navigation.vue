@@ -43,35 +43,17 @@
         :before-close="handleClose" destroy-on-close>
     </el-drawer>
     <el-dialog
-  custom-class="m-login"
-  v-model="dialogVisible"
-  width="400px"
-  :before-close="handleClose">
-  <div class="login-content">
-  <h1 class="title">
-      <img class="logo" src="../assets/logo1.png" alt="">
-  </h1>
-  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" size="meddle" class="login-form">
-  <el-form-item prop="account">
-    <el-input type="text" prefix-icon="el-icon-user" v-model="ruleForm.account" placeholder="请输入域账号" clearable></el-input>
-  </el-form-item>
-   <el-form-item prop="password">
-    <el-input type="password" prefix-icon="opsfont ops-icon-mima" v-model="ruleForm.password" placeholder="请输入密码" clearable></el-input>
-  </el-form-item>
-  <el-form-item>
-    <el-button class="submit-btn" type="primary" @click="submitForm('ruleForm')">登 录</el-button>
-  </el-form-item>
-</el-form>
-<div class="tips">
-    请使用 zmdesk 域账号登录 <a href="http://confluence.zmops.cc/pages/viewpage.action?pageId=36560349" target="_blank;">帮助</a>
-</div>
-  </div>
-
-</el-dialog>
+        custom-class="m-login"
+        v-model="dialogVisible"
+        width="400px"
+        :before-close="handleClose">
+        <login></login>
+    </el-dialog>
 </div>
 </template>
 
 <script>
+import Login from './Login';
 
 export default {
     name: "Navigation",
@@ -83,14 +65,6 @@ export default {
             count:0,
             drawer: false,
             direction: 'rtl',
-            ruleForm:{
-                account: "",
-                password: ""
-            },
-            rules: {
-                account: { required: true, message: '请输入域账号', trigger: 'blur' },
-                password: { required: true, message: '请输入密码', trigger: 'blur' }
-            }
         }
     },
     methods: {
@@ -136,6 +110,9 @@ export default {
         submitForm(form){
             console.log(111, form)
         }
+    },
+    components: {
+        Login
     }
 }
 </script>
@@ -219,22 +196,5 @@ export default {
         text-align: left;
         font-size: 14px;
     }
-}
-.login-content{
-    .title{
-        padding-bottom: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .submit-btn{
-        width: 100%;
-    }
-    .tips {
-        width: 100%;
-        text-align: center;
-        font-size: 12px;
-        color: #8a8a8a;
-  }
 }
 </style>
