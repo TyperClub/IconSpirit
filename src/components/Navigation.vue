@@ -18,7 +18,7 @@
             </span>
             <!-- <i id="appCart" class="opsfont ops-03"></i> -->
             <i class="el-icon-upload icon-upload"></i>
-            <el-button class="login" @click="login" type="primary" size="small" round>登录</el-button>
+            <el-button class="login" @click="login" type="primary" size="mini" round>登录</el-button>
             <!-- <span class="userName">wiwi</span> -->
         </div>
          <div class="m-nav-search f-fr">
@@ -53,18 +53,10 @@
   </h1>
   <el-form :model="ruleForm" :rules="rules" ref="ruleForm" size="meddle" class="login-form">
   <el-form-item prop="account">
-    <el-input type="text" v-model="ruleForm.account" placeholder="请输入账号" clearable>
-        <template #prepend>
-            <i class="el-input__icon el-icon-date"></i>
-        </template>
-    </el-input>
+    <el-input type="text" prefix-icon="el-icon-user" v-model="ruleForm.account" placeholder="请输入账号" clearable></el-input>
   </el-form-item>
    <el-form-item prop="password">
-    <el-input type="password" v-model="ruleForm.password" placeholder="请输入密码" clearable>
-        <template #prepend>
-            <i class="el-input__icon el-icon-date"></i>
-        </template>
-    </el-input>
+    <el-input type="password" prefix-icon="opsfont ops-icon-mima" v-model="ruleForm.password" placeholder="请输入密码" clearable></el-input>
   </el-form-item>
   <el-form-item>
     <el-button class="submit-btn" type="primary" @click="submitForm('ruleForm')">登 录</el-button>
@@ -216,6 +208,8 @@ export default {
 }
 .icon-upload{
     cursor: pointer;
+    top: 4px;
+    position: relative;
     font-size: 26px;
     padding: 0 4px;
     margin-left: 10px;
