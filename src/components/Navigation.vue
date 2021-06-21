@@ -53,7 +53,7 @@
   </h1>
   <el-form :model="ruleForm" :rules="rules" ref="ruleForm" size="meddle" class="login-form">
   <el-form-item prop="account">
-    <el-input type="text" prefix-icon="el-icon-user" v-model="ruleForm.account" placeholder="请输入账号" clearable></el-input>
+    <el-input type="text" prefix-icon="el-icon-user" v-model="ruleForm.account" placeholder="请输入域账号" clearable></el-input>
   </el-form-item>
    <el-form-item prop="password">
     <el-input type="password" prefix-icon="opsfont ops-icon-mima" v-model="ruleForm.password" placeholder="请输入密码" clearable></el-input>
@@ -88,7 +88,7 @@ export default {
                 password: ""
             },
             rules: {
-                account: { required: true, message: '请输入账号', trigger: 'blur' },
+                account: { required: true, message: '请输入域账号', trigger: 'blur' },
                 password: { required: true, message: '请输入密码', trigger: 'blur' }
             }
         }
@@ -192,7 +192,7 @@ export default {
         cursor: pointer;
     }
     .login{
-        margin-left: 5px;
+        margin-left: 10px;
     }
 }
 .m-nav-search{
@@ -212,7 +212,7 @@ export default {
     position: relative;
     font-size: 26px;
     padding: 0 4px;
-    margin-left: 10px;
+    margin-left: 15px;
 }
 .m-drawer{
     span{
