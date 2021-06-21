@@ -39,12 +39,16 @@
     <el-drawer
         modal-class="m-drawer"
         size="350px"
-        title="购物车"
         v-model="drawer"
+        :with-header="false"
         :direction="direction"
         destroy-on-close>
-        <div>
-            
+        <div class="m-shopping">
+            <div class="shopping-header">
+                <span class="shopping-num">共 {{count}} 个图标</span>
+                <span class="clear"><i class="opsfont ops-Eliminate"></i> 一键清除</span>
+            </div>
+            <div class="u-close"  @click="drawer = false"><i class="el-icon-close"></i></div>
         </div>
     </el-drawer>
     <el-dialog
@@ -127,6 +131,7 @@ export default {
     text-align: left;
     top: 60px;
     .el-drawer{
+        overflow: initial;
         box-shadow: 0 12px 12px 0 rgba(0, 0, 0, 0.1);
     }
 } 
@@ -201,9 +206,47 @@ export default {
     margin-left: 15px;
 }
 .m-drawer{
+    position: relative;
     span{
         text-align: left;
         font-size: 14px;
     }
 }
+.m-shopping{
+    position: relative;
+    .shopping-header{
+        width: 100%;
+        border-bottom: 1px solid #ccc;
+        position: relative;
+        clear: both;
+        display: flex;
+        justify-content: space-between;
+        .shopping-num{
+            line-height: 28px;
+            padding-left: 10px;
+        }
+        .clear{
+            cursor: pointer;
+            height: 28px;
+            line-height: 28px;
+            padding: 0px 10px 0 0;
+        }
+    }
+}
+.u-close{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: -30px;
+    top: 0;
+    color: #fff;
+    background: #409EFF;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
 </style>
