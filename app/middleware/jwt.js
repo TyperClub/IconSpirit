@@ -7,13 +7,9 @@ module.exports = options => {
     const method = ctx.method.toLowerCase();
     if (method === 'get') {
       await next();
-    } else if (!token) {
-      if (ctx.path === '/api/v1/signup' || ctx.path === '/api/v1/signin' || ctx.path === '/api/v1/login' || ctx.path === '/api/v1/iconfont/generate' || ctx.path === '/api/v1/iconfont/list'
+    } else if (ctx.path === '/api/v1/signup' || ctx.path === '/api/v1/signin' || ctx.path === '/api/v1/login' || ctx.path === '/api/v1/iconfont/generate' || ctx.path === '/api/v1/iconfont/list'
       || ctx.path === '/api/v1/iconfont/add') {
         await next();
-      } else {
-        ctx.throw(401, '未登录, 请先登录!!!');
-      }
     } else {
       let decode;
       try {
@@ -35,6 +31,7 @@ module.exports = options => {
         }
       } catch (e) {
         console.log(e);
+        ctx.throw(401, '没有权限，请登录');
       }
     }
   };

@@ -34,11 +34,12 @@
             </el-input>
         </div>
         <div class="grid-center f-fr">
-            <el-menu router :default-active="$route.path" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-                <el-menu-item index="/">首页</el-menu-item>
-                <el-menu-item index="/home">图标库</el-menu-item>
-                <el-menu-item index="/projects">项目管理</el-menu-item>
-                <el-menu-item index="/help">使用指南</el-menu-item>
+            <el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+                <el-menu-item @click="projects('/')" index="/">首页</el-menu-item>
+                <el-menu-item @click="projects('/home')" index="/home">图标库</el-menu-item>
+                <el-menu-item v-if="!username" @click="projects('/projects')">项目管理</el-menu-item>
+                <el-menu-item v-else @click="projects('/projects')"  index="/projects">项目管理</el-menu-item>
+                <el-menu-item @click="projects('/help')" index="/help">使用指南</el-menu-item>
             </el-menu>
         </div>
     </el-col>
@@ -101,7 +102,7 @@
         custom-class="m-login"
         v-model="dialogVisible"
         width="400px">
-        <login @closeLogin="closeLogin"></login>
+        <login></login>
     </el-dialog>
 </div>
 </template>
@@ -202,16 +203,19 @@ export default {
                 }
             }
         },
-        closeLogin(){
-            this.dialogVisible = false
+        projects(name){
+            if(name === "/projects" && !this.username){
+                this.dialogVisible = true
+            }else{
+                this.$router.push(name)
+            }
         },
         login(){
             this.dialogVisible = true
         },
         logout(){
-            logout().then(res => {
-                console.log(111, res)
-                this.username = ""
+            logout().then(() => {
+                location.reload()
             })
         }
     },

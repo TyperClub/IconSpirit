@@ -45,7 +45,7 @@ export default {
                 }).then(res => {
                     console.log(111, res)
                     this.$message.success("登录成功!")
-                    this.$emit("closeLogin")
+                    location.reload()
                 }).catch(()=>{
                     this.$message.error("登录失败，请检查域账号是否正确!")
                 })
