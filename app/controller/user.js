@@ -1,6 +1,6 @@
 // controller -> user.js
 const Controller = require('egg').Controller
-
+const JWT = require('jsonwebtoken');
 class UserController extends Controller {
     /**
      * 获取用户列表
@@ -55,6 +55,13 @@ class UserController extends Controller {
         const { username, password } = ctx.request.body;
         const res = await ctx.service.user.login({ username, password })
 
+        const token = JWT.sign({
+            telephone: res.telephoneNumber,
+          },
+          this.config.jwt.secret, {
+            expiresIn: 60 * 60,
+        });
+        ctx.session.token = token
         ctx.session.cas = {
             user: res.telephoneNumber
         }
