@@ -2,7 +2,7 @@
 <el-container style="height: 100%; border: 1px solid #eee">
   <el-container>
     <el-header style="text-align: right; font-size: 12px">
-        <navigation ref="navigation" @searchIcons="searchIcons"></navigation>
+        <navigation ref="navigation" @searchIcons="searchIcons" @deleteSelectIcon="deleteSelectIcon"></navigation>
         <div class="m-search center-search">
           <div class="item">
             <el-input size="medium" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
@@ -150,6 +150,17 @@ import Navigation from './Navigation';
         this.searchName = val
         this.pageInfo.current = 1
         this.getIconsList(this.searchName)
+      },
+      deleteSelectIcon(type, item){
+        this.tableData.forEach(obj =>{
+          if(type == "all"){
+            obj.status = false
+          }else{
+            if(obj.id == item.id){
+              obj.status = false
+            }
+          }
+        })
       },
       getIconsList(name){
         let parames = {

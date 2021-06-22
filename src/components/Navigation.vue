@@ -125,6 +125,7 @@ export default {
             window.sessionStorage.setItem('ops-icons', '')
             this.icons = []
             this.count = 0
+            this.$emit('deleteSelectIcon', 'all')
         },
         deleteIcon(item){
             let icons = window.sessionStorage.getItem('ops-icons')
@@ -135,6 +136,7 @@ export default {
             window.sessionStorage.setItem('ops-icons', JSON.stringify(icons))
             this.icons = icons
             this.count = icons.length
+            this.$emit('deleteSelectIcon', 'single', item)
         },
         addIcons (type, item) {
             let icons = window.sessionStorage.getItem('ops-icons')
