@@ -55,10 +55,10 @@ class UserSevice extends Service {
         res.data = {};
       } else {
         const token = JWT.sign({
-          userName: result.userName,
-        },
-        this.config.jwt.secret, {
-          expiresIn: 60 * 60,
+            userName: result.userName,
+          },
+          this.config.jwt.secret, {
+            expiresIn: 60 * 60,
         });
         res.data = result;
         res.code = 1;
