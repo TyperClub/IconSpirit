@@ -1,7 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import {getUser} from '../services/index';
+import { isEmptyObject } from '../utils/tools'
 
-// import store from '../store'
+import store from '../store'
 
 const router = createRouter({
   history: createWebHashHistory(), // hash模式：createWebHashHistory，history模式：createWebHistory
@@ -38,11 +39,15 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  getUser().then(res=>{
-    console.log(111, res)
-  }).catch(err=>{
-    console.log(222, err)
-  })
+  const userInfo = store.getters.userInfo
+
+  if (isEmptyObject(userInfo)) {
+    getUser().then(result=>{
+      store.dispatch('setUserInfo', result.data)
+    }).catch(err=>{
+      console.log(err)
+    })
+  } 
   next()
 })
 

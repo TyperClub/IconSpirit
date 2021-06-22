@@ -18,8 +18,8 @@
             </span>
             <!-- <i id="appCart" class="opsfont ops-03"></i> -->
             <i class="el-icon-upload icon-upload"></i>
-            <el-button class="login" @click="login" type="primary" size="mini" round>登录</el-button>
-            <!-- <span class="userName">wiwi</span> -->
+            <el-button v-if="!username" class="login" @click="login" type="primary" size="mini" round>登录</el-button>
+            <span v-else class="userName">欢迎，{{username}}</span>
         </div>
          <div class="m-nav-search f-fr">
             <el-input size="mini" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
@@ -101,6 +101,7 @@
 
 <script>
 import Login from './Login';
+import { mapState } from 'vuex'
 
 export default {
     name: "Navigation",
@@ -116,6 +117,11 @@ export default {
             drawer: false,
             direction: 'rtl',
         }
+    },
+    computed: {
+        ...mapState({
+            username: state => state.userInfo.userName
+        })
     },
     methods: {
         querySearch(e){
@@ -264,6 +270,9 @@ export default {
     }
     .login{
         margin-left: 10px;
+    }
+    .userName{
+        font-size: 14px;
     }
 }
 .m-nav-search{
