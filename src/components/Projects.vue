@@ -13,7 +13,7 @@
                 </div>
                 <div class="user-info">
                     <div>欢迎，{{username}}</div>
-                    <p class="f-size-14">研发工程师 | 效能研发部</p>
+                    <p class="f-size-14"><i class="opsfont ops-xinxi"></i> 研发工程师 | 效能研发部</p>
                 </div>
                 <div class="m-tool">
                     <div class="create-project"><i class="el-icon-plus"></i> 创建项目</div>
@@ -170,7 +170,7 @@ import Navigation from './Navigation';
             align-items: center;
         }
         p{
-            padding-top: 30px;
+            padding-top: 10px;
             color: #999;
             font-size: 14px;
         }
