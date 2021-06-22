@@ -47,10 +47,10 @@
             <div class="u-close"  @click="drawer = false"><i class="el-icon-close"></i></div>
             <div class="shopping-header">
                 <span class="shopping-num">共 {{count}} 个图标</span>
-                <span class="clear"><i class="opsfont ops-Eliminate"></i> 一键清除</span>
+                <span class="clear" @click="clearIcons"><i class="opsfont ops-Eliminate"></i> 一键清除</span>
             </div>
             <div class="m-icons">
-
+                
             </div>
         </div>
     </el-drawer>
@@ -76,6 +76,7 @@ export default {
             searchName: "",
             activeIndex: '2',
             count: icons.length,
+            icons: icons,
             drawer: false,
             direction: 'rtl',
         }
@@ -107,6 +108,10 @@ export default {
                 }
             }
         },
+        clearIcons(){
+            window.sessionStorage.setItem('ops-icons', '')
+            this.count = 0
+        },
         addIcons (type, item) {
             let icons = window.sessionStorage.getItem('ops-icons')
             if(type === "add"){
@@ -118,6 +123,7 @@ export default {
                     icons.push(item)
                     window.sessionStorage.setItem('ops-icons', JSON.stringify(icons))
                 }
+                this.icons = icons
                 setTimeout(()=>{
                     this.count = icons.length
                 },810)
@@ -128,6 +134,7 @@ export default {
                        return obj.id != item.id
                     })
                     window.sessionStorage.setItem('ops-icons', JSON.stringify(icons))
+                    this.icons = icons
                     this.count = icons.length
                 }
             }
