@@ -19,11 +19,12 @@
             <!-- <i id="appCart" class="opsfont ops-03"></i> -->
             <i class="el-icon-upload icon-upload"></i>
             <el-button v-if="!username" class="login" @click="login" type="primary" size="mini" round>登录</el-button>
-            <el-dropdown  v-else>
+            <el-dropdown trigger="click" v-else>
                 <span class="userName">欢迎，{{username}} <i class="el-icon-arrow-down"></i></span>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item @click="logout">退出</el-dropdown-item>
+                        <el-dropdown-item @click="logout">
+                            <span><i class="opsfont ops-dengchu_o"></i>退出</span></el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>

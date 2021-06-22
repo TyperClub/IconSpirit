@@ -8,10 +8,11 @@
         <div class="m-content">
             <div class="m-row-user">
                 <div class="user-logo">
-                    <img src="https://sf6-ttcdn-tos.pstatp.com/img/user-avatar/693bcc26e2e1cb5cff0157182fd7f319~300x300.image" alt="">
+                     <el-avatar :size="100" :src="circleUrl"></el-avatar>
+                    <!-- <img src="https://sf6-ttcdn-tos.pstatp.com/img/user-avatar/693bcc26e2e1cb5cff0157182fd7f319~300x300.image" alt=""> -->
                 </div>
                 <div class="user-info">
-                    <div>Hi,wiwi</div>
+                    <div>欢迎，{{username}}</div>
                     <p class="f-size-14">部门：效能研发部</p>
                 </div>
                 <div class="m-tool">
@@ -69,13 +70,20 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Navigation from './Navigation';
 
   export default {
     data() {
       return {
+        circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
         activeName: "1",
       }
+    },
+    computed: {
+        ...mapState({
+            username: state => state.userInfo.userName
+        })
     },
     mounted(){
 
@@ -136,10 +144,10 @@ import Navigation from './Navigation';
     margin: 32px auto auto;
     .user-logo{
         margin-right: 25px;
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        overflow: hidden;
+        // width: 64px;
+        // height: 64px;
+        // border-radius: 50%;
+        // overflow: hidden;
         img{
             width: 100%;
             height: 100%;
@@ -154,6 +162,7 @@ import Navigation from './Navigation';
             align-items: center;
         }
         p{
+            padding-top: 30px;
             color: #999;
             font-size: 14px;
         }
