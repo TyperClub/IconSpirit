@@ -50,7 +50,7 @@
                 <span class="clear" @click="clearIcons"><i class="opsfont ops-Eliminate"></i> 一键清除</span>
             </div>
             <div class="m-icons">
-                <el-row :gutter="10" v-if="icons.length">
+                <el-row v-if="icons.length">
                     <el-col :span="6" class="u-item" v-for="(item, index) in icons" :key="index">
                         <div class="icon-base-view">
                             <div class="u-icon-svg" v-html="item.content"></div>
@@ -316,7 +316,7 @@ export default {
     .u-item{
         position: relative;
         cursor: pointer;
-        padding: 20px;
+        padding-top: 20px;
     }
     .u-icon-svg{
         text-align: center;
@@ -328,8 +328,8 @@ export default {
         line-height: 75px;
         text-align: center;
         position: absolute;
-        top: 14px;
-        left: 6px;
+        top: 10px;
+        left: 11px;
         z-index: 1;
         color: #fff;
         background: rgba(64,158,255, 0.9);
@@ -359,6 +359,7 @@ export default {
         }
     }
     .icon-base-view{
+        margin: 0 auto;
         width: 60px;
         text-align: center;
         .icon-name{
