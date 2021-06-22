@@ -301,6 +301,10 @@ export default {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    .el-icon-close{
+        font-size: 16px;
+        font-weight: 600;
+    }
 }
 .m-icons{
     padding: 0px 10px 0px;
