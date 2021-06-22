@@ -88,11 +88,9 @@ class UserSevice extends Service {
     }
     return res;
   }
-  
   async getUserInfoByMobile({ mobile }) {
     const ctx = this.ctx;
     let userData;
-    
     // curl http://open-ng.zmlearn.com/api/oa/personManage/getBasePersonInfo -X POST -d '{"mobile": "13651813361"}' --header "Content-Type: application/json"
     try {
       userData = await ctx.curl(`${OA_HOST(this.app.env)}/api/oa/personManage/getBasePersonInfo`, {
@@ -106,8 +104,13 @@ class UserSevice extends Service {
     } catch (e) {
       this.ctx.throw(500, e);
     }
-
     return userData.data && userData.data.data;
+  }
+  async findOne(mobile) {
+    return this.ctx.model.User
+      .findOne({ mobile })
+      .populate('dept')
+      .populate('role');
   }
 }
 
