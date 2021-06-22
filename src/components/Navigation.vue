@@ -46,7 +46,7 @@
         <div class="m-shopping">
             <div class="u-close"  @click="drawer = false"><i class="el-icon-close"></i></div>
             <div class="shopping-header">
-                <span class="shopping-num">共 {{count}} 个图标</span>
+                <span class="shopping-num">共 <b>{{count}}</b> 个图标</span>
                 <span class="clear" @click="clearIcons"><i class="opsfont ops-Eliminate"></i> 一键清除</span>
             </div>
             <div class="m-icons">
@@ -65,6 +65,22 @@
                     </div>
                     <p>赶快把喜欢的图标加入购物车</p>
                 </div>
+            </div>
+            <div class="m-icons-project">
+                <div class="title">
+                    <span>加入项目</span>
+                    <i class="el-icon-folder-add right-icon"></i>
+                </div>
+                <ul class="project-list">
+                    <li>
+                        <i class="el-icon-folder"></i>
+                        <span>ops-ui</span>
+                    </li>
+                    <li>
+                        <i class="el-icon-folder"></i>
+                        <span>ops-test</span>
+                    </li>
+                </ul>
             </div>
         </div>
     </el-drawer>
@@ -311,8 +327,10 @@ export default {
     }
 }
 .m-icons{
+    height: 350px;
     padding: 10px;
-    overflow: hidden;
+    background: #fcfcfc;
+    overflow: auto;
     .u-item{
         position: relative;
         cursor: pointer;
@@ -380,6 +398,40 @@ export default {
             }
         }
         
+    }
+}
+
+.m-icons-project{
+    padding: 10px 0;
+    .title{
+        position: relative;
+        padding-left: 10px;
+        height: 50px;
+        line-height: 50px;
+        font-size: 16px;
+        .right-icon{
+            position: absolute;
+            right: 20px;
+            top: 0px;
+            line-height: 50px;
+            color: #ccc;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    }
+    li{
+        padding-left: 20px;
+        height: 35px;
+        line-height: 35px;
+        border: 1px solid #fafafa;
+        border-radius: 5px;
+        cursor: pointer;
+        span{
+            padding-left: 5px;
+        }
+        &:hover{
+            background: #f5f7fa;
+        }
     }
 }
 

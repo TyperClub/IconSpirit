@@ -39,6 +39,9 @@ import { useRouter } from 'vue-router'
   margin: 0;
   padding: 0;
 }
+li{
+  list-style-type:none;
+}
 html, body {
   height: 100%;
   overflow-x: hidden;
@@ -51,6 +54,22 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
   // text-align: center;
   color: #2c3e50;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #e6e6e6;
+    min-height: 25px;
+    min-width: 25px;
+    border: 1px solid #e0e0e0
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f7f7f7;
+    border: 1px solid #efefef
+}
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    overflow: auto
 }
 .router-view{
     width: 100%;
