@@ -55,6 +55,8 @@ class UserController extends Controller {
         const { username, password } = ctx.request.body;
         const res = await ctx.service.user.login({ username, password })
 
+        console.log(111, res)
+
         ctx.session.cas = {
             user: res.telephoneNumber
         }
