@@ -311,12 +311,12 @@ export default {
     }
 }
 .m-icons{
-    padding: 0px 10px 0px;
+    padding: 10px;
     overflow: hidden;
     .u-item{
         position: relative;
         cursor: pointer;
-        padding-top: 20px;
+        padding: 10px 0;
     }
     .u-icon-svg{
         text-align: center;
@@ -328,7 +328,7 @@ export default {
         line-height: 75px;
         text-align: center;
         position: absolute;
-        top: 10px;
+        top: 0px;
         left: 11px;
         z-index: 1;
         color: #fff;
