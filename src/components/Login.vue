@@ -8,10 +8,10 @@
                 <el-input type="text" prefix-icon="el-icon-user" v-model="ruleForm.account" placeholder="请输入域账号" clearable></el-input>
             </el-form-item>
             <el-form-item prop="password">
-                <el-input type="password" prefix-icon="opsfont ops-icon-mima" v-model="ruleForm.password" placeholder="请输入密码" clearable></el-input>
+                <el-input type="password" @keyup.enter.prevent="submitForm($event, 'ruleForm')" prefix-icon="opsfont ops-icon-mima" v-model="ruleForm.password" placeholder="请输入密码" clearable></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button class="submit-btn" type="primary" @click="submitForm('ruleForm')">登 录</el-button>
+                <el-button class="submit-btn" type="primary" @click="submitForm('click','ruleForm')">登 录</el-button>
             </el-form-item>
         </el-form>
         <div class="tips">
@@ -36,7 +36,13 @@ export default {
         }
     },
     methods: {
-        submitForm(formName){
+        submitForm(type, formName){
+            if(type !=  "click"){
+                let keyCode = window.event ? type.keyCode : type.which;
+                console.log(keyCode)
+
+                if (keyCode != 13) return
+            }
             this.$refs[formName].validate((valid) => {
             if (valid) {
                 login({
