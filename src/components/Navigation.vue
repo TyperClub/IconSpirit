@@ -481,7 +481,7 @@ export default {
             padding-left: 5px;
         }
         &:hover{
-            background: #f5f7fa;
+            background: #e6e9ec;
         }
     }
     .icon-manage-bottom{
