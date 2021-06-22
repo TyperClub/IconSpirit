@@ -39,6 +39,13 @@ module.exports = appInfo => {
     secret: 'egg-api-jwt',
   };
 
+  config.session = {
+    key: 'OPS',
+    maxAge: 24 * 3600 * 1000, // 1 天
+    httpOnly: true,
+    encrypt: true,
+  };
+
   config.cors = {
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
   };
