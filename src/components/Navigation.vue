@@ -51,10 +51,11 @@
             </div>
             <div class="m-icons">
                 <el-row :gutter="10" v-if="icons.length">
-                    <el-col :span="4" class="u-item" v-for="(item, index) in icons" :key="index">
+                    <el-col :span="6" class="u-item" v-for="(item, index) in icons" :key="index">
                         <div class="icon-base-view">
                             <div class="u-icon-svg" v-html="item.content"></div>
-                            <div class="u-delete"><i class="el-icon-delete" @click="deleteIcon(item)"></i></div>
+                            <p class="icon-name">{{item.CH_Name}}</p>
+                            <div class="u-delete" @click="deleteIcon(item)"><i class="el-icon-delete"></i></div>
                         </div>
                     </el-col>
                 </el-row>
@@ -186,6 +187,9 @@ export default {
     .el-drawer{
         overflow: initial;
         box-shadow: 0 12px 12px 0 rgba(0, 0, 0, 0.1);
+    }
+    .icon-base-view .icon{
+        font-size: 28px;
     }
 } 
 </style>
@@ -319,7 +323,10 @@ export default {
     }
     .u-delete{
         display: none;
-        padding: 8px;
+        width: 60px;
+        height: 65px;
+        line-height: 75px;
+        text-align: center;
         position: absolute;
         top: 14px;
         left: 6px;
@@ -351,10 +358,27 @@ export default {
             padding-top: 30px;
         }
     }
-    .icon-base-view:hover{
-        .u-delete{
-             display: block;
+    .icon-base-view{
+        width: 60px;
+        text-align: center;
+        .icon-name{
+            padding-top: 6px;
+            width: 100%;
+            height: 20px;
+            line-height: 20px;
+            color: #666;
+            font-size: 12px;
+            text-align: center;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
+        &:hover{
+            .u-delete{
+                display: block;
+            }
+        }
+        
     }
 }
 
