@@ -82,7 +82,12 @@ import Navigation from './Navigation';
     },
     computed: {
         ...mapState({
-            username: state => state.userInfo.userName
+            username: state => {
+                if(!state.userInfo.userName){
+                    window.location.href="/#/home"
+                }
+                return state.userInfo.userName
+            }
         })
     },
     mounted(){
@@ -123,6 +128,9 @@ import Navigation from './Navigation';
     .create-project{
         cursor: pointer;
         font-size: 14px;
+        &:hover{
+            color: #409EFF;
+        }
     }
 }
 .m-content{

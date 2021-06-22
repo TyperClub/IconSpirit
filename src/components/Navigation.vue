@@ -344,6 +344,9 @@ export default {
             height: 28px;
             line-height: 28px;
             padding: 0px 10px 0 0;
+            &:hover{
+                color: #409EFF;
+            }
         }
     }
 }
@@ -464,6 +467,9 @@ export default {
             color: #ccc;
             font-size: 20px;
             cursor: pointer;
+            &:hover{
+                color: #409EFF;
+            }
         }
     }
     .project-list{
