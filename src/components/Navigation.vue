@@ -85,7 +85,7 @@
                 </div>
                 <div class="icon-manage-bottom">
                     <el-button size="small" round>确定</el-button>
-                    <el-button size="small" round>取消</el-button>
+                    <el-button @click="drawer = false" size="small" round>取消</el-button>
                 </div>
             </div>
         </div>

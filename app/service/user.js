@@ -3,6 +3,7 @@ const Service = require('egg').Service
 const JWT = require('jsonwebtoken');
 const { authenticate } = require('ldap-authentication');
 const AUTH_CONFIG = require('../config/ldap_config')
+const { OA_HOST } = require('../config');
 
 class UserSevice extends Service {
     /**
@@ -86,6 +87,27 @@ class UserSevice extends Service {
       res.msg = '注册成功';
     }
     return res;
+  }
+  
+  async getUserInfoByMobile({ mobile }) {
+    const ctx = this.ctx;
+    let userData;
+    
+    // curl http://open-ng.zmlearn.com/api/oa/personManage/getBasePersonInfo -X POST -d '{"mobile": "13651813361"}' --header "Content-Type: application/json"
+    try {
+      userData = await ctx.curl(`${OA_HOST(this.app.env)}/api/oa/personManage/getBasePersonInfo`, {
+        method: 'POST',
+        contentType: 'json',
+        dataType: 'json',
+        data: {
+          mobile,
+        },
+      });
+    } catch (e) {
+      this.ctx.throw(500, e);
+    }
+
+    return userData.data && userData.data.data;
   }
 }
 
