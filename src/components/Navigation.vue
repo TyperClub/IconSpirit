@@ -50,7 +50,7 @@
                 <span class="clear" @click="clearIcons"><i class="opsfont ops-Eliminate"></i> 一键清除</span>
             </div>
             <div class="m-icons">
-                <el-row :gutter="10">
+                <el-row :gutter="10" v-if="icons.length">
                     <el-col :span="4" class="u-item" v-for="(item, index) in icons" :key="index">
                         <div class="icon-base-view">
                             <div class="u-icon-svg" v-html="item.content"></div>
@@ -58,6 +58,12 @@
                         </div>
                     </el-col>
                 </el-row>
+                <div class="u-shopping-empty" v-else>
+                    <div class="icons-shopping">
+                        <i class="opsfont ops-03"></i>
+                    </div>
+                    <p>赶快把喜欢的图标加入购物车</p>
+                </div>
             </div>
         </div>
     </el-drawer>
@@ -117,6 +123,7 @@ export default {
         },
         clearIcons(){
             window.sessionStorage.setItem('ops-icons', '')
+            this.icons = []
             this.count = 0
         },
         addIcons (type, item) {
@@ -305,6 +312,26 @@ export default {
         border-radius: 3px;
         .el-icon-delete{
             font-size: 30px;
+        }
+    }
+    .u-shopping-empty{
+        margin-top: 64px;
+        text-align: center;
+        .icons-shopping{
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            line-height: 120px;
+            border-radius: 50%;
+            background: #eee;
+            text-align: center;
+        }
+        .ops-03{
+            color: #fff;
+            font-size: 70px;
+        }
+        p{
+            padding-top: 30px;
         }
     }
     .icon-base-view:hover{
