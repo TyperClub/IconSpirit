@@ -71,16 +71,22 @@
                     <span>加入项目</span>
                     <i class="el-icon-folder-add right-icon"></i>
                 </div>
-                <ul class="project-list">
-                    <li>
-                        <i class="el-icon-folder"></i>
-                        <span>ops-ui</span>
-                    </li>
-                    <li>
-                        <i class="el-icon-folder"></i>
-                        <span>ops-test</span>
-                    </li>
-                </ul>
+                <div class="project-list">
+                    <ul>
+                        <li>
+                            <i class="el-icon-folder"></i>
+                            <span>ops-ui</span>
+                        </li>
+                        <li>
+                            <i class="el-icon-folder"></i>
+                            <span>ops-test</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="icon-manage-bottom">
+                    <el-button size="small" round>确定</el-button>
+                    <el-button size="small" round>取消</el-button>
+                </div>
             </div>
         </div>
     </el-drawer>
@@ -288,6 +294,7 @@ export default {
 }
 .m-shopping{
     position: relative;
+    height: 100%;
     .shopping-header{
         width: 100%;
         border-bottom: 1px solid #ccc;
@@ -327,6 +334,7 @@ export default {
     }
 }
 .m-icons{
+    position: relative;
     height: 350px;
     padding: 10px;
     background: #fcfcfc;
@@ -402,7 +410,13 @@ export default {
 }
 
 .m-icons-project{
-    padding: 10px 0;
+    height: 380px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #fafafa;
+    // padding: 10px 0;
     .title{
         position: relative;
         padding-left: 10px;
@@ -419,6 +433,10 @@ export default {
             cursor: pointer;
         }
     }
+    .project-list{
+        height: 190px;
+        overflow: auto;
+    }
     li{
         padding-left: 20px;
         height: 35px;
@@ -432,6 +450,16 @@ export default {
         &:hover{
             background: #f5f7fa;
         }
+    }
+    .icon-manage-bottom{
+        height: 89px;
+        line-height: 80px;
+        padding-left: 20px;
+        // position: absolute;
+        // bottom: 0;
+        // left: 0;
+        // width: 100%;
+        background: #f3f3f3;
     }
 }
 
