@@ -19,7 +19,14 @@
             <!-- <i id="appCart" class="opsfont ops-03"></i> -->
             <i class="el-icon-upload icon-upload"></i>
             <el-button v-if="!username" class="login" @click="login" type="primary" size="mini" round>登录</el-button>
-            <span v-else class="userName">欢迎，{{username}}</span>
+            <el-dropdown  v-else>
+                <span class="userName">欢迎，{{username}} <i class="el-icon-arrow-down"></i></span>
+                <template #dropdown>
+                    <el-dropdown-menu>
+                        <el-dropdown-item @click="logout">退出</el-dropdown-item>
+                    </el-dropdown-menu>
+                </template>
+            </el-dropdown>
         </div>
          <div class="m-nav-search f-fr">
             <el-input size="mini" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
@@ -101,6 +108,7 @@
 
 <script>
 import Login from './Login';
+import { logout } from '../services/index';
 import { mapState } from 'vuex'
 
 export default {
@@ -197,6 +205,11 @@ export default {
         login(){
             this.dialogVisible = true
         },
+        logout(){
+            logout().then(res => {
+                this.username = ""
+            })
+        }
     },
     components: {
         Login
@@ -272,6 +285,8 @@ export default {
         margin-left: 10px;
     }
     .userName{
+        padding-left: 5px;
+        cursor: pointer;
         font-size: 14px;
     }
 }
