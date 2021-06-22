@@ -54,7 +54,7 @@
                     <el-col :span="4" class="u-item" v-for="(item, index) in icons" :key="index">
                         <div class="icon-base-view">
                             <div class="u-icon-svg" v-html="item.content"></div>
-                            <div class="u-delete"><i class="el-icon-delete"></i></div>
+                            <div class="u-delete"><i class="el-icon-delete" @click="deleteIcon(item)"></i></div>
                         </div>
                     </el-col>
                 </el-row>
@@ -125,6 +125,16 @@ export default {
             window.sessionStorage.setItem('ops-icons', '')
             this.icons = []
             this.count = 0
+        },
+        deleteIcon(item){
+            let icons = window.sessionStorage.getItem('ops-icons')
+            icons = icons ? JSON.parse(icons) : []
+            icons = icons.filter(function(obj){
+                return obj.id != item.id
+            })
+            window.sessionStorage.setItem('ops-icons', JSON.stringify(icons))
+            this.icons = icons
+            this.count = icons.length
         },
         addIcons (type, item) {
             let icons = window.sessionStorage.getItem('ops-icons')
