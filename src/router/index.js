@@ -1,4 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import {getUser} from '../services/index';
+
 // import store from '../store'
 
 const router = createRouter({
@@ -36,6 +38,11 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  getUser().then(res=>{
+    console.log(111, res)
+  }).catch(err=>{
+    console.log(222, err)
+  })
   next()
 })
 

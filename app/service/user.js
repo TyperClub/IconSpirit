@@ -31,7 +31,7 @@ class UserSevice extends Service {
     try {
       let data = await authenticate(options)
       let queryResult = await ctx.model.User.findOne({
-        mail: data.mail,
+        userEmail: data.mail,
       });
 
       if (!queryResult) {
@@ -121,7 +121,7 @@ class UserSevice extends Service {
   }
   async findOne(mobile) {
     return this.ctx.model.User
-      .findOne({ mobile })
+      .findOne({ telphone: mobile })
       .populate('dept')
       .populate('role');
   }

@@ -85,14 +85,15 @@ class UserController extends Controller {
         // 1、如果数据库中存在该用户则不同步oa信息直接返回该用户相关信息，注意如果用户部门信息发生变更后需要手动数据库中改变不在同步
         if (userRes) {
             // 入库后用户信息userInfo放入 session
-           return false
+            ctx.helper.success({
+                ctx,
+                res: userRes
+            })
+            return false
         }
 
         // 2、如果数据库中不存在该用户则拉取OA信息同步
-        let userInfo = await ctx.service.user.getUserInfoByMobile({ mobile: user });
-        // userInfo = userInfo && userInfo[0];
-
-        console.log(2222, userInfo)
+        console.log(2222, user, userRes)
     }
 }
 
