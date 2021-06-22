@@ -8,11 +8,12 @@
         <div class="m-content">
             <div class="m-row-user">
                 <div class="user-logo">
-                     <el-avatar :size="100" :src="circleUrl"></el-avatar>
+                     <el-avatar class="logo" :size="100" :src="circleUrl"></el-avatar>
                     <!-- <img src="https://sf6-ttcdn-tos.pstatp.com/img/user-avatar/693bcc26e2e1cb5cff0157182fd7f319~300x300.image" alt=""> -->
                 </div>
                 <div class="user-info">
                     <div>欢迎，{{username}}</div>
+                    <p>研发工程师</p>
                     <p class="f-size-14">部门：效能研发部</p>
                 </div>
                 <div class="m-tool">
@@ -83,9 +84,6 @@ import Navigation from './Navigation';
     computed: {
         ...mapState({
             username: state => {
-                if(!state.userInfo.userName){
-                    window.location.href="/#/home"
-                }
                 return state.userInfo.userName
             }
         })
@@ -152,6 +150,13 @@ import Navigation from './Navigation';
         // height: 64px;
         // border-radius: 50%;
         // overflow: hidden;
+        .logo:hover{
+            transform: rotate(666turn);
+            transition-delay: 1s;
+            transition-property: all;
+            transition-duration: 59s;
+            transition-timing-function: cubic-bezier(.34,0,.84,1);
+        }
         img{
             width: 100%;
             height: 100%;

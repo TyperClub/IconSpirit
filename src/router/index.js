@@ -44,11 +44,16 @@ router.beforeEach((to, from, next) => {
   if (isEmptyObject(userInfo)) {
     getUser().then(result=>{
       store.dispatch('setUserInfo', result.data)
+      next()
     }).catch(err=>{
-      console.log(err)
+      console.log(to.path, err)
+      if(to.path === "/projects"){
+        next({ path: '/home' })
+      }else{
+        next()
+      }
     })
   } 
-  next()
 })
 
 export default router

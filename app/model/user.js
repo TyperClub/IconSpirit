@@ -21,6 +21,9 @@ module.exports = app => {
     telphone: {
       type: String,
     },
+    occupation: {
+      type: String
+    },
     avatar: {
       type: String,
     },

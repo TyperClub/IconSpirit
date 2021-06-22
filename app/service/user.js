@@ -39,7 +39,16 @@ class UserSevice extends Service {
         await ctx.model.User.create({
           userName: data.cn,
           userEmail: data.mail,
-          telphone: data.mobile
+          telphone: data.mobile,
+          occupation: data.title
+        });
+      }else{
+        await ctx.model.User.update({
+          userEmail: data.mail,
+        },{
+          userName: data.cn,
+          telphone: data.mobile,
+          occupation: data.title
         });
       }
       

@@ -452,6 +452,7 @@ export default {
     bottom: 0;
     left: 0;
     background: #fafafa;
+    z-index: 2;
     // padding: 10px 0;
     .title{
         position: relative;
