@@ -11,9 +11,9 @@
     </el-col>
     <el-col :span="18">
         <div class="grid-content f-fr">
-            <span class="shopping">
+            <span class="shopping"  @click="drawer = true" >
                  <el-badge :value="count" class="item">
-                    <i id="appCart" @click="drawer = true" class="opsfont ops-03"></i>
+                    <i id="appCart" class="opsfont ops-03"></i>
                 </el-badge>
             </span>
             <!-- <i id="appCart" class="opsfont ops-03"></i> -->
@@ -229,6 +229,7 @@ export default {
     line-height: 60px;
     padding: 0px 20px;
     .shopping{
+        cursor: pointer;
         padding-top: 16px;
         line-height: 20px;
     }
