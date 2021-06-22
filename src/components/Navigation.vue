@@ -44,11 +44,14 @@
         :direction="direction"
         destroy-on-close>
         <div class="m-shopping">
+            <div class="u-close"  @click="drawer = false"><i class="el-icon-close"></i></div>
             <div class="shopping-header">
                 <span class="shopping-num">共 {{count}} 个图标</span>
                 <span class="clear"><i class="opsfont ops-Eliminate"></i> 一键清除</span>
             </div>
-            <div class="u-close"  @click="drawer = false"><i class="el-icon-close"></i></div>
+            <div class="m-icons">
+
+            </div>
         </div>
     </el-drawer>
     <el-dialog
@@ -66,11 +69,13 @@ import Login from './Login';
 export default {
     name: "Navigation",
     data() {
+        let icons = window.sessionStorage.getItem('ops-icons')
+        icons = icons ? JSON.parse(icons) : []
         return {
             dialogVisible: false,
             searchName: "",
             activeIndex: '2',
-            count:0,
+            count: icons.length,
             drawer: false,
             direction: 'rtl',
         }
@@ -102,15 +107,30 @@ export default {
                 }
             }
         },
-        addIcons (type,id) {
+        addIcons (type, item) {
+            let icons = window.sessionStorage.getItem('ops-icons')
             if(type === "add"){
+                if(!icons){
+                    icons = [item]
+                    window.sessionStorage.setItem('ops-icons', JSON.stringify(icons))
+                }else{
+                    icons = JSON.parse(icons)
+                    icons.push(item)
+                    window.sessionStorage.setItem('ops-icons', JSON.stringify(icons))
+                }
                 setTimeout(()=>{
-                    this.count +=1;
+                    this.count = icons.length
                 },810)
             }else{
-                this.count--
+                if(icons){
+                    icons = JSON.parse(icons)
+                    icons = icons.filter(function(obj){
+                       return obj.id != item.id
+                    })
+                    window.sessionStorage.setItem('ops-icons', JSON.stringify(icons))
+                    this.count = icons.length
+                }
             }
-            console.log('id', id)
         },
         login(){
             this.dialogVisible = true

@@ -140,7 +140,7 @@ import Navigation from './Navigation';
           this.elTop = event.target.getBoundingClientRect().top + 20;
         }
         item.status = !item.status
-        this.$refs.navigation.addIcons(type, item.id)
+        this.$refs.navigation.addIcons(type, item)
       },
       selectUI(item, index){
         // item.status = !item.status
@@ -159,8 +159,15 @@ import Navigation from './Navigation';
         if (name) parames.name = name
         iconList(parames).then(res => {
           let data = res.data
+          let icons = window.sessionStorage.getItem('ops-icons')
+          icons = icons ? JSON.parse(icons) : []
           data.forEach(item => {
             item.status = false
+            icons.forEach(obj =>{
+              if(obj.id  ==  item.id){
+                item.status  =  true
+              }
+            })
           })
           this.tableData = data
           this.pageInfo.current = res.pageNum

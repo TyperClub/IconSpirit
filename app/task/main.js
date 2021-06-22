@@ -91,7 +91,7 @@ const open = async (browser, url, itemIndex) =>{
                 let ENG_Name = await getIconName($(obj).text())
                 console.log(index, authors[1], $(obj).text(), ENG_Name)
                 data.push({
-                    id: classNameId,
+                    id: classNameId.replace(/\s+/g,''),
                     type: "alibaba",
                     gurop: groupText,
                     author: authors[1],
