@@ -13,7 +13,6 @@ module.exports = app => {
     },
     userPass: {
       type: String,
-      required: true,
     },
     userEmail: {
       type: String,

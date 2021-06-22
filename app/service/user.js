@@ -26,11 +26,24 @@ class UserSevice extends Service {
 
   async login({ username, password }){
     const { ctx } = this;
-    const res = {};
     const options = AUTH_CONFIG[this.app.env]({ username, password })
 
     try {
-      return await authenticate(options)
+      let data = await authenticate(options)
+      let queryResult = await ctx.model.User.findOne({
+        mail: data.mail,
+      });
+
+      if (!queryResult) {
+        //创建用户
+        await ctx.model.User.create({
+          userName: data.cn,
+          userEmail: data.mail,
+          telphone: data.mobile
+        });
+      }
+      
+      return data
     } catch (e) {
       this.ctx.throw(500, e);
     }

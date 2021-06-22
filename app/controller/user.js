@@ -55,8 +55,6 @@ class UserController extends Controller {
         const { username, password } = ctx.request.body;
         const res = await ctx.service.user.login({ username, password })
 
-        console.log(111, res)
-
         ctx.session.cas = {
             user: res.telephoneNumber
         }
@@ -83,7 +81,6 @@ class UserController extends Controller {
         const user = ctx.session.cas && ctx.session.cas.user;
 
         const userRes = await ctx.service.user.findOne(user);
-        console.log(111, userRes)
         
         // 1、如果数据库中存在该用户则不同步oa信息直接返回该用户相关信息，注意如果用户部门信息发生变更后需要手动数据库中改变不在同步
         if (userRes) {
