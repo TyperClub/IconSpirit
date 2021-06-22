@@ -13,8 +13,7 @@
                 </div>
                 <div class="user-info">
                     <div>欢迎，{{username}}</div>
-                    <p>研发工程师</p>
-                    <p class="f-size-14">部门：效能研发部</p>
+                    <p class="f-size-14">研发工程师 | 效能研发部</p>
                 </div>
                 <div class="m-tool">
                     <div class="create-project"><i class="el-icon-plus"></i> 创建项目</div>
