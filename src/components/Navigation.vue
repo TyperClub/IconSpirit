@@ -50,7 +50,14 @@
                 <span class="clear" @click="clearIcons"><i class="opsfont ops-Eliminate"></i> 一键清除</span>
             </div>
             <div class="m-icons">
-                
+                <el-row :gutter="10">
+                    <el-col :span="4" class="u-item" v-for="(item, index) in icons" :key="index">
+                        <div class="icon-base-view">
+                            <div class="u-icon-svg" v-html="item.content"></div>
+                            <div class="u-delete"><i class="el-icon-delete"></i></div>
+                        </div>
+                    </el-col>
+                </el-row>
             </div>
         </div>
     </el-drawer>
@@ -274,6 +281,37 @@ export default {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+}
+.m-icons{
+    padding: 0px 10px 0px;
+    overflow: hidden;
+    .u-item{
+        position: relative;
+        cursor: pointer;
+        padding: 20px;
+    }
+    .u-icon-svg{
+        text-align: center;
+    }
+    .u-delete{
+        display: none;
+        padding: 8px;
+        position: absolute;
+        top: 14px;
+        left: 6px;
+        z-index: 1;
+        color: #fff;
+        background: rgba(64,158,255, 0.9);
+        border-radius: 3px;
+        .el-icon-delete{
+            font-size: 30px;
+        }
+    }
+    .icon-base-view:hover{
+        .u-delete{
+             display: block;
+        }
+    }
 }
 
 </style>

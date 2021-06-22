@@ -5,7 +5,8 @@
   "scripts": {
     "egg:start": "egg-scripts start --daemon --title=egg-server-tester",
     "egg:stop": "egg-scripts stop --title=egg-server-tester",
-    "egg:fat": "egg-bin dev",
+    "egg:dev": "egg-bin dev",
+    "egg:fat": "EGG_SERVER_ENV=fat egg-bin dev",
     "egg:uat": "EGG_SERVER_ENV=fat egg-bin dev",
     "egg:pro": "EGG_SERVER_ENV=fat egg-bin dev",
     "task": "node app/task/main.js",
