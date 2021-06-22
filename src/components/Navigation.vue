@@ -330,7 +330,7 @@ export default {
     height: 100%;
     .shopping-header{
         width: 100%;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid #eee;
         position: relative;
         clear: both;
         display: flex;

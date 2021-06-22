@@ -4,7 +4,7 @@
     <el-header style="text-align: right; font-size: 12px">
         <navigation></navigation>
     </el-header>
-    <el-main class="home">
+    <div class="home">
         <div class="m-content">
             <div class="m-row-user">
                 <div class="user-logo">
@@ -64,7 +64,7 @@
             </el-tabs>
         </div>
    
-    </el-main>
+    </div>
   </el-container>
 </el-container>
 </template>
@@ -110,9 +110,6 @@ import Navigation from './Navigation';
 .f-size-14{
     font-size: 14px;
 }
-.home{
-    padding-top: 70px;
-}
 .m-menu{
     position: relative;
 }
@@ -130,10 +127,9 @@ import Navigation from './Navigation';
 }
 .m-content{
     position: relative;
-    min-height: calc(100vh - 64px);
     max-width: 1240px;
     padding: 0 20px;
-    margin: auto;
+    margin: 120px auto 0;
 }
 .m-row-user{
     display: flex;
