@@ -101,7 +101,7 @@
         custom-class="m-login"
         v-model="dialogVisible"
         width="400px">
-        <login></login>
+        <login @closeLogin="closeLogin"></login>
     </el-dialog>
 </div>
 </template>
@@ -202,11 +202,15 @@ export default {
                 }
             }
         },
+        closeLogin(){
+            this.dialogVisible = false
+        },
         login(){
             this.dialogVisible = true
         },
         logout(){
             logout().then(res => {
+                console.log(111, res)
                 this.username = ""
             })
         }
