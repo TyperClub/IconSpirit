@@ -15,7 +15,7 @@
                     <p class="f-size-14"><i class="opsfont ops-xinxi"></i> 研发工程师 | 效能研发部</p>
                 </div>
                 <div class="m-tool">
-                    <div class="create-project rotation" @click="createProject"><i class="el-icon-plus"></i> 创建项目</div>
+                    <div class="create-project" @click="createProject"><i class="el-icon-plus"></i> 创建项目</div>
                 </div>
             </div>
             <el-tabs class="m-menu padding-top-20" v-model="activeName" @tab-click="handleClick">
@@ -168,19 +168,6 @@ import Navigation from './Navigation';
 }
 </style>
 <style lang="less" scoped>
-  @keyframes breathing {
-    0% {
-      color: #333;
-    }
-
-    50% {
-      color: #409EFF;
-    }
-
-    100% {
-      color: #333;
-    }
-  }
 .f-fr{
   float: right;
 }
@@ -199,7 +186,6 @@ import Navigation from './Navigation';
     bottom: -50px;
     .create-project{
         cursor: pointer;
-        animation: breathing infinite 2s ease-in-out;
         font-size: 14px;
         &:hover{
             color: #409EFF;
