@@ -1,6 +1,5 @@
 <template>
-<el-container style="height: 100%; border: 1px solid #eee">
-  <el-container>
+<el-container style="height: 100%;">
     <el-header style="text-align: right; font-size: 12px">
         <navigation></navigation>
     </el-header>
@@ -16,7 +15,7 @@
                     <p class="f-size-14"><i class="opsfont ops-xinxi"></i> 研发工程师 | 效能研发部</p>
                 </div>
                 <div class="m-tool">
-                    <div class="create-project"><i class="el-icon-plus"></i> 创建项目</div>
+                    <div class="create-project" @click="createProject"><i class="el-icon-plus"></i> 创建项目</div>
                 </div>
             </div>
             <el-tabs class="m-menu padding-top-20" v-model="activeName" @tab-click="handleClick">
@@ -65,7 +64,38 @@
         </div>
    
     </div>
-  </el-container>
+    <el-dialog
+    title="新建项目"
+    v-model="dialogVisible"
+    width="500px"
+    :before-close="handleClose">
+    <el-form ref="form" :model="form" label-width="110px">
+    <el-form-item label="项目名称">
+        <el-input v-model="form.name" placeholder="请输入项目名" clearable></el-input>
+    </el-form-item>
+  <el-form-item label="项目描述">
+    <el-input type="textarea" v-model="form.description" placeholder="请输入项目描述" clearable></el-input>
+  </el-form-item>
+  <el-form-item label="FontClass前缀">
+        <el-input v-model="form.prefix" placeholder="请输入 FontClass 前缀，默认 icon-" clearable></el-input>
+    </el-form-item>
+     <el-form-item label="Font Family">
+        <el-input v-model="form.font_family" placeholder="请输入Font Family，默认 iconfont" clearable></el-input>
+    </el-form-item>
+  <el-form-item label="字体格式">
+    <el-checkbox-group v-model="form.font_format">
+      <el-checkbox label="WOFF2" name="woff2"></el-checkbox>
+      <el-checkbox label="WOFF" name="woff"></el-checkbox>
+      <el-checkbox label="TTF" name="ttf"></el-checkbox>
+      <el-checkbox label="EOT" name="eot"></el-checkbox>
+    </el-checkbox-group>
+  </el-form-item>
+  <el-form-item>
+    <el-button type="primary" @click="onSubmit">新建</el-button>
+    <el-button>取消</el-button>
+  </el-form-item>
+</el-form>
+    </el-dialog>
 </el-container>
 </template>
 
@@ -77,7 +107,15 @@ import Navigation from './Navigation';
     data() {
       return {
         circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+        dialogVisible: false,
         activeName: "1",
+        form: {
+            name: "",
+            description: "",
+            font_format: ["WOFF2","WOFF","TTF"],
+            font_family: "iconfont",
+            prefix: "icon-"
+        }
       }
     },
     computed: {
@@ -91,7 +129,9 @@ import Navigation from './Navigation';
 
     },
     methods: {
-
+        createProject(){
+            this.dialogVisible = true
+        }
     },
     components: {
       Navigation
