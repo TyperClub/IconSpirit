@@ -77,11 +77,14 @@
             </div>
             <div class="m-icons-project" v-if="username">
                 <div class="title">
-                    <span>加入项目</span>
-                    <i @click="createProject" class="el-icon-folder-add right-icon"></i>
+                    <span>{{isCreateProject ? '加入新项目': '加入项目'}}</span>
+                    <i @click="createProject" class="right-icon" :class="isCreateProject ? 'opsfont ops-fanhui': 'el-icon-folder-add'"></i>
                 </div>
                 <div class="project-list">
-                    <ul>
+                    <div v-if="isCreateProject">
+                        <el-input class="new-project" size="small" v-model="newProjectName" type="text" placeholder="请输入新项目名称" clearable></el-input>
+                    </div>
+                    <ul v-else>
                         <li>
                             <i class="el-icon-folder"></i>
                             <span>ops-ui</span>
@@ -125,6 +128,8 @@ export default {
         icons = icons ? JSON.parse(icons) : []
         return {
             dialogVisible: false,
+            isCreateProject: false,
+            newProjectName: "",
             searchName: "",
             activeIndex: '2',
             count: icons.length,
@@ -217,7 +222,7 @@ export default {
             }
         },
         createProject(){
-
+            this.isCreateProject = !this.isCreateProject
         },
         login(){
             this.dialogVisible = true
@@ -484,6 +489,11 @@ export default {
     .project-list{
         height: 190px;
         overflow: auto;
+    }
+    .new-project{
+        padding-left: 20px;
+        margin-top: 10px;
+        width: 200px;
     }
     li{
         padding-left: 20px;
