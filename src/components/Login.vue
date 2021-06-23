@@ -11,7 +11,7 @@
                 <el-input type="password" @keyup.enter.prevent="submitForm($event, 'ruleForm')" prefix-icon="opsfont ops-icon-mima" v-model="ruleForm.password" placeholder="请输入密码" clearable></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button class="submit-btn" type="primary" @click="submitForm('click','ruleForm')">登 录</el-button>
+                <el-button :icon="loading ? 'el-icon-loading' :''" class="submit-btn" type="primary" @click="submitForm('click','ruleForm')">登 录</el-button>
             </el-form-item>
         </el-form>
         <div class="tips">
@@ -25,6 +25,7 @@ import {login} from '../services/index';
 export default {
     data(){
         return{
+            loading: false,
             ruleForm:{
                 account: "",
                 password: ""
@@ -45,14 +46,17 @@ export default {
             }
             this.$refs[formName].validate((valid) => {
             if (valid) {
+                this.loading = true
                 login({
                     username: this.ruleForm.account,
                     password: this.ruleForm.password
                 }).then(res => {
                     console.log(111, res)
+                    this.loading = false
                     this.$message.success("登录成功!")
                     location.reload()
                 }).catch(()=>{
+                    this.loading = false
                     this.$message.error("登录失败，请检查域账号是否正确!")
                 })
             } else {

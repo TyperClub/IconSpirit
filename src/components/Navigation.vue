@@ -75,7 +75,7 @@
                     <p>赶快把喜欢的图标加入购物车</p>
                 </div>
             </div>
-            <div class="m-icons-project">
+            <div class="m-icons-project" v-if="username">
                 <div class="title">
                     <span>加入项目</span>
                     <i class="el-icon-folder-add right-icon"></i>
@@ -95,6 +95,11 @@
                 <div class="icon-manage-bottom">
                     <el-button size="small" round>确定</el-button>
                     <el-button @click="drawer = false" size="small" round>取消</el-button>
+                </div>
+            </div>
+            <div class="m-icons-project" v-else>
+                <div class="icons-tool">
+                    <el-button @click="login" class="icon-item" round>添加至项目</el-button>
                 </div>
             </div>
         </div>
@@ -495,12 +500,14 @@ export default {
         height: 89px;
         line-height: 80px;
         padding-left: 20px;
-        // position: absolute;
-        // bottom: 0;
-        // left: 0;
-        // width: 100%;
         background: #f3f3f3;
     }
 }
-
+.icons-tool{
+    padding-top: 60px;
+    text-align: center;
+    .icon-item{
+        width: 200px;
+    }
+}
 </style>
