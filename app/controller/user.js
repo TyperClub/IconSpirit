@@ -57,10 +57,7 @@ class UserController extends Controller {
 
         const token = JWT.sign({
             telephone: res.telephoneNumber,
-          },
-          this.config.jwt.secret, {
-            expiresIn: 60 * 60,
-        });
+          }, this.config.jwt.secret);
         ctx.session.token = token
         ctx.session.cas = {
             user: res.telephoneNumber

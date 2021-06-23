@@ -18,8 +18,9 @@ module.exports = app => {
       type: String,
       required: true,
     },
-    telphone: {
+    telephone: {
       type: String,
+      required: true
     },
     occupation: {
       type: String

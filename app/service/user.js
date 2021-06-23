@@ -6,24 +6,6 @@ const AUTH_CONFIG = require('../config/ldap_config')
 const { OA_HOST } = require('../config');
 
 class UserSevice extends Service {
-    /**
-     * 查询所有的user
-     */
-    find() {
-        // 还没有从数据库里查询
-        const mockUsers = [
-            { name: 'user1', age: 18, sex: 'girl', job: 'student' },
-            { name: 'user2', age: 19, sex: 'girl', job: 'student' },
-            { name: 'user3', age: 20, sex: 'boy', job: 'no job' },
-        ]
-
-        return Object.assign({}, {
-            pageNum: 1,
-            pageSize: 10,
-            list: mockUsers
-        })
-    }
-
   async login({ username, password }){
     const { ctx } = this;
     const options = AUTH_CONFIG[this.app.env]({ username, password })
@@ -40,7 +22,7 @@ class UserSevice extends Service {
         await ctx.model.User.create({
           userName: data.cn,
           userEmail: data.mail,
-          telphone: data.mobile,
+          telephone: data.mobile,
           occupation: data.title,
           department: department
         });
@@ -49,8 +31,9 @@ class UserSevice extends Service {
           userEmail: data.mail,
         },{
           userName: data.cn,
-          telphone: data.mobile,
-          occupation: data.title
+          telephone: data.mobile,
+          occupation: data.title,
+          department: department
         });
       }
       
@@ -132,7 +115,7 @@ class UserSevice extends Service {
   }
   async findOne(mobile) {
     return this.ctx.model.User
-      .findOne({ telphone: mobile })
+      .findOne({ telephone: mobile })
       .populate('dept')
       .populate('role');
   }

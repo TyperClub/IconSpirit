@@ -12,7 +12,7 @@
                 </div>
                 <div class="user-info">
                     <div>欢迎，{{username}}</div>
-                    <p class="f-size-14"><i class="opsfont ops-xinxi"></i> 研发工程师 | 效能研发部</p>
+                    <p class="f-size-14"><i class="opsfont ops-xinxi"></i> {{userInfo.occupation}} | {{userInfo.department}}</p>
                 </div>
                 <div class="m-tool">
                     <div class="create-project" @click="createProject"><i class="el-icon-plus"></i> 创建项目</div>
@@ -130,7 +130,8 @@ import Navigation from './Navigation';
         ...mapState({
             username: state => {
                 return state.userInfo.userName
-            }
+            },
+            userInfo: state => state.userInfo
         })
     },
     mounted(){
