@@ -136,12 +136,9 @@ import Navigation from './Navigation';
         })
     },
     mounted(){
-        getProjects(res=> {
-            alert(111)
+        getProjects().then(res => {
             console.log(11,res)
             this.ownList = res.data
-        }).catch(err =>{
-            console.log(111111, err)
         })
     },
     methods: {
