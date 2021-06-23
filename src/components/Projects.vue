@@ -70,32 +70,32 @@
     v-model="dialogVisible"
     width="500px"
     :before-close="handleClose">
-    <el-form  :model="form" :rules="rules" ref="form"  label-width="115px">
-    <el-form-item label="项目名称" prop="name">
-        <el-input v-model="form.name" placeholder="请输入项目名" clearable></el-input>
-    </el-form-item>
-  <el-form-item label="项目描述">
-    <el-input type="textarea" v-model="form.description" placeholder="请输入项目描述" clearable></el-input>
-  </el-form-item>
-  <el-form-item label="FontClass前缀" prop="prefix">
-        <el-input v-model="form.prefix"  placeholder="请输入 FontClass 前缀，默认 icon-" clearable></el-input>
-    </el-form-item>
-     <el-form-item label="Font Family" prop="font_family">
-        <el-input v-model="form.font_family" placeholder="请输入Font Family，默认 iconfont" clearable></el-input>
-    </el-form-item>
-  <el-form-item label="字体格式" prop="font_format">
-    <el-checkbox-group v-model="form.font_format">
-      <el-checkbox label="WOFF2" name="woff2"></el-checkbox>
-      <el-checkbox label="WOFF" name="woff"></el-checkbox>
-      <el-checkbox label="TTF" name="ttf"></el-checkbox>
-      <el-checkbox label="EOT" name="eot"></el-checkbox>
-    </el-checkbox-group>
-  </el-form-item>
-  <el-form-item>
-    <el-button type="primary" @click="onSubmit('form')">新建</el-button>
-    <el-button @click="dialogVisible = false">取消</el-button>
-  </el-form-item>
-</el-form>
+        <el-form  :model="form" :rules="rules" ref="form"  label-width="115px">
+            <el-form-item label="项目名称" prop="name">
+                <el-input v-model="form.name" placeholder="请输入项目名" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="项目描述">
+                <el-input type="textarea" v-model="form.description" placeholder="请输入项目描述" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="FontClass前缀" prop="prefix">
+                    <el-input v-model="form.prefix"  placeholder="请输入 FontClass 前缀，默认 icon-" clearable></el-input>
+                </el-form-item>
+                <el-form-item label="Font Family" prop="font_family">
+                    <el-input v-model="form.font_family" placeholder="请输入Font Family，默认 iconfont" clearable></el-input>
+                </el-form-item>
+            <el-form-item label="字体格式" prop="font_format">
+                <el-checkbox-group v-model="form.font_format">
+                <el-checkbox label="WOFF2" name="woff2"></el-checkbox>
+                <el-checkbox label="WOFF" name="woff"></el-checkbox>
+                <el-checkbox label="TTF" name="ttf"></el-checkbox>
+                <el-checkbox label="EOT" name="eot"></el-checkbox>
+                </el-checkbox-group>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="onSubmit('form')">新建</el-button>
+                <el-button @click="dialogVisible = false">取消</el-button>
+            </el-form-item>
+        </el-form>
     </el-dialog>
 </el-container>
 </template>
