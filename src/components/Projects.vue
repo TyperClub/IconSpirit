@@ -28,7 +28,7 @@
                             <div class="u-project">
                                 <div><i class="el-icon-menu menu"></i><span class="project-title">我发起的项目</span></div>
                                 <div class="project-list">
-                                    <div class="item" :class="current === item._id ? 'current' : ''"  v-for="(item, index) in ownList" :key="index"><span>{{item.name}}</span></div>
+                                    <div class="item" @click="rowItem(index)" :class="current === index ? 'current' : ''"  v-for="(item, index) in ownList" :key="index"><span>{{item.name}}</span></div>
                                 </div>
                             </div>
                             <!-- <div class="u-project">
@@ -41,7 +41,7 @@
                         </div>
                         <div class="m-project-tool">
                             <div class="tool">
-                                <b>ops-test</b>
+                                <b>{{ownList[current] && ownList[current].name}}</b>
                                 <span>共 0 个图标</span>
                                 <span>2021-06-19</span>
                                 <el-link class="operation-log" type="primary" :underline="false">操作日志</el-link>
@@ -111,7 +111,7 @@ import Navigation from './Navigation';
         dialogVisible: false,
         activeName: "1",
         ownList: [],
-        current: "",
+        current: 0,
         form: {
             name: "",
             description: "",
@@ -144,30 +144,30 @@ import Navigation from './Navigation';
         },
         getProjects(){
             getProjects().then(res => {
-                if(!this.current){
-                    this.current = res.data[0]._id
-                }
                 this.ownList = res.data
             })
         },
         onSubmit(formName){
             this.$refs[formName].validate((valid) => {
-          if (valid) {
-            createProjects({
-                ...this.form
-            }).then(res=>{
-                if(res.code == 200){
-                    this.dialogVisible = false
-                     this.$refs.form.resetFields()
-                    this.$message.success("创建成功！")
-                    this.getProjects()
+                if (valid) {
+                    createProjects({
+                        ...this.form
+                    }).then(res=>{
+                        if(res.code == 200){
+                            this.dialogVisible = false
+                            this.$refs.form.resetFields()
+                            this.$message.success("创建成功！")
+                            this.getProjects()
+                        }
+                    })
+                } else {
+                    console.log('error submit!!');
+                    return false;
                 }
-            })
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+            });
+        },
+        rowItem(index){
+            this.current = index
         }
     },
     components: {
