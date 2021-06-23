@@ -28,17 +28,16 @@
                             <div class="u-project">
                                 <div><i class="el-icon-menu menu"></i><span class="project-title">我发起的项目</span></div>
                                 <div class="project-list">
-                                    <div class="item current" v-for="(item, index) in ownList" :key="index"><span>{{item.name}}</span></div>
-                                    <div class="item"><span>测试项目</span></div>
+                                    <div class="item" :class="current === item._id ? 'current' : ''"  v-for="(item, index) in ownList" :key="index"><span>{{item.name}}</span></div>
                                 </div>
                             </div>
-                            <div class="u-project">
+                            <!-- <div class="u-project">
                                 <div><i class="el-icon-menu menu"></i><span class="project-title">我参入的项目</span></div>
                                 <div class="project-list">
                                     <div class="item"><span>ops-ui</span></div>
                                     <div class="item"><span>测试项目</span></div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="m-project-tool">
                             <div class="tool">
@@ -112,6 +111,7 @@ import Navigation from './Navigation';
         dialogVisible: false,
         activeName: "1",
         ownList: [],
+        current: "",
         form: {
             name: "",
             description: "",
@@ -136,14 +136,19 @@ import Navigation from './Navigation';
         })
     },
     mounted(){
-        getProjects().then(res => {
-            console.log(11,res)
-            this.ownList = res.data
-        })
+        this.getProjects()
     },
     methods: {
         createProject(){
             this.dialogVisible = true
+        },
+        getProjects(){
+            getProjects().then(res => {
+                if(!this.current){
+                    this.current = res.data[0]._id
+                }
+                this.ownList = res.data
+            })
         },
         onSubmit(formName){
             this.$refs[formName].validate((valid) => {
@@ -152,7 +157,10 @@ import Navigation from './Navigation';
                 ...this.form
             }).then(res=>{
                 if(res.code == 200){
+                    this.dialogVisible = false
+                     this.$refs.form.resetFields()
                     this.$message.success("创建成功！")
+                    this.getProjects()
                 }
             })
           } else {
