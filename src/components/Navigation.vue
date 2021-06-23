@@ -11,7 +11,7 @@
     </el-col>
     <el-col :span="18">
         <div class="grid-content f-fr">
-            <span class="shopping"  @click="drawer = !drawer" >
+            <span class="shopping"  @click="openDrawer" >
                  <el-badge :value="count" class="item">
                     <i id="appCart" class="opsfont ops-03"></i>
                 </el-badge>
@@ -84,12 +84,15 @@
                     <div v-if="isCreateProject">
                         <el-input class="new-project" size="small" v-model="newProjectName" type="text" placeholder="请输入新项目名称" clearable></el-input>
                     </div>
-                    <ul v-else>
-                        <li  @click="rowItem(index)" :class="current == index ? 'current' : ''" v-for="(item, index) in ownProjects" :key="index">
-                            <i class="el-icon-folder"></i>
-                            <span>{{item.name}}</span>
-                        </li>
-                    </ul>
+                    <div v-else>
+                        <ul v-if="ownProjects.length">
+                            <li  @click="rowItem(index)" :class="current == index ? 'current' : ''" v-for="(item, index) in ownProjects" :key="index">
+                                <i class="el-icon-folder"></i>
+                                <span>{{item.name}}</span>
+                            </li>
+                        </ul>
+                        <div class="u-tips">您还没有新的项目，赶紧创建新项目</div>
+                    </div>
                 </div>
                 <div class="icon-manage-bottom">
                     <el-button size="small" round>确定</el-button>
@@ -221,6 +224,12 @@ export default {
         },
         createProject(){
             this.isCreateProject = !this.isCreateProject
+        },
+        openDrawer(){
+            this.drawer = !this.drawer
+            if(this.ownProjects.length === 0){
+                this.isCreateProject = true
+            }
         },
         rowItem(index){
             this.current = index
@@ -490,6 +499,10 @@ export default {
     .project-list{
         height: 190px;
         overflow: auto;
+        .u-tips{
+            padding-top: 20px;
+            text-align: center;
+        }
     }
     .new-project{
         padding-left: 20px;
