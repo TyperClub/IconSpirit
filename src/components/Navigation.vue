@@ -85,13 +85,9 @@
                         <el-input class="new-project" size="small" v-model="newProjectName" type="text" placeholder="请输入新项目名称" clearable></el-input>
                     </div>
                     <ul v-else>
-                        <li>
+                        <li  @click="rowItem(index)" :class="current == index ? 'current' : ''" v-for="(item, index) in ownProjects" :key="index">
                             <i class="el-icon-folder"></i>
-                            <span>ops-ui</span>
-                        </li>
-                        <li>
-                            <i class="el-icon-folder"></i>
-                            <span>ops-test</span>
+                            <span>{{item.name}}</span>
                         </li>
                     </ul>
                 </div>
@@ -135,12 +131,14 @@ export default {
             count: icons.length,
             icons: icons,
             drawer: false,
+            current: 0,
             direction: 'rtl',
         }
     },
     computed: {
         ...mapState({
-            username: state => state.userInfo.userName
+            username: state => state.userInfo.userName,
+            ownProjects: state => state.ownProjects
         })
     },
     methods: {
@@ -223,6 +221,9 @@ export default {
         },
         createProject(){
             this.isCreateProject = !this.isCreateProject
+        },
+        rowItem(index){
+            this.current = index
         },
         login(){
             this.dialogVisible = true
@@ -494,6 +495,10 @@ export default {
         padding-left: 20px;
         margin-top: 10px;
         width: 200px;
+    }
+    .current{
+        background: #e6e9ec;
+        border: 1px solid #409EFF;
     }
     li{
         padding-left: 20px;

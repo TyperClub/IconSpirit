@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import {getUser} from '../services/index';
+import { getUser, getProjects } from '../services/index';
 import { isEmptyObject } from '../utils/tools'
 
 import store from '../store'
@@ -44,6 +44,9 @@ router.beforeEach((to, from, next) => {
   if (isEmptyObject(userInfo)) {
     getUser().then(result=>{
       store.dispatch('setUserInfo', result.data)
+      getProjects().then(res => {
+        store.dispatch('setOwnProjects', res.data)
+      })
       next()
     }).catch(err=>{
       console.log(to.path, err)

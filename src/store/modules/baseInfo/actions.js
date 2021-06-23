@@ -1,6 +1,7 @@
 import {
     SET_BREADCRUMB,
     SET_USER_INFO,
+    SET_OWN_PROJECTS,
     SET_SUGGESTION_DIALOG,
     SET_APOLLO_USER
   } from './mutation-types'
@@ -11,6 +12,9 @@ import {
     },
     setUserInfo({ commit }, payload) {
       commit(SET_USER_INFO, payload)
+    },
+    setOwnProjects({ commit }, payload) {
+      commit(SET_OWN_PROJECTS, payload)
     },
     setSuggestionDialog({ commit }, payload) {
       commit(SET_SUGGESTION_DIALOG, payload)
