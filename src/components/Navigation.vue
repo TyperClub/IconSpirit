@@ -78,7 +78,7 @@
             <div class="m-icons-project" v-if="username">
                 <div class="title">
                     <span>{{isCreateProject ? '加入新项目': '加入项目'}}</span>
-                    <i @click="createProject" class="right-icon" :class="isCreateProject ? 'opsfont ops-fanhui': 'el-icon-folder-add'"></i>
+                    <i @click="createProject" title="新建项目" class="right-icon" :class="isCreateProject ? 'opsfont ops-fanhui': 'el-icon-folder-add'"></i>
                 </div>
                 <div class="project-list">
                     <div v-if="isCreateProject">
@@ -478,7 +478,7 @@ export default {
             right: 20px;
             top: 0px;
             line-height: 50px;
-            color: #ccc;
+            color: #666;
             font-size: 20px;
             cursor: pointer;
             &:hover{

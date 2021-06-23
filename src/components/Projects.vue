@@ -40,12 +40,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <!-- <div>
-                                <span>ops-test</span>
+                        <div class="m-project-tool">
+                            <div class="tool">
+                                <b>ops-test</b>
                                 <span>共 0 个图标</span>
                                 <span>2021-06-19</span>
-                            </div> -->
+                                <el-link class="operation-log" type="primary" :underline="false">操作日志</el-link>
+                            </div>
                         </div>
                     </el-row>
                 </el-tab-pane>
@@ -277,6 +278,22 @@ import Navigation from './Navigation';
                 border-radius: 2px;
                 background-color: #409EFF;
             }
+        }
+    }
+}
+.m-project-tool{
+    padding-left: 20px;
+    .tool{
+        b{
+            font-size: 24px;
+        }
+        span{
+            font-size: 14px;
+            color: #999;
+            padding-left: 20px;
+        }
+        .operation-log{
+            padding-left: 20px;
         }
     }
 }
