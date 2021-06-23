@@ -11,7 +11,7 @@
     </el-col>
     <el-col :span="18">
         <div class="grid-content f-fr">
-            <span class="shopping"  @click="drawer = true" >
+            <span class="shopping"  @click="drawer = !drawer" >
                  <el-badge :value="count" class="item">
                     <i id="appCart" class="opsfont ops-03"></i>
                 </el-badge>
@@ -78,7 +78,7 @@
             <div class="m-icons-project" v-if="username">
                 <div class="title">
                     <span>加入项目</span>
-                    <i class="el-icon-folder-add right-icon"></i>
+                    <i @click="createProject" class="el-icon-folder-add right-icon"></i>
                 </div>
                 <div class="project-list">
                     <ul>
@@ -215,6 +215,9 @@ export default {
             }else{
                 this.$router.push(name)
             }
+        },
+        createProject(){
+
         },
         login(){
             this.dialogVisible = true
