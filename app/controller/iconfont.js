@@ -22,12 +22,7 @@ class IconfontController extends Controller {
 
   async add(){
     const { ctx } = this;
-    // const rule = {
-    //     id: { type: 'string', required: true, message: '必填项' },
-    //     CH_Name: { type: 'string', required: true, message: '必填项' },
-    // };
     const body = ctx.request.body;
-    // await ctx.validate(rule, body.data);
     const result = await ctx.service.iconfont.add(body.data);
     ctx.body = result;
   }

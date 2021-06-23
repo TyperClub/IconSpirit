@@ -15,7 +15,7 @@
                     <p class="f-size-14"><i class="opsfont ops-xinxi"></i> 研发工程师 | 效能研发部</p>
                 </div>
                 <div class="m-tool">
-                    <div class="create-project" @click="createProject"><i class="el-icon-plus"></i> 创建项目</div>
+                    <div class="create-project rotation" @click="createProject"><i class="el-icon-plus"></i> 创建项目</div>
                 </div>
             </div>
             <el-tabs class="m-menu padding-top-20" v-model="activeName" @tab-click="handleClick">
@@ -80,11 +80,11 @@
             <el-form-item label="FontClass前缀" prop="prefix">
                     <el-input v-model="form.prefix"  placeholder="请输入 FontClass 前缀，默认 icon-" clearable></el-input>
                 </el-form-item>
-                <el-form-item label="Font Family" prop="font_family">
-                    <el-input v-model="form.font_family" placeholder="请输入Font Family，默认 iconfont" clearable></el-input>
+                <el-form-item label="Font Family" prop="fontFamily">
+                    <el-input v-model="form.fontFamily" placeholder="请输入Font Family，默认 iconfont" clearable></el-input>
                 </el-form-item>
-            <el-form-item label="字体格式" prop="font_format">
-                <el-checkbox-group v-model="form.font_format">
+            <el-form-item label="字体格式" prop="fontFormat">
+                <el-checkbox-group v-model="form.fontFormat">
                 <el-checkbox label="WOFF2" name="woff2"></el-checkbox>
                 <el-checkbox label="WOFF" name="woff"></el-checkbox>
                 <el-checkbox label="TTF" name="ttf"></el-checkbox>
@@ -102,6 +102,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { createProjects } from '../services/index';
 import Navigation from './Navigation';
 
   export default {
@@ -113,15 +114,15 @@ import Navigation from './Navigation';
         form: {
             name: "",
             description: "",
-            font_format: ["WOFF2","WOFF","TTF"],
-            font_family: "iconfont",
+            fontFormat: ["WOFF2","WOFF","TTF"],
+            fontFamily: "iconfont",
             prefix: "icon-"
         },
         rules:{
             name: [{ required: true, message: '请输入项目名', trigger: 'blur' }],
-            font_family: [{ required: true, message: '请输入 Font Family', trigger: 'blur' }],
-            prefix: [{ required: true, message: '请输入 FontClass 前缀', trigger: 'blur' }],
-            font_format:[{ type: 'array', required: true, message: '请至少选择一个字体格式', trigger: 'change' }]
+            fontFormat:[{ type: 'array', required: true, message: '请至少选择一个字体格式', trigger: 'change' }],
+            fontFamily: [{ required: true, message: '请输入 Font Family', trigger: 'blur' }],
+            prefix: [{ required: true, message: '请输入 FontClass 前缀', trigger: 'blur' }]
         }
       }
     },
@@ -142,7 +143,11 @@ import Navigation from './Navigation';
         onSubmit(formName){
             this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log('submit!');
+            createProjects({
+                ...this.form
+            }).then(res=>{
+                console.log(1111, res)
+            })
           } else {
             console.log('error submit!!');
             return false;
@@ -163,6 +168,19 @@ import Navigation from './Navigation';
 }
 </style>
 <style lang="less" scoped>
+  @keyframes breathing {
+    0% {
+      color: #333;
+    }
+
+    50% {
+      color: #409EFF;
+    }
+
+    100% {
+      color: #333;
+    }
+  }
 .f-fr{
   float: right;
 }
@@ -181,6 +199,7 @@ import Navigation from './Navigation';
     bottom: -50px;
     .create-project{
         cursor: pointer;
+        animation: breathing infinite 2s ease-in-out;
         font-size: 14px;
         &:hover{
             color: #409EFF;
