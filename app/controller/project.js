@@ -12,6 +12,14 @@ class ProjectController extends Controller {
             res: result
         })
     }
+    async list(){
+        const { ctx } = this;
+        const result = await ctx.service.project.findAll();
+        ctx.helper.success({
+            ctx,
+            res: result
+        })
+    }
 }
 
 module.exports = ProjectController;

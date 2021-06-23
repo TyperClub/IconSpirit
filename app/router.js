@@ -15,6 +15,7 @@ module.exports = app => {
   router.post('/api/v1/user', controller.user.getUser);
 
   router.post('/api/v1/project/create', controller.project.create);
+  router.post('/api/v1/project/list', controller.project.list);
 
   router.get('/api/v1/iconfont/list', controller.iconfont.list)
   router.post('/api/v1/iconfont/generate', controller.iconfont.generate)
