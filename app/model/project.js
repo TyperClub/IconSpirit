@@ -10,6 +10,10 @@ module.exports = app => {
         type: String,
         required: true
     },
+    creater: {
+        type: String,
+        required: true
+    },
     fontFamily: {
         type: String,
         required: true

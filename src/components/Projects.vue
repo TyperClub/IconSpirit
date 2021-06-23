@@ -147,7 +147,9 @@ import Navigation from './Navigation';
             createProjects({
                 ...this.form
             }).then(res=>{
-                console.log(1111, res)
+                if(res.code == 200){
+                    this.$message.success("创建成功！")
+                }
             })
           } else {
             console.log('error submit!!');

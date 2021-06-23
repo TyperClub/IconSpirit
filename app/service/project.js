@@ -4,9 +4,15 @@ const Service = require('egg').Service
 class ProjectSevice extends Service {
     async create(data){
         const { ctx } = this;
-        console.log(ctx.userInfo)
         try{
-            let res = await ctx.model.Project.create(data);
+            const user = await ctx.model.User.findOne({
+                telephone: ctx.session.cas.user,
+            });
+            let res = await ctx.model.Project.create({
+                creater: user.userName,
+                userEmail: user.userName,
+                ...data
+            });
             return res
         }catch(e){
             this.ctx.throw(500, e);

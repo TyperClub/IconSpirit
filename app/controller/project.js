@@ -6,7 +6,7 @@ class ProjectController extends Controller {
     async create(){
         const { ctx } = this;
         const body = ctx.request.body;
-        const result = await ctx.service.project.create(body.data);
+        const result = await ctx.service.project.create(body);
         ctx.helper.success({
             ctx,
             res: result
