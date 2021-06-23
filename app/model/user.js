@@ -44,6 +44,9 @@ module.exports = app => {
       type: Date,
       default: Date.now,
     },
+    department: {
+      type: String
+    },
     lastLoginTime: {
       type: Date,
     },
