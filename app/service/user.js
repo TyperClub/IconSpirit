@@ -34,13 +34,15 @@ class UserSevice extends Service {
         userEmail: data.mail,
       });
 
+      let department = data.distinguishedName.split(',')[2].split('=')[1]
       if (!queryResult) {
         //创建用户
         await ctx.model.User.create({
           userName: data.cn,
           userEmail: data.mail,
           telphone: data.mobile,
-          occupation: data.title
+          occupation: data.title,
+          department: department
         });
       }else{
         await ctx.model.User.update({
