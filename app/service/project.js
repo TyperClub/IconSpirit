@@ -27,6 +27,9 @@ class ProjectSevice extends Service {
             this.ctx.throw(500, e);
         }
     }
+    async addIcons(){
+        
+    }
 }
 
 module.exports = ProjectSevice

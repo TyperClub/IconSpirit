@@ -20,6 +20,15 @@ class ProjectController extends Controller {
             res: result
         })
     }
+
+    async icons(){
+        const { ctx } = this;
+        const result = await ctx.service.project.addIcons();
+        ctx.helper.success({
+            ctx,
+            res: result
+        })
+    }
 }
 
 module.exports = ProjectController;

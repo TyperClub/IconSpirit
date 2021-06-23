@@ -13,12 +13,11 @@ axios.interceptors.response.use(res => {
   //   }
   //   // return Promise.reject(res.data)
   // }
-  return res.data
+  return Promise.reject(res.data)
 }, err => {
   console.log('错误', err)
   return Promise.reject(err);
 })
-
 
 export default {
   post(url, data) {

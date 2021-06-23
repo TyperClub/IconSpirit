@@ -28,7 +28,7 @@
                             <div class="u-project">
                                 <div><i class="el-icon-menu menu"></i><span class="project-title">我发起的项目</span></div>
                                 <div class="project-list">
-                                    <div class="item current"><span>ops-ui</span></div>
+                                    <div class="item current" v-for="(item, index) in ownList" :key="index"><span>{{item.name}}</span></div>
                                     <div class="item"><span>测试项目</span></div>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { createProjects } from '../services/index';
+import { createProjects, getProjects } from '../services/index';
 import Navigation from './Navigation';
 
   export default {
@@ -111,6 +111,7 @@ import Navigation from './Navigation';
         circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
         dialogVisible: false,
         activeName: "1",
+        ownList: [],
         form: {
             name: "",
             description: "",
@@ -135,7 +136,13 @@ import Navigation from './Navigation';
         })
     },
     mounted(){
-
+        getProjects(res=> {
+            alert(111)
+            console.log(11,res)
+            this.ownList = res.data
+        }).catch(err =>{
+            console.log(111111, err)
+        })
     },
     methods: {
         createProject(){
