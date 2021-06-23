@@ -91,7 +91,7 @@
                                 <span>{{item.name}}</span>
                             </li>
                         </ul>
-                        <div class="u-tips">您还没有新的项目，赶紧创建新项目</div>
+                        <div v-else class="u-tips">您还没有新的项目，赶紧创建新项目</div>
                     </div>
                 </div>
                 <div class="icon-manage-bottom">
