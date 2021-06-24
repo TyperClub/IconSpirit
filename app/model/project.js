@@ -40,6 +40,9 @@ module.exports = app => {
       type: Number,
       default: 1
     },
+    icons: {
+      type: Array,
+    },
     createDate: {
       type: Date,
       default: Date.now,

@@ -95,8 +95,8 @@
                     </div>
                 </div>
                 <div class="icon-manage-bottom">
-                    <el-button @click="addIconsToProject" size="small" round>确定</el-button>
-                    <el-button @click="drawer = false" size="small" round>取消</el-button>
+                    <el-button :disabled="!icons.length" @click="addIconsToProject" size="small" round>确定</el-button>
+                    <el-button :disabled="!icons.length" @click="drawer = false" size="small" round>取消</el-button>
                 </div>
             </div>
             <div class="m-icons-project" v-else>
@@ -223,12 +223,18 @@ export default {
                     type: 'warning'
                 });
             }else{
-                addProjectIcons({
-                    id: this.ownProjects[this.current]._id,
-                    icons: this.icons
-                }).then(res =>{
-                    console.log(1111, res)
-                })
+                if(this.icons.length){
+                    addProjectIcons({
+                        id: this.ownProjects[this.current]._id,
+                        icons: this.icons
+                    }).then(res =>{
+                        if(res.code === 200){
+                            window.sessionStorage.removeItem('ops-icons')
+                            this.$message.success("添加成功!")
+                            this.$router.push('projects')
+                        }
+                    })
+                }
             }
         },
         projects(name){

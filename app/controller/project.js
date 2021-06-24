@@ -23,7 +23,8 @@ class ProjectController extends Controller {
 
     async icons(){
         const { ctx } = this;
-        const result = await ctx.service.project.addIcons();
+        const body = ctx.request.body;
+        const result = await ctx.service.project.addIcons(body);
         ctx.helper.success({
             ctx,
             res: result

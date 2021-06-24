@@ -27,8 +27,17 @@ class ProjectSevice extends Service {
             this.ctx.throw(500, e);
         }
     }
-    async addIcons(){
-
+    async addIcons(data){
+        const { ctx } = this;
+        //判断是否有权限修改
+        try{
+            let res = await ctx.model.Project.updateOne({ _id: data.id }, {
+                icons: data.icons
+            })
+            return null
+        }catch(e){
+            this.ctx.throw(500, e);
+        }
     }
 }
 
