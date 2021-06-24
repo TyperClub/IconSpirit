@@ -13,6 +13,9 @@ module.exports = options => {
     } else {
       let decode;
       try {
+        if(!token){
+          ctx.throw('401', '用户信息验证失败');
+        }
         decode = JWT.verify(token, options.secret);
         if (!decode || !decode.telephone) {
           ctx.throw(401, '没有权限，请登录');
