@@ -31,8 +31,17 @@ class ProjectSevice extends Service {
         const { ctx } = this;
         //判断是否有权限修改
         try{
-            let res = await ctx.model.Project.updateOne({ _id: data.id }, {
-                icons: data.icons
+            const res = await ctx.model.Project.findOne({ _id: data.id });
+            let arr = []
+            res.icons.length && res.icons.forEach(item => {
+                data.icons.forEach(item2 => {
+                    if(item._id != item2._id){
+                        arr.push(item2)
+                    }
+                })
+            });
+            await ctx.model.Project.updateOne({ _id: data.id }, {
+                icons: [...res.icons,...arr]
             })
             return null
         }catch(e){

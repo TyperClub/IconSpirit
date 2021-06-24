@@ -101,6 +101,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import store from '../store'
 import { createProjects, getProjects } from '../services/index';
 import Navigation from './Navigation';
 
@@ -145,6 +146,7 @@ import Navigation from './Navigation';
         getProjects(){
             getProjects().then(res => {
                 this.ownList = res.data
+                store.dispatch('setOwnProjects', res.data)
             })
         },
         onSubmit(formName){

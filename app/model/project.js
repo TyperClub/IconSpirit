@@ -42,6 +42,7 @@ module.exports = app => {
     },
     icons: {
       type: Array,
+      default: [],
     },
     createDate: {
       type: Date,
