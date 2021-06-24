@@ -46,6 +46,15 @@
                                 <span>2021-06-19</span>
                                 <el-link class="operation-log" type="primary" :underline="false">操作日志</el-link>
                             </div>
+                            <el-row class="m-icons" v-if="ownList[current] && ownList[current].icons">
+                                <el-col :span="6" class="u-item" v-for="(item, index) in ownList[current].icons" :key="index">
+                                    <div class="icon-base-view">
+                                        <div class="u-icon-svg" v-html="item.content"></div>
+                                        <p class="icon-name">{{item.CH_Name}}</p>
+                                        <div class="u-delete" @click="deleteIcon(item)"><i class="el-icon-delete"></i></div>
+                                    </div>
+                                </el-col>
+                            </el-row>
                         </div>
                     </el-row>
                 </el-tab-pane>
@@ -319,4 +328,58 @@ import Navigation from './Navigation';
         }
     }
 }
+
+.m-icons{
+    position: relative;
+    overflow: auto;
+    .u-item{
+        position: relative;
+        cursor: pointer;
+        padding: 10px 0;
+    }
+    .u-icon-svg{
+        text-align: center;
+    }
+    .u-delete{
+        display: none;
+        width: 60px;
+        height: 65px;
+        line-height: 75px;
+        text-align: center;
+        position: absolute;
+        top: 0px;
+        left: 11px;
+        z-index: 1;
+        color: #fff;
+        background: rgba(64,158,255, 0.9);
+        border-radius: 3px;
+        .el-icon-delete{
+            font-size: 30px;
+        }
+    }
+    .icon-base-view{
+        margin: 0 auto;
+        width: 60px;
+        text-align: center;
+        .icon-name{
+            padding-top: 6px;
+            width: 100%;
+            height: 20px;
+            line-height: 20px;
+            color: #666;
+            font-size: 12px;
+            text-align: center;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        &:hover{
+            .u-delete{
+                display: block;
+            }
+        }
+        
+    }
+}
+
 </style>
