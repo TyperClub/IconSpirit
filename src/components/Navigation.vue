@@ -82,7 +82,7 @@
                 </div>
                 <div class="project-list">
                     <div v-if="isCreateProject">
-                        <el-input class="new-project" size="small" v-model="newProjectName" type="text" placeholder="请输入新项目名称" clearable></el-input>
+                        <el-input prefix-icon="el-icon-folder" class="new-project" size="small" v-model="newProjectName" type="text" placeholder="请输入新项目名称" clearable></el-input>
                     </div>
                     <div v-else>
                         <ul v-if="ownProjects.length">
@@ -95,7 +95,7 @@
                     </div>
                 </div>
                 <div class="icon-manage-bottom">
-                    <el-button size="small" round>确定</el-button>
+                    <el-button @click="addIconsToProject" size="small" round>确定</el-button>
                     <el-button @click="drawer = false" size="small" round>取消</el-button>
                 </div>
             </div>
@@ -117,7 +117,7 @@
 
 <script>
 import Login from './Login';
-import { logout } from '../services/index';
+import { logout, addProjectIcons } from '../services/index';
 import { mapState } from 'vuex'
 
 export default {
@@ -213,6 +213,22 @@ export default {
                     this.icons = icons
                     this.count = icons.length
                 }
+            }
+        },
+        addIconsToProject(){
+            if(this.isCreateProject && !this.newProjectName){
+                this.$notify({
+                    title: '警告',
+                    message: '新项目名称不能为空!',
+                    type: 'warning'
+                });
+            }else{
+                addProjectIcons({
+                    id: this.ownProjects[this.current]._id,
+                    icons: this.icons
+                }).then(res =>{
+                    console.log(1111, res)
+                })
             }
         },
         projects(name){
@@ -505,7 +521,7 @@ export default {
         }
     }
     .new-project{
-        padding-left: 20px;
+        margin-left: 20px;
         margin-top: 10px;
         width: 200px;
     }
