@@ -87,7 +87,7 @@
                     <div v-else>
                         <ul v-if="ownProjects.length">
                             <li  @click="rowItem(index)" :class="current == index ? 'current' : ''" v-for="(item, index) in ownProjects" :key="index">
-                                <i class="el-icon-folder"></i>
+                                <i :class="current == index ? 'el-icon-folder-checked' : 'el-icon-folder'"></i>
                                 <span>{{item.name}}</span>
                             </li>
                         </ul>
@@ -532,7 +532,7 @@ export default {
         width: 200px;
     }
     .current{
-        background: #e6e9ec;
+        background: #eee;
         border: 1px solid #409EFF;
     }
     li{
@@ -546,7 +546,7 @@ export default {
             padding-left: 5px;
         }
         &:hover{
-            background: #e6e9ec;
+            background: #eee;
         }
     }
     .icon-manage-bottom{

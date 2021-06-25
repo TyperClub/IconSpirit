@@ -1,6 +1,6 @@
 // service -> user.js
 const Service = require('egg').Service
-
+const { ArrayDiff } = require('../util/tool')
 class ProjectSevice extends Service {
     async create(data){
         const { ctx } = this;
@@ -11,6 +11,7 @@ class ProjectSevice extends Service {
             let res = await ctx.model.Project.create({
                 creater: user.userName,
                 userEmail: user.userEmail,
+                department: user.department,
                 ...data
             });
             return res
@@ -32,20 +33,9 @@ class ProjectSevice extends Service {
         //判断是否有权限修改
         try{
             const res = await ctx.model.Project.findOne({ _id: data.id });
-            let arr = []
-            if(res.icons.length){
-                res.icons.forEach(item => {
-                    data.icons.forEach(item2 => {
-                        if(item._id != item2._id){
-                            arr.push(item2)
-                        }
-                    })
-                });
-            }else{
-                arr = data.icons
-            }
+            let arr = ArrayDiff(data.icons, res.icons)
             await ctx.model.Project.updateOne({ _id: data.id }, {
-                icons: [...res.icons,...arr]
+                icons: [...arr, ...res.icons]
             })
             return null
         }catch(e){
