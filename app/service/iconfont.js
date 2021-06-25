@@ -19,10 +19,34 @@ class IconfontSevice extends Service {
         if(data.name){
             query = {CH_Name: {$regex: data.name, $options:'i'}}
         }
-        res.data = await ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort({ isSetTop: -1, sort: 1, editTime: -1 });
-        res.code = 1;
-        res.msg = '查询成功';
-        res.total = await ctx.model.Iconfont.find(query).count()
+        if(data.type == 1){
+            res.data = await ctx.model.Iconfont.aggregate([
+                { 
+                    $group: { 
+                        _id: {
+                            gurop: "$gurop", 
+                            author: "$author"
+                        }, 
+                        data: { 
+                            $addToSet : {
+                                CH_Name: "$CH_Name",
+                                ENG_Name: "$ENG_Name",
+                                content: "$content",
+                                createTime: "$createTime"
+                            }
+                        } 
+                    },
+                },
+                {$sort:{"createTime":1}},
+                { $skip : data.pageSize * (data.pageNum - 1) },
+                { $limit: parseInt(data.pageSize)}
+            ])
+        }else{
+            res.data = await ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort({ isSetTop: -1, sort: 1, editTime: -1 });
+            res.code = 1;
+            res.msg = '查询成功';
+            res.total = await ctx.model.Iconfont.find(query).count()
+        }
         return res
     }
 }
