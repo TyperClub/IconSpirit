@@ -84,6 +84,9 @@
                                     </div>
                                 </el-col>
                             </el-row>
+                            <div class="u-department">
+                                效能研发组
+                            </div>
                         </div>
                     </div>
                 </el-tab-pane>
@@ -300,7 +303,8 @@ import Moment from 'moment'
 }
 .m-project-box{
     display: flex;
-    padding-top: 10px;
+    padding: 10px 0 15px;
+    min-height: 420px;
 }
 .m-project{
     width: 200px;
@@ -383,9 +387,20 @@ import Moment from 'moment'
     }
 }
 
+.u-department{
+    position: absolute;
+    font-weight: 700;
+    font-size: 36px;
+    right: 20px;
+    bottom: -10px;
+    color: #e6e6e6;
+    text-transform: uppercase;
+}
+
 .m-icons{
     position: relative;
     overflow: auto;
+    z-index: 1;
     .u-item{
         margin-bottom: 20px;
         position: relative;
