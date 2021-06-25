@@ -54,6 +54,14 @@
                                     <span><i class="opsfont ops-chengyuan"></i> 成员：<i class="el-icon-user user"></i> x 3 <i class="el-icon-arrow-down"></i></span>
                                 </div>
                             </div>
+                            <div class="project-code-warp">
+                                <div>
+                                    //at.alicdn.com/t/font_1825949_ar7xhw6zjrh.css
+                                </div>
+                                <div class="copy">
+                                    <span><i class="opsfont ops-fuzhi"></i> 复制代码</span> 
+                                </div>
+                            </div>
                             <el-row class="m-icons" v-show="ownList && ownList[current] && ownList[current].icons">
                                 <el-col :span="2" class="u-item" v-for="(item, index) in ownList[current] && ownList[current].icons" :key="index">
                                     <div class="icon-base-view">
@@ -333,6 +341,7 @@ import Moment from 'moment'
     .tool{
         display: flex;
         justify-content: space-between;
+        margin-bottom: 25px;
         b{
             font-size: 24px;
         }
@@ -412,6 +421,30 @@ import Moment from 'moment'
             }
         }
         
+    }
+}
+.project-code-warp{
+    margin-bottom: 20px;
+    position: relative;
+    padding: 16px;
+    overflow: auto;
+    font-size: 14px;
+    line-height: 1.45;
+    background-color: #f8f8fa;
+    border-radius: 6px;
+    margin-top: 8px;
+    color: #032f62;
+    .copy{
+        display: inline-block;
+        position: absolute;
+        top: 16px;
+        right: 20px;
+        span{
+            cursor: pointer;
+            &:hover{
+                color: #409EFF;
+            }
+        }
     }
 }
 
