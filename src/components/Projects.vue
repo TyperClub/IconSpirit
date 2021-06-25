@@ -41,20 +41,28 @@
                         </div>
                         <div class="m-project-tool">
                             <div class="tool">
-                                <b>{{ownList[current] && ownList[current].name}}</b>
-                                <span>共 0 个图标</span>
-                                <span>2021-06-19</span>
-                                <el-link class="operation-log" type="primary" :underline="false">操作日志</el-link>
+                                <div class="tool-left">
+                                    <b>{{ownList[current] && ownList[current].name}}</b>
+                                    <span>{{ownList[current] && ownList[current].icons.length}} 个图标</span>
+                                    <span><i class="el-icon-time"></i> {{ownList[current] && ownList[current].create_at}}</span>
+                                    <span class="tool-1"><i class="el-icon-setting"></i> 项目设置</span>
+                                    <span class="tool-1"><i class="opsfont ops-log"></i> 操作日志</span>
+                                    <span class="tool-1"><i class="el-icon-delete"></i> 删除项目</span>
+                                    <span class="tool-1"><i class="opsfont ops-huishouzhan"></i> 回收站</span>
+                                </div>
+                                <div class="tool-right">
+                                    <span><i class="opsfont ops-chengyuan"></i> 成员：<i class="el-icon-user user"></i> x 3 <i class="el-icon-arrow-down"></i></span>
+                                </div>
                             </div>
-                                <el-row class="m-icons" v-show="ownList && ownList[current] && ownList[current].icons">
-                                    <el-col :span="2" class="u-item" v-for="(item, index) in ownList[current] && ownList[current].icons" :key="index">
-                                        <div class="icon-base-view">
-                                            <div class="u-icon-svg" v-html="item.content"></div>
-                                            <p class="icon-name">{{item.CH_Name}}</p>
-                                            <div class="u-delete" @click="deleteIcon(item)"><i class="el-icon-delete"></i></div>
-                                        </div>
-                                    </el-col>
-                                </el-row>
+                            <el-row class="m-icons" v-show="ownList && ownList[current] && ownList[current].icons">
+                                <el-col :span="2" class="u-item" v-for="(item, index) in ownList[current] && ownList[current].icons" :key="index">
+                                    <div class="icon-base-view">
+                                        <div class="u-icon-svg" v-html="item.content"></div>
+                                        <p class="icon-name">{{item.CH_Name}}</p>
+                                        <div class="u-delete" @click="deleteIcon(item)"><i class="el-icon-delete"></i></div>
+                                    </div>
+                                </el-col>
+                            </el-row>
                         </div>
                     </div>
                 </el-tab-pane>
@@ -86,11 +94,11 @@
                 <el-input type="textarea" v-model="form.description" placeholder="请输入项目描述" clearable></el-input>
             </el-form-item>
             <el-form-item label="FontClass前缀" prop="prefix">
-                    <el-input v-model="form.prefix"  placeholder="请输入 FontClass 前缀，默认 icon-" clearable></el-input>
-                </el-form-item>
-                <el-form-item label="Font Family" prop="fontFamily">
-                    <el-input v-model="form.fontFamily" placeholder="请输入Font Family，默认 iconfont" clearable></el-input>
-                </el-form-item>
+                <el-input v-model="form.prefix"  placeholder="请输入 FontClass 前缀，默认 icon-" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="Font Family" prop="fontFamily">
+                <el-input v-model="form.fontFamily" placeholder="请输入Font Family，默认 iconfont" clearable></el-input>
+            </el-form-item>
             <el-form-item label="字体格式" prop="fontFormat">
                 <el-checkbox-group v-model="form.fontFormat">
                 <el-checkbox label="WOFF2" name="woff2"></el-checkbox>
@@ -113,6 +121,7 @@ import { mapState } from 'vuex'
 import store from '../store'
 import { createProjects, getProjects } from '../services/index';
 import Navigation from './Navigation';
+import Moment from 'moment'
 
   export default {
     data() {
@@ -154,6 +163,9 @@ import Navigation from './Navigation';
         },
         getProjects(){
             getProjects().then(res => {
+                res.data && res.data.forEach(item => {
+                    item.create_at = Moment(item.createDate).format("YYYY-MM-DD HH:mm")
+                });
                 this.ownList = res.data
                 store.dispatch('setOwnProjects', res.data)
             })
@@ -191,6 +203,7 @@ import Navigation from './Navigation';
 <style lang="less">
 .icon {
   font-size: 36px;
+  color: #666;
 }
 </style>
 <style lang="less" scoped>
@@ -318,17 +331,33 @@ import Navigation from './Navigation';
     width: 100%;
     padding-left: 20px;
     .tool{
+        display: flex;
+        justify-content: space-between;
         b{
             font-size: 24px;
         }
         span{
             font-size: 14px;
             color: #999;
-            padding-left: 20px;
+            margin-left: 20px;
         }
         .operation-log{
             padding-left: 20px;
         }
+    }
+    .tool-1{
+        cursor: pointer;
+        &:hover{
+            color: #409EFF;
+        }
+    }
+    .user{
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 50%;
     }
 }
 

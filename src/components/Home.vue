@@ -229,6 +229,7 @@ import Navigation from './Navigation';
 }
 .icon {
   font-size: 36px;
+  color: #666;
 }
 </style>
 <style lang="less" scoped>
