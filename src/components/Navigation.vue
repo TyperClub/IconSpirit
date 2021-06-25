@@ -89,6 +89,7 @@
                             <li  @click="rowItem(index)" :class="current == index ? 'current' : ''" v-for="(item, index) in ownProjects" :key="index">
                                 <i :class="current == index ? 'el-icon-folder-checked' : 'el-icon-folder'"></i>
                                 <span>{{item.name}}</span>
+                                <span class="f-department">{{item.department || '技术部'}}</span>
                             </li>
                         </ul>
                         <div v-else class="u-tips">您还没有新的项目，赶紧创建新项目</div>
@@ -547,6 +548,12 @@ export default {
         }
         &:hover{
             background: #eee;
+        }
+        .f-department{
+            float: right;
+            padding-right: 15px;
+            font-size: 12px;
+            color: #777;
         }
     }
     .icon-manage-bottom{

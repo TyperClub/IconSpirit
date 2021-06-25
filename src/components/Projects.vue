@@ -54,20 +54,33 @@
                                     <span><i class="opsfont ops-chengyuan"></i> 成员：<i class="el-icon-user user"></i> x 3 <i class="el-icon-arrow-down"></i></span>
                                 </div>
                             </div>
-                            <div class="project-code-warp">
-                                <div>
-                                    //at.alicdn.com/t/font_1825949_ar7xhw6zjrh.css
+                            <div class="project-code">
+                                <div class="help">
+                                    <span><i class="opsfont ops-shiyongbangzhu1"></i> 使用帮助</span>
                                 </div>
-                                <div class="copy">
-                                    <span><i class="opsfont ops-fuzhi"></i> 复制代码</span> 
+                                <div class="project-code-warp">
+                                   <div>//at.alicdn.com/t/font_1825949_ar7xhw6zjrh.css</div>
+                                    <div class="copy">
+                                        <span><i class="opsfont ops-fuzhi"></i> 复制代码</span> 
+                                    </div>
                                 </div>
                             </div>
                             <el-row class="m-icons" v-show="ownList && ownList[current] && ownList[current].icons">
-                                <el-col :span="2" class="u-item" v-for="(item, index) in ownList[current] && ownList[current].icons" :key="index">
+                                <el-col :span="3" class="u-item" v-for="(item, index) in ownList[current] && ownList[current].icons" :key="index">
                                     <div class="icon-base-view">
                                         <div class="u-icon-svg" v-html="item.content"></div>
                                         <p class="icon-name">{{item.CH_Name}}</p>
-                                        <div class="u-delete" @click="deleteIcon(item)"><i class="el-icon-delete"></i></div>
+                                        <p class="icon-code">{{item.ENG_Name}}</p>
+                                        <div class="icon-cover">
+                                            <i title="添加入库" class="opsfont ops-03 cover-item"></i>
+                                            <i title="编辑" class="el-icon-edit cover-item"></i>
+                                            <i title="删除" class="el-icon-delete cover-item"></i>
+                                            <i title="下载" class="opsfont ops-xiazai cover-item"></i>
+                                            <div class="cover-code cover-copy">
+                                                <span><i class="opsfont ops-fuzhi"></i> 复制代码</span>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="u-delete" @click="deleteIcon(item)"><i class="el-icon-delete"></i></div> -->
                                     </div>
                                 </el-col>
                             </el-row>
@@ -290,7 +303,7 @@ import Moment from 'moment'
     padding-top: 10px;
 }
 .m-project{
-    width: 150px;
+    width: 200px;
     border-right: 1px solid #ccc;
 }
 .u-project{
@@ -374,37 +387,66 @@ import Moment from 'moment'
     position: relative;
     overflow: auto;
     .u-item{
+        margin-bottom: 20px;
         position: relative;
         cursor: pointer;
-        padding: 10px 0;
+        height: 137px;
+        &:hover .icon-cover{
+            display: block;
+        }
     }
     .u-icon-svg{
+        padding-top: 18px;
         text-align: center;
     }
-    .u-delete{
-        display: none;
-        width: 60px;
-        height: 65px;
-        line-height: 75px;
-        text-align: center;
+    
+    .icon-cover{
+        width: 100%;
+        height: 100%;
+        background: #409EFF;
         position: absolute;
-        top: -5px;
-        left: 0px;
-        z-index: 1;
-        color: #fff;
-        background: rgba(64,158,255, 0.9);
-        border-radius: 3px;
-        .el-icon-delete{
-            font-size: 30px;
+        top: 0;
+        left: 0;
+        display: none;
+        overflow: hidden;
+        vertical-align: middle;
+        border-radius: 5px;
+        .cover-item{
+            width: 50%;
+            height: 52.5px;
+            line-height: 52.5px;
+            text-align: center;
+            color: #fff;
+            font-size: 22px;
+            display: inline-block;
+            cursor: pointer;
+            &:hover{
+                background: #40b0ff;
+                font-weight: bold;
+            }
+        }
+        .cover-copy{
+            font-size: 12px;
+            &:hover{
+                background: #40b0ff;
+                font-weight: bold;
+            }
+        }
+        .cover-code{
+            height: 28px;
+            line-height: 26px;
+            color: #fff;
+            cursor: pointer;
+            margin: 2px;
         }
     }
     .icon-base-view{
         margin: 0 auto;
-        width: 60px;
+        width: 100px;
+        height: 100%;
         position: relative;
         text-align: center;
-        .icon-name{
-            padding-top: 6px;
+        .icon-name,.icon-code{
             width: 100%;
             height: 20px;
             line-height: 20px;
@@ -415,12 +457,24 @@ import Moment from 'moment'
             white-space: nowrap;
             text-overflow: ellipsis;
         }
+        .icon-name{
+            margin-top: 20px;
+        }
+        .icon-code{
+            margin-top: 2px;
+        }
         &:hover{
             .u-delete{
                 display: block;
             }
         }
         
+    }
+}
+.project-code{
+    .help{
+        cursor: pointer;
+        font-size: 14px;
     }
 }
 .project-code-warp{
