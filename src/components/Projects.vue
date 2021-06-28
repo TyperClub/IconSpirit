@@ -61,6 +61,7 @@
                                 <div class="project-code-warp">
                                    <div>//at.alicdn.com/t/font_1825949_ar7xhw6zjrh.css</div>
                                     <div class="copy">
+                                        <span> <i class="opsfont ops-gengxin"></i> 更新代码</span>
                                         <span><i class="opsfont ops-fuzhi"></i> 复制代码</span> 
                                     </div>
                                 </div>
@@ -304,7 +305,7 @@ import Moment from 'moment'
 .m-project-box{
     display: flex;
     padding: 10px 0 15px;
-    min-height: 420px;
+    min-height: 340px;
 }
 .m-project{
     width: 200px;
@@ -510,6 +511,7 @@ import Moment from 'moment'
         right: 20px;
         span{
             cursor: pointer;
+            padding-left: 20px;
             &:hover{
                 color: #409EFF;
             }

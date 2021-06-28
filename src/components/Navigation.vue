@@ -5,7 +5,7 @@
         <div class="m-logo">
             <a class="home-link" href="#">
                 <img class="logo" src="../assets/logo.png" alt="">
-                <span class="site-name">OPS-ICONS</span> 
+                <span class="site-name">ICONS</span> 
             </a>
         </div>
     </el-col>
