@@ -15,7 +15,7 @@
                     <p class="f-size-14"><i class="opsfont ops-xinxi"></i> {{userInfo.occupation}} | {{userInfo.department}}</p>
                 </div>
                 <div class="m-tool">
-                    <div class="create-project" @click="createProject"><i class="el-icon-plus"></i> 创建项目</div>
+                    <div class="create-project"><span @click="createProject"><i class="el-icon-plus"></i> 创建项目</span> <span><i class="opsfont ops-migrate"></i> 迁移项目</span></div>
                 </div>
             </div>
             <el-tabs class="m-menu padding-top-20" v-model="activeName" @tab-click="handleClick">
@@ -61,7 +61,7 @@
                                 <div class="project-code-warp">
                                    <div>//at.alicdn.com/t/font_1825949_ar7xhw6zjrh.css</div>
                                     <div class="copy">
-                                        <span> <i class="opsfont ops-gengxin"></i> 更新代码</span>
+                                        <span @click="generateFont"> <i class="opsfont ops-gengxin"></i> 更新代码</span>
                                         <span><i class="opsfont ops-fuzhi"></i> 复制代码</span> 
                                     </div>
                                 </div>
@@ -144,7 +144,7 @@
 <script>
 import { mapState } from 'vuex'
 import store from '../store'
-import { createProjects, getProjects } from '../services/index';
+import { createProjects, getProjects, generateFont } from '../services/index';
 import Navigation from './Navigation';
 import Moment from 'moment'
 
@@ -216,6 +216,13 @@ import Moment from 'moment'
         },
         rowItem(index){
             this.current = index
+        },
+        generateFont(){
+            generateFont({
+                id: this.ownList[this.current]._id
+                }).then(res =>{
+                    console.log(111, res)
+                })
         }
     },
     components: {
@@ -251,8 +258,11 @@ import Moment from 'moment'
     .create-project{
         cursor: pointer;
         font-size: 14px;
-        &:hover{
-            color: #409EFF;
+        span{
+            padding-left: 10px;
+             &:hover{
+                color: #409EFF;
+            }
         }
     }
 }

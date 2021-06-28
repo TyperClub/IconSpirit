@@ -1,5 +1,6 @@
 // service -> user.js
 const Service = require('egg').Service
+const FontCarrier = require('font-carrier')
 
 class IconfontSevice extends Service {
     async add(data) {
@@ -48,6 +49,18 @@ class IconfontSevice extends Service {
             res.total = await ctx.model.Iconfont.find(query).count()
         }
         return res
+    }
+
+    async generate(data){
+        const { ctx } = this;
+        //判断是否有权限修改
+        const res = await ctx.model.Project.findOne({ _id: data.id });
+        const font = FontCarrier.create()
+        console.log(1111, res.icons[0])
+        font.setSvg('&#xe7bb;', res.icons[0].content)
+        font.output({
+            path: './test/iconfont'
+        })
     }
 }
 

@@ -25,6 +25,7 @@
     "egg-scripts": "^2.11.0",
     "egg-validate": "^1.0.0",
     "element-plus": "^1.0.2-beta.48",
+    "font-carrier": "^0.3.1",
     "jsonwebtoken": "^8.5.1",
     "ldap-authentication": "^2.2.7",
     "moment": "^2.29.1",
