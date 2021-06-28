@@ -15,7 +15,7 @@
                     <p class="f-size-14"><i class="opsfont ops-xinxi"></i> {{userInfo.occupation}} | {{userInfo.department}}</p>
                 </div>
                 <div class="m-tool">
-                    <div class="create-project"><span @click="createProject"><i class="el-icon-plus"></i> 创建项目</span> <span><i class="opsfont ops-migrate"></i> 迁移项目</span></div>
+                    <div class="create-project"><span @click="createProject"><i class="el-icon-plus"></i> 创建项目</span> <span @click="transfer"><i class="opsfont ops-migrate"></i> 迁入项目</span></div>
                 </div>
             </div>
             <el-tabs class="m-menu padding-top-20" v-model="activeName" @tab-click="handleClick">
@@ -109,7 +109,7 @@
     <el-dialog
     title="新建项目"
     v-model="dialogVisible"
-    width="500px"
+    width="600px"
     :before-close="handleClose">
         <el-form  :model="form" :rules="rules" ref="form"  label-width="115px">
             <el-form-item label="项目名称" prop="name">
@@ -138,6 +138,14 @@
             </el-form-item>
         </el-form>
     </el-dialog>
+    <el-dialog
+        title="迁入项目"
+        v-model="dialogVisible2"
+        width="600px"
+        custom-class="m-transferBox"
+        :before-close="handleClose">
+       <transfer></transfer>
+    </el-dialog>
 </el-container>
 </template>
 
@@ -146,13 +154,15 @@ import { mapState } from 'vuex'
 import store from '../store'
 import { createProjects, getProjects, generateFont } from '../services/index';
 import Navigation from './Navigation';
+import Transfer from './Transfer'
 import Moment from 'moment'
 
-  export default {
+export default {
     data() {
       return {
         circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
         dialogVisible: false,
+        dialogVisible2: false,
         activeName: "1",
         ownList: [],
         current: 0,
@@ -217,6 +227,9 @@ import Moment from 'moment'
         rowItem(index){
             this.current = index
         },
+        transfer(){
+            this.dialogVisible2 = true
+        },
         generateFont(){
             generateFont({
                 id: this.ownList[this.current]._id
@@ -226,7 +239,8 @@ import Moment from 'moment'
         }
     },
     components: {
-      Navigation
+      Navigation,
+      Transfer
     }
   };
 </script>
@@ -528,5 +542,4 @@ import Moment from 'moment'
         }
     }
 }
-
 </style>
