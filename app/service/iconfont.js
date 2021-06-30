@@ -6,10 +6,32 @@ class IconfontSevice extends Service {
     async add(data) {
         const { ctx } = this;
         const res = {};
+        
+        let iconId = await this.app.redis.get("icon_id")
+        if(!iconId){
+            await this.app.redis.set("icon_id", 0)
+        }
 
-        res.data = await ctx.model.Iconfont.create(data);
+        let d = []
+        for(let index in data){
+            let iconRes = await ctx.model.Iconfont.find({
+                id: data[index].id
+            })
+            if(!iconRes.length){
+                let iconId = await this.app.redis.incr("icon_id");
+                d.push({
+                    ...data[index],
+                    unicode: iconId
+                })
+            }
+        }
+        if(d.length){
+            res.data = await ctx.model.Iconfont.create(d);
+            res.msg = '添加成功';
+        }else{
+            res.msg = '重复添加';
+        }
         res.code = 1;
-        res.msg = '添加成功';
         return res
     }
 
@@ -56,8 +78,9 @@ class IconfontSevice extends Service {
         //判断是否有权限修改
         const res = await ctx.model.Project.findOne({ _id: data.id });
         const font = FontCarrier.create()
-        console.log(1111, res.icons[0])
-        font.setSvg('&#xe7bb;', res.icons[0].content)
+        let iconsId = res.icons[0].id.replace(/[^0-9]/ig,"")
+        console.log(1111, iconsId)
+        font.setSvg('&#x1;', res.icons[0].content)
         font.output({
             path: './test/iconfont'
         })

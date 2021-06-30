@@ -11,6 +11,10 @@ module.exports = app => {
       unique: true,
       required: true,
     },
+    unicode: {
+      type: Number,
+      required: true,
+    },
     type: {
       type: String,
       required: true,
