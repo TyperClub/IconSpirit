@@ -1,5 +1,6 @@
 
 'use strict';
+const config = require('../config/oss_config');
 
 module.exports = app => {
   const mongoose = app.mongoose;
@@ -15,6 +16,10 @@ module.exports = app => {
         required: true
     },
     font: {
+      website: {
+        type: String,
+        default: config.website
+      },
       cssFile: {
         type: String,
       },
