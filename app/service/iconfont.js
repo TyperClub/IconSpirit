@@ -82,7 +82,14 @@ class IconfontSevice extends Service {
         const res = await ctx.model.Project.findOne({ _id: data.id });
         const font = FontCarrier.create()
 
-        let cssStyle = InitCssStyle(res.fontFamily, res.fontFamily)
+        let projectNum = await this.app.redis.get(`icons_project_${res._id}`)
+        if(!projectNum){
+            await this.app.redis.set(`icons_project_${res._id}`, 0)
+        }
+        projectNum = await this.app.redis.incr(`icons_project_${res._id}`);
+        let path = `/test/font/font_${res._id}_${projectNum}`
+
+        let cssStyle = InitCssStyle(res.fontFamily, path)
         for(let index in res.icons){
             let item = res.icons[index]
             let unicode = item.unicode
@@ -99,18 +106,20 @@ class IconfontSevice extends Service {
         // })
 
         try {
-            let projectNum = await this.app.redis.get(`icons_project_${res._id}`)
-            if(!projectNum){
-                await this.app.redis.set(`icons_project_${res._id}`, 0)
-            }
-            projectNum = await this.app.redis.incr(`icons_project_${res._id}`);
-            let result = await Oss.put(`/test/font/font_${res._id}_${projectNum}.css`, new Buffer(cssStyle.join('')));
+            
+            let buffers = font.output()
+            
+            await Oss.put(`${path}.svg`, buffers.svg);
+            await Oss.put(`${path}.ttf`, buffers.ttf);
+            await Oss.put(`${path}.woff`, buffers.woff);
+            await Oss.put(`${path}.woff2`, buffers.woff2);
+            await Oss.put(`${path}.eot`, buffers.eot);
+
+            let result = await Oss.put(`${path}.css`, new Buffer(cssStyle.join('')));            
             return result
         } catch (e) {
             this.ctx.throw(500, e);
         }
-        // let buffers = font.output()
-        // console.log(1111, buffers)
     }
 }
 

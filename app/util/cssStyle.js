@@ -1,13 +1,14 @@
+const config = require('../config/oss_config');
+
 const InitCssStyle = (fontFamily, fontFamilyPath) =>{
     return [`
 @font-face {
     font-family: '${fontFamily}';
-    src: url('${fontFamilyPath}.eot'); /* IE9 */
-    src: url('${fontFamilyPath}.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('${fontFamilyPath}.woff') format('woff2'),
-    url('${fontFamilyPath}.woff') format('woff'), /* chrome、firefox */
-    url('${fontFamilyPath}.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-    url('${fontFamilyPath}.svg#iconfont') format('svg'); /* iOS 4.1- */
+    src: url('${config.website}${fontFamilyPath}.eot'); /* IE9 */
+    src: url('${config.website}${fontFamilyPath}.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('${config.website}${fontFamilyPath}.woff') format('woff2'),
+    url('${config.website}${fontFamilyPath}.woff') format('woff'), /* chrome、firefox */
+    url('${config.website}${fontFamilyPath}.svg#iconfont') format('svg'); /* iOS 4.1- */
 }
 .${fontFamily} {
     font-family: "${fontFamily}";
