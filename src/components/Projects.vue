@@ -59,7 +59,9 @@
                                     <span><i class="opsfont ops-shiyongbangzhu1"></i> 使用帮助</span>
                                 </div>
                                 <div class="project-code-warp">
-                                   <div class="css-path" :class="ownList && ownList[current] && ownList[current].font && ownList[current].font.fontIsOld && 'font-old'" v-if="ownList && ownList[current] && ownList[current].font && ownList[current].font.cssFile">{{ownList && ownList[current] && ownList[current].font && ownList[current].font.cssFile}}</div>
+                                   <div class="css-path" :class="ownList && ownList[current] && ownList[current].font && ownList[current].font.fontIsOld && 'font-old'" v-if="ownList && ownList[current] && ownList[current].font && ownList[current].font.cssFile">
+                                       <a target="_blank" :href="ownList[current].font.website + ownList[current].font.cssFile">{{ownList[current].font.website + ownList[current].font.cssFile}}</a>
+                                    </div>
                                    <div class="css-path" v-else> <span class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 暂无代码，点此生成</span></div>
                                    <div class="copy" v-if="ownList && ownList[current] && ownList[current].font && ownList[current].font.cssFile">
                                         <span v-if="ownList && ownList[current] && ownList[current].font && ownList[current].font.fontIsOld" class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 更新代码</span>
@@ -543,6 +545,14 @@ export default {
     .css-path{
         height: 20px;
         line-height: 20px;
+        a{
+            color: #333;
+            text-decoration: none;
+            text-underline-position: under;
+            &:hover{
+                color: #409EFF;
+            }
+        }
     }
     .font-old{
         opacity: 0.3;
