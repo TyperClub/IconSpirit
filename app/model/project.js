@@ -14,6 +14,15 @@ module.exports = app => {
         type: String,
         required: true
     },
+    font: {
+      cssFile: {
+        type: String,
+      },
+      fontIsOld: {
+        type: Boolean,
+        default: true
+      }
+    },
     fontFamily: {
         type: String,
         required: true

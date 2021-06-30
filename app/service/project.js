@@ -22,7 +22,9 @@ class ProjectSevice extends Service {
     async findAll(){
         const { ctx } = this;
         try{
-            let res = await ctx.model.Project.find();
+            let res = await ctx.model.Project.find({
+                isDeleted: false
+            });
             return res
         }catch(e){
             this.ctx.throw(500, e);
@@ -35,6 +37,10 @@ class ProjectSevice extends Service {
             const res = await ctx.model.Project.findOne({ _id: data.id });
             let arr = ArrayDiff(data.icons, res.icons)
             await ctx.model.Project.updateOne({ _id: data.id }, {
+                font: {
+                    ...res.font,
+                    fontIsOld: true
+                },
                 icons: [...arr, ...res.icons]
             })
             return null

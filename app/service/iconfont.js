@@ -108,15 +108,23 @@ class IconfontSevice extends Service {
         try {
             
             let buffers = font.output()
-            
+
             await Oss.put(`${path}.svg`, buffers.svg);
             await Oss.put(`${path}.ttf`, buffers.ttf);
             await Oss.put(`${path}.woff`, buffers.woff);
             await Oss.put(`${path}.woff2`, buffers.woff2);
             await Oss.put(`${path}.eot`, buffers.eot);
 
-            let result = await Oss.put(`${path}.css`, new Buffer(cssStyle.join('')));            
-            return result
+            let result = await Oss.put(`${path}.css`, new Buffer(cssStyle.join('')));
+            if(result.res.statusCode == 200){
+                await ctx.model.Project.updateOne({ _id: data.id }, {
+                    font: {
+                        cssFile: `${path}.css`,
+                        fontIsOld: false
+                    }
+                })
+            }
+            return null
         } catch (e) {
             this.ctx.throw(500, e);
         }
