@@ -59,9 +59,10 @@
                                     <span><i class="opsfont ops-shiyongbangzhu1"></i> 使用帮助</span>
                                 </div>
                                 <div class="project-code-warp">
-                                   <div>//at.alicdn.com/t/font_1825949_ar7xhw6zjrh.css</div>
+                                   <div class="css-path" v-if="ownList && ownList[current] && ownList[current].font && ownList[current].font.cssFile">{{ownList && ownList[current] && ownList[current].font && ownList[current].font.cssFile}}</div>
+                                   <div class="css-path" v-else> <span class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 暂无代码，点此生成</span></div>
                                     <div class="copy">
-                                        <span @click="generateFont"> <i class="opsfont ops-gengxin"></i> 更新代码</span>
+                                        <span class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 更新代码</span>
                                         <span><i class="opsfont ops-fuzhi"></i> 复制代码</span> 
                                     </div>
                                 </div>
@@ -85,6 +86,12 @@
                                     </div>
                                 </el-col>
                             </el-row>
+                            <div class="m-icons-default" v-if="ownList && ownList[current] && ownList[current].icons.length === 0">
+                                <div>
+                                    <img src="https://img.alicdn.com/tfs/TB1PhV7uoY1gK0jSZFMXXaWcVXa-164-142.svg">
+                                </div>
+                                <p>暂时木有内容呀～～</p>
+                            </div>
                             <div class="u-department">
                                 效能研发组
                             </div>
@@ -528,6 +535,16 @@ export default {
     border-radius: 6px;
     margin-top: 8px;
     color: #032f62;
+    .css-path{
+        height: 20px;
+        line-height: 20px;
+    }
+    .operation-generate{
+        cursor: pointer;
+        &:hover{
+            color: #409EFF;
+        }
+    }
     .copy{
         display: inline-block;
         position: absolute;
@@ -540,6 +557,14 @@ export default {
                 color: #409EFF;
             }
         }
+    }
+}
+.m-icons-default{
+    padding-top: 10px;
+    text-align: center;
+    color: #666;
+    p{
+        padding-top: 15px;
     }
 }
 </style>
