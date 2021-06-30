@@ -1,7 +1,8 @@
 // service -> user.js
 const Service = require('egg').Service
 const FontCarrier = require('font-carrier')
-
+const fs = require('fs')
+const path = require('path')
 class IconfontSevice extends Service {
     async add(data) {
         const { ctx } = this;
@@ -78,9 +79,38 @@ class IconfontSevice extends Service {
         //判断是否有权限修改
         const res = await ctx.model.Project.findOne({ _id: data.id });
         const font = FontCarrier.create()
-        let iconsId = res.icons[0].id.replace(/[^0-9]/ig,"")
-        console.log(1111, iconsId)
-        font.setSvg('&#x1;', res.icons[0].content)
+
+        let cssStyle = [`
+@font-face {
+    font-family: 'iconfont';
+    src: url('iconfont.eot'); /* IE9 */
+    src: url('iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('iconfont.woff') format('woff2'),
+    url('iconfont.woff') format('woff'), /* chrome、firefox */
+    url('iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+.iconfont {
+    font-family: "iconfont";
+    font-size: 16px;
+    font-style: normal;
+}
+`]
+        for(let index in res.icons){
+            let item = res.icons[index]
+            let unicode = item.unicode
+            let unicode16 = unicode.toString(16)
+            
+            cssStyle.push(`
+.${res.prefix + item.ENG_Name}:before {
+    content: "\\${unicode16}";
+}
+`)
+            font.setSvg(`&#x${unicode16};`, item.content)
+        }
+
+        fs.writeFile(path.resolve(__dirname, '../../test/font.css'), cssStyle.join(''), { encoding: 'utf8' }, err => {})
+        
         font.output({
             path: './test/iconfont'
         })
