@@ -83,16 +83,16 @@ class IconfontSevice extends Service {
 
         let cssStyle = [`
 @font-face {
-    font-family: 'iconfont';
-    src: url('iconfont.eot'); /* IE9 */
-    src: url('iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('iconfont.woff') format('woff2'),
-    url('iconfont.woff') format('woff'), /* chrome、firefox */
-    url('iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-    url('iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+    font-family: '${res.fontFamily}';
+    src: url('${res.fontFamily}.eot'); /* IE9 */
+    src: url('${res.fontFamily}.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('${res.fontFamily}.woff') format('woff2'),
+    url('${res.fontFamily}.woff') format('woff'), /* chrome、firefox */
+    url('${res.fontFamily}.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('${res.fontFamily}.svg#iconfont') format('svg'); /* iOS 4.1- */
 }
-.iconfont {
-    font-family: "iconfont";
+.${res.fontFamily} {
+    font-family: "${res.fontFamily}";
     font-size: 16px;
     font-style: normal;
 }
@@ -110,18 +110,18 @@ class IconfontSevice extends Service {
             font.setSvg(`&#x${unicode16};`, item.content)
         }
 
-        fs.writeFile(path.resolve(__dirname, '../../test/font.css'), cssStyle.join(''), { encoding: 'utf8' }, err => {})
+        // fs.writeFile(path.resolve(__dirname, '../../test/font.css'), cssStyle.join(''), { encoding: 'utf8' }, err => {})
         
-        font.output({
-            path: './test/iconfont'
-        })
+        // font.output({
+        //     path: './test/iconfont'
+        // })
 
-        // try {
-        //     let result = await Oss.put('/test/font/font.css', new Buffer(cssStyle.join('')));
-        //     console.log(result);
-        // } catch (e) {
-        //     console.log(e);
-        // }
+        try {
+            let result = await Oss.put(`/test/font/font_${res._id}.css`, new Buffer(cssStyle.join('')));
+            console.log(result);
+        } catch (e) {
+            console.log(e);
+        }
 
         // let buffers = font.output()
         // console.log(1111, buffers['svg'])
