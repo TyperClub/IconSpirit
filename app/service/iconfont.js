@@ -2,6 +2,7 @@
 const Service = require('egg').Service
 const FontCarrier = require('font-carrier')
 const Oss = require('../util/oss')
+const { InitCssStyle, addItemStyle } = require('../util/cssStyle')
 const fs = require('fs')
 const path = require('path')
 class IconfontSevice extends Service {
@@ -81,32 +82,13 @@ class IconfontSevice extends Service {
         const res = await ctx.model.Project.findOne({ _id: data.id });
         const font = FontCarrier.create()
 
-        let cssStyle = [`
-@font-face {
-    font-family: '${res.fontFamily}';
-    src: url('${res.fontFamily}.eot'); /* IE9 */
-    src: url('${res.fontFamily}.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('${res.fontFamily}.woff') format('woff2'),
-    url('${res.fontFamily}.woff') format('woff'), /* chrome、firefox */
-    url('${res.fontFamily}.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-    url('${res.fontFamily}.svg#iconfont') format('svg'); /* iOS 4.1- */
-}
-.${res.fontFamily} {
-    font-family: "${res.fontFamily}";
-    font-size: 16px;
-    font-style: normal;
-}
-`]
+        let cssStyle = InitCssStyle(res.fontFamily, res.fontFamily)
         for(let index in res.icons){
             let item = res.icons[index]
             let unicode = item.unicode
             let unicode16 = unicode.toString(16)
-            
-            cssStyle.push(`
-.${res.prefix + item.ENG_Name}:before {
-    content: "\\${unicode16}";
-}
-`)
+            let className = res.prefix + item.ENG_Name
+            cssStyle.push(addItemStyle(className, unicode16))
             font.setSvg(`&#x${unicode16};`, item.content)
         }
 
@@ -117,14 +99,18 @@ class IconfontSevice extends Service {
         // })
 
         try {
-            let result = await Oss.put(`/test/font/font_${res._id}.css`, new Buffer(cssStyle.join('')));
-            console.log(result);
+            let projectNum = await this.app.redis.get(`icons_project_${res._id}`)
+            if(!projectNum){
+                await this.app.redis.set(`icons_project_${res._id}`, 0)
+            }
+            projectNum = await this.app.redis.incr(`icons_project_${res._id}`);
+            let result = await Oss.put(`/test/font/font_${res._id}_${projectNum}.css`, new Buffer(cssStyle.join('')));
+            return result
         } catch (e) {
-            console.log(e);
+            this.ctx.throw(500, e);
         }
-
         // let buffers = font.output()
-        // console.log(1111, buffers['svg'])
+        // console.log(1111, buffers)
     }
 }
 
