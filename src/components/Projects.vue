@@ -59,10 +59,10 @@
                                     <span><i class="opsfont ops-shiyongbangzhu1"></i> 使用帮助</span>
                                 </div>
                                 <div class="project-code-warp">
-                                   <div class="css-path" v-if="ownList && ownList[current] && ownList[current].font && ownList[current].font.cssFile">{{ownList && ownList[current] && ownList[current].font && ownList[current].font.cssFile}}</div>
+                                   <div class="css-path" :class="ownList && ownList[current] && ownList[current].font && ownList[current].font.fontIsOld && 'font-old'" v-if="ownList && ownList[current] && ownList[current].font && ownList[current].font.cssFile">{{ownList && ownList[current] && ownList[current].font && ownList[current].font.cssFile}}</div>
                                    <div class="css-path" v-else> <span class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 暂无代码，点此生成</span></div>
-                                    <div class="copy">
-                                        <span class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 更新代码</span>
+                                   <div class="copy" v-if="ownList && ownList[current] && ownList[current].font && ownList[current].font.cssFile">
+                                        <span v-if="ownList && ownList[current] && ownList[current].font && ownList[current].font.fontIsOld" class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 更新代码</span>
                                         <span><i class="opsfont ops-fuzhi"></i> 复制代码</span> 
                                     </div>
                                 </div>
@@ -238,11 +238,16 @@ export default {
             this.dialogVisible2 = true
         },
         generateFont(){
-            generateFont({
+            if(this.ownList[this.current].icons.length === 0){
+                this.$message.warning("图标不能为空！")
+            }else{
+                generateFont({
                 id: this.ownList[this.current]._id
                 }).then(res =>{
+                    this.getProjects()
                     console.log(111, res)
                 })
+            }
         }
     },
     components: {
@@ -538,6 +543,9 @@ export default {
     .css-path{
         height: 20px;
         line-height: 20px;
+    }
+    .font-old{
+        opacity: 0.3;
     }
     .operation-generate{
         cursor: pointer;

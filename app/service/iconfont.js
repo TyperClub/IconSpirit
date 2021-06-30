@@ -80,6 +80,11 @@ class IconfontSevice extends Service {
         const { ctx } = this;
         //判断是否有权限修改
         const res = await ctx.model.Project.findOne({ _id: data.id });
+
+        if(res.icons.length === 0){
+            return null
+        }
+        
         const font = FontCarrier.create()
 
         let projectNum = await this.app.redis.get(`icons_project_${res._id}`)
