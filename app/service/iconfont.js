@@ -1,6 +1,7 @@
 // service -> user.js
 const Service = require('egg').Service
 const FontCarrier = require('font-carrier')
+const Oss = require('../util/oss')
 const fs = require('fs')
 const path = require('path')
 class IconfontSevice extends Service {
@@ -114,6 +115,16 @@ class IconfontSevice extends Service {
         font.output({
             path: './test/iconfont'
         })
+
+        // try {
+        //     let result = await Oss.put('/test/font/font.css', new Buffer(cssStyle.join('')));
+        //     console.log(result);
+        // } catch (e) {
+        //     console.log(e);
+        // }
+
+        // let buffers = font.output()
+        // console.log(1111, buffers['svg'])
     }
 }
 
