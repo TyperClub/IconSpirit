@@ -81,7 +81,7 @@ class IconfontSevice extends Service {
         //判断是否有权限修改
         const res = await ctx.model.Project.findOne({ _id: data.id });
 
-        if(res.icons.length === 0){
+        if(res.icons.length === 0 || !res.font.fontIsOld){
             return null
         }
         

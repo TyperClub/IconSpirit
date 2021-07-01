@@ -54,7 +54,10 @@
                                     <span><i class="opsfont ops-chengyuan"></i> 成员：<i class="el-icon-user user"></i> x 3 <i class="el-icon-arrow-down"></i></span>
                                 </div>
                             </div>
-                            <div class="project-code">
+                            <div class="project-code" 
+                            v-loading="loading"
+                            element-loading-text="代码生成中..."
+                            >
                                 <div class="help">
                                     <span><i class="opsfont ops-shiyongbangzhu1"></i> 使用帮助</span>
                                 </div>
@@ -175,6 +178,7 @@ export default {
         activeName: "1",
         ownList: [],
         current: 0,
+        loading: false,
         form: {
             name: "",
             description: "",
@@ -243,11 +247,15 @@ export default {
             if(this.ownList[this.current].icons.length === 0){
                 this.$message.warning("图标不能为空！")
             }else{
+                this.loading = true
                 generateFont({
                 id: this.ownList[this.current]._id
                 }).then(res =>{
                     this.getProjects()
+                    this.loading = false
                     console.log(111, res)
+                }).catch(()=> {
+                    this.loading = false
                 })
             }
         }
