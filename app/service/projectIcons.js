@@ -34,6 +34,13 @@ class ProjectIconsSevice extends Service {
                     {upsert: true, new: true}
                 )
             }
+
+            await ctx.model.Project.updateOne({ _id: data.id }, {
+                font: {
+                    cssFile: `${res.font.cssFile}.css`,
+                    fontIsOld: true
+                }
+            })
             return null
         }catch(e){
             this.ctx.throw(500, e);
