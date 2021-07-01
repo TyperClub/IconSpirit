@@ -45,6 +45,21 @@ class ProjectIconsSevice extends Service {
             this.ctx.throw(500, e);
         }
     }
+
+    async deleteIcons(data){
+        const { ctx } = this;
+        try{
+            await ctx.model.ProjectIcons.updateOne({ _id: data.icon._id },{
+                isDeleted: true
+            })
+            await ctx.model.Project.updateOne({ _id: data.icon.projectIconsId }, {
+                "font.fontIsOld": true
+            })
+            return null
+        }catch(e){
+            this.ctx.throw(500, e);
+        }
+    }
 }
 
 module.exports = ProjectIconsSevice

@@ -27,7 +27,8 @@ class ProjectSevice extends Service {
             for(let index in res){
                 let item = res[index]
                 let icons = await ctx.model.ProjectIcons.find({
-                    projectIconsId: item._id
+                    projectIconsId: item._id,
+                    isDeleted: false
                 }).sort({createDate: -1})
                 item.icons = icons
             }

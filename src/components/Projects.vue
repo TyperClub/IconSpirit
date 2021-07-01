@@ -81,13 +81,12 @@
                                         <div class="icon-cover">
                                             <i title="添加入库" class="opsfont ops-03 cover-item"></i>
                                             <i title="编辑" class="el-icon-edit cover-item"></i>
-                                            <i title="删除" class="el-icon-delete cover-item"></i>
+                                            <i title="删除" @click="deleteIcon(item)" class="el-icon-delete cover-item"></i>
                                             <i title="下载" class="opsfont ops-xiazai cover-item"></i>
                                             <div class="cover-code cover-copy">
                                                 <span><i class="opsfont ops-fuzhi"></i> 复制代码</span>
                                             </div>
                                         </div>
-                                        <!-- <div class="u-delete" @click="deleteIcon(item)"><i class="el-icon-delete"></i></div> -->
                                     </div>
                                 </el-col>
                             </el-row>
@@ -169,7 +168,7 @@
 <script>
 import { mapState } from 'vuex'
 import store from '../store'
-import { createProjects, getProjects, generateFont } from '../services/index';
+import { createProjects, getProjects, generateFont, deleteProjectIcons } from '../services/index';
 import Navigation from './Navigation';
 import Transfer from './Transfer'
 import Moment from 'moment'
@@ -247,6 +246,15 @@ export default {
         },
         transfer(){
             this.dialogVisible2 = true
+        },
+        deleteIcon(item){
+            deleteProjectIcons({
+                icon: item
+            }).then(res=>{
+                if(res.code === 200){
+                    this.getProjects()
+                }
+            })
         },
         generateFont(){
             if(this.ownList[this.current].icons.length === 0){
