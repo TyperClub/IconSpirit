@@ -39,7 +39,7 @@
                                 </div>
                             </div> -->
                         </div>
-                        <div class="m-project-tool">
+                        <div class="m-project-tool" v-if="ownList.length">
                             <div class="tool">
                                 <div class="tool-left">
                                     <b>{{ownList[current] && ownList[current].name}}</b>
@@ -99,6 +99,11 @@
                             </div>
                             <div class="u-department">
                                 效能研发组
+                            </div>
+                        </div>
+                        <div class="m-project-tool" v-else>
+                            <div class="m-create-icons-projects">
+                                <span @click="createProject"><i class="el-icon-plus"></i> 创建项目</span> 
                             </div>
                         </div>
                     </div>
@@ -592,5 +597,18 @@ export default {
     p{
         padding-top: 15px;
     }
+}
+.m-create-icons-projects{
+    width: 100%;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    background: #f8f9fa;
+    font-size: 16px;
+    color: #409EFF;
+    padding-left: 18px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    border-radius: 8px;
 }
 </style>
