@@ -25,25 +25,15 @@ class ProjectSevice extends Service {
             let res = await ctx.model.Project.find({
                 isDeleted: false
             });
+            for(let index in res){
+                let item = res[index]
+                let icons = await ctx.model.ProjectIcons.find({
+                    projectIconsId: item._id
+                }).sort({createDate: -1})
+                item.icons = icons
+            }
+            
             return res
-        }catch(e){
-            this.ctx.throw(500, e);
-        }
-    }
-    async addIcons(data){
-        const { ctx } = this;
-        //判断是否有权限修改
-        try{
-            const res = await ctx.model.Project.findOne({ _id: data.id });
-            let arr = ArrayDiff(data.icons, res.icons)
-            await ctx.model.Project.updateOne({ _id: data.id }, {
-                font: {
-                    ...res.font,
-                    fontIsOld: true
-                },
-                icons: [...arr, ...res.icons]
-            })
-            return null
         }catch(e){
             this.ctx.throw(500, e);
         }
