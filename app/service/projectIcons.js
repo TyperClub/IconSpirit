@@ -11,36 +11,35 @@ class ProjectIconsSevice extends Service {
 
             for(let index in data.icons){
                 let item = data.icons[index]
-                
-                await ctx.model.ProjectIcons.findOneAndUpdate(
-                    {
-                        iconsId: item._id,
-                        isDeleted: false
-                    }, 
-                    { $set: {
-                            projectIconsId: res._id,
-                            iconsId: item._id,
-                            CH_Name: item.CH_Name,
-                            ENG_Name: item.ENG_Name,
-                            author: item.author,
-                            content: item.content,
-                            gurop: item.gurop,
-                            type: item.type,
-                            unicode: item.unicode,
-                            createDate:  new Date(),
-                            isDeleted: false
-                        } 
-                    },
-                    {upsert: true, new: true}
-                )
-            }
 
-            await ctx.model.Project.updateOne({ _id: data.id }, {
-                font: {
-                    cssFile: res.font.cssFile,
-                    fontIsOld: true
+                let icon = await ctx.model.ProjectIcons.findOne({
+                    iconsId: item._id,
+                    isDeleted: false
+                })
+
+                if(!icon){
+                    await ctx.model.ProjectIcons.create({
+                        projectIconsId: res._id,
+                        iconsId: item._id,
+                        CH_Name: item.CH_Name,
+                        ENG_Name: item.ENG_Name,
+                        author: item.author,
+                        content: item.content,
+                        gurop: item.gurop,
+                        type: item.type,
+                        unicode: item.unicode,
+                        createDate:  new Date(),
+                        isDeleted: false
+                    })
+
+                    await ctx.model.Project.updateOne({ _id: data.id }, {
+                        font: {
+                            cssFile: res.font.cssFile,
+                            fontIsOld: true
+                        }
+                    })
                 }
-            })
+            }
             return null
         }catch(e){
             this.ctx.throw(500, e);
