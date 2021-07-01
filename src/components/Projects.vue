@@ -248,12 +248,22 @@ export default {
             this.dialogVisible2 = true
         },
         deleteIcon(item){
-            deleteProjectIcons({
-                icon: item
-            }).then(res=>{
-                if(res.code === 200){
-                    this.getProjects()
-                }
+            this.$confirm('确定要删除图标吗？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                deleteProjectIcons({
+                    icon: item
+                }).then(res=>{
+                    if(res.code === 200){
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        this.getProjects()
+                    }
+                })
             })
         },
         generateFont(){
