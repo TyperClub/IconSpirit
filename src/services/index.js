@@ -3,6 +3,7 @@ import http from '../utils/index'
 const iconList = params => http.get('/api/v1/iconfont/list', params)
 const generateFont = query => http.post('/api/v1/iconfont/generate', query)
 const createProjects = params => http.post('/api/v1/project/create', params)
+const deleteProjects = params => http.post('/api/v1/project/delete', params)
 const getProjects = () => http.get('/api/v1/project/list')
 const addProjectIcons = query => http.post('/api/v1/projectIcons/add', query)
 const deleteProjectIcons = query => http.post('/api/v1/projectIcons/delete', query)
@@ -14,6 +15,7 @@ export {
     iconList,
     getUser,
     createProjects,
+    deleteProjects,
     addProjectIcons,
     deleteProjectIcons,
     getProjects,

@@ -47,7 +47,7 @@
                                     <span><i class="el-icon-time"></i> {{ownList[current] && ownList[current].create_at}}</span>
                                     <span class="tool-1"><i class="el-icon-setting"></i> 项目设置</span>
                                     <span class="tool-1"><i class="opsfont ops-log"></i> 操作日志</span>
-                                    <span class="tool-1"><i class="el-icon-delete"></i> 删除项目</span>
+                                    <span @click="deleteProjects(ownList[current])" class="tool-1"><i class="el-icon-delete"></i> 删除项目</span>
                                     <span class="tool-1"><i class="opsfont ops-huishouzhan"></i> 回收站</span>
                                 </div>
                                 <div class="tool-right">
@@ -82,7 +82,7 @@
                                             <i title="添加入库" class="opsfont ops-03 cover-item"></i>
                                             <i title="编辑" class="el-icon-edit cover-item"></i>
                                             <i title="删除" @click="deleteIcon(item)" class="el-icon-delete cover-item"></i>
-                                            <i title="下载" class="opsfont ops-xiazai cover-item"></i>
+                                            <i title="下载" @click="downIcon(item)" class="opsfont ops-xiazai cover-item"></i>
                                             <div class="cover-code cover-copy">
                                                 <span class="copy-code2" :aria-label="ownList[current].prefix + item.ENG_Name" @click="copyCode2"><i class="opsfont ops-fuzhi"></i> 复制代码</span>
                                             </div>
@@ -168,7 +168,7 @@
 <script>
 import { mapState } from 'vuex'
 import store from '../store'
-import { createProjects, getProjects, generateFont, deleteProjectIcons } from '../services/index';
+import { createProjects, getProjects, generateFont, deleteProjectIcons, deleteProjects } from '../services/index';
 import Clipboard from 'clipboard'
 import Navigation from './Navigation';
 import Transfer from './Transfer'
@@ -221,6 +221,25 @@ export default {
                 });
                 this.ownList = res.data
                 store.dispatch('setOwnProjects', res.data)
+            })
+        },
+        deleteProjects(item){
+            this.$confirm('确定要删除此项目吗？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                deleteProjects({
+                    id: item._id
+                }).then(res=>{
+                    if(res.code === 200){
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        this.getProjects()
+                    }
+                })
             })
         },
         onSubmit(formName){
@@ -303,6 +322,9 @@ export default {
                     }
                 })
             })
+        },
+        downIcon(item){
+            console.log(111, item)
         },
         generateFont(){
             if(this.ownList[this.current].icons.length === 0){

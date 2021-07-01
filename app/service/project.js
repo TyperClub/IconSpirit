@@ -18,6 +18,19 @@ class ProjectSevice extends Service {
             this.ctx.throw(500, e);
         }
     }
+    async delete(data){
+        const { ctx } = this;
+        try{
+            console.log(1111, data.id)
+            let res = await ctx.model.Project.updateOne({_id: data.id}, {
+                isDeleted: true,
+                deleted_at: new Date()
+            });
+            return res
+        }catch(e){
+            this.ctx.throw(500, e);
+        }
+    }
     async findAll(){
         const { ctx } = this;
         try{

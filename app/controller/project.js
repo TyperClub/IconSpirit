@@ -12,6 +12,15 @@ class ProjectController extends Controller {
             res: result
         })
     }
+    async delete(){
+        const { ctx } = this;
+        const body = ctx.request.body;
+        const result = await ctx.service.project.delete(body);
+        ctx.helper.success({
+            ctx,
+            res: result
+        })
+    }
     async list(){
         const { ctx } = this;
         const result = await ctx.service.project.findAll();
