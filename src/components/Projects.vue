@@ -63,12 +63,12 @@
                                 </div>
                                 <div class="project-code-warp">
                                    <div class="css-path" :class="ownList && ownList[current] && ownList[current].font && ownList[current].font.fontIsOld && 'font-old'" v-if="ownList && ownList[current] && ownList[current].font && ownList[current].font.cssFile">
-                                       <a target="_blank" :href="ownList[current].font.website + ownList[current].font.cssFile">{{ownList[current].font.website + ownList[current].font.cssFile}}</a>
+                                       <a target="_blank" id="cssPath" :href="ownList[current].font.website + ownList[current].font.cssFile">{{ownList[current].font.website + ownList[current].font.cssFile}}</a>
                                     </div>
                                    <div class="css-path" v-else> <span class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 暂无代码，点此生成</span></div>
                                    <div class="copy" v-if="ownList && ownList[current] && ownList[current].font && ownList[current].font.cssFile">
                                         <span v-if="ownList && ownList[current] && ownList[current].font && ownList[current].font.fontIsOld" class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 更新代码</span>
-                                        <span><i class="opsfont ops-fuzhi"></i> 复制代码</span> 
+                                        <span class="copy-code" data-clipboard-target="#cssPath" @click="copyCode"><i class="opsfont ops-fuzhi"></i> 复制代码</span> 
                                     </div>
                                 </div>
                             </div>
@@ -169,6 +169,7 @@
 import { mapState } from 'vuex'
 import store from '../store'
 import { createProjects, getProjects, generateFont, deleteProjectIcons } from '../services/index';
+import Clipboard from 'clipboard'
 import Navigation from './Navigation';
 import Transfer from './Transfer'
 import Moment from 'moment'
@@ -246,6 +247,22 @@ export default {
         },
         transfer(){
             this.dialogVisible2 = true
+        },
+        copyCode(){
+            let clipboard = new Clipboard('.copy-code')
+            clipboard.on('success', (e) => {
+                this.$message.success("复制成功！")
+                // 释放内存
+                e.clearSelection();
+                clipboard.destroy()
+            })
+            clipboard.on('error', (e) => {
+                // 不支持复制
+                console.log('该浏览器不支持自动复制', e)
+                // 释放内存
+                e.clearSelection();
+                clipboard.destroy()
+            })
         },
         deleteIcon(item){
             this.$confirm('确定要删除图标吗？', '提示', {
