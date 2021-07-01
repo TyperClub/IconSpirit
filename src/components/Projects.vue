@@ -77,14 +77,14 @@
                                     <div class="icon-base-view">
                                         <div class="u-icon-svg" v-html="item.content"></div>
                                         <p class="icon-name">{{item.CH_Name}}</p>
-                                        <p class="icon-code">{{item.ENG_Name}}</p>
+                                        <p class="icon-code">{{ownList[current].prefix + item.ENG_Name}}</p>
                                         <div class="icon-cover">
                                             <i title="添加入库" class="opsfont ops-03 cover-item"></i>
                                             <i title="编辑" class="el-icon-edit cover-item"></i>
                                             <i title="删除" @click="deleteIcon(item)" class="el-icon-delete cover-item"></i>
                                             <i title="下载" class="opsfont ops-xiazai cover-item"></i>
                                             <div class="cover-code cover-copy">
-                                                <span><i class="opsfont ops-fuzhi"></i> 复制代码</span>
+                                                <span class="copy-code2" :aria-label="ownList[current].prefix + item.ENG_Name" @click="copyCode2"><i class="opsfont ops-fuzhi"></i> 复制代码</span>
                                             </div>
                                         </div>
                                     </div>
@@ -250,6 +250,27 @@ export default {
         },
         copyCode(){
             let clipboard = new Clipboard('.copy-code')
+            clipboard.on('success', (e) => {
+                this.$message.success("复制成功！")
+                // 释放内存
+                e.clearSelection();
+                clipboard.destroy()
+            })
+            clipboard.on('error', (e) => {
+                // 不支持复制
+                console.log('该浏览器不支持自动复制', e)
+                // 释放内存
+                e.clearSelection();
+                clipboard.destroy()
+            })
+        },
+        copyCode2(){
+            let clipboard = new Clipboard('.copy-code2', {
+                text: function(trigger) {
+                    return trigger.getAttribute('aria-label');
+                }
+            });
+
             clipboard.on('success', (e) => {
                 this.$message.success("复制成功！")
                 // 释放内存
