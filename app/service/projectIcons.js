@@ -13,8 +13,7 @@ class ProjectIconsSevice extends Service {
                 let item = data.icons[index]
 
                 let icon = await ctx.model.ProjectIcons.findOne({
-                    iconsId: item._id,
-                    isDeleted: false
+                    iconsId: item._id
                 })
 
                 if(!icon){
@@ -38,6 +37,21 @@ class ProjectIconsSevice extends Service {
                             fontIsOld: true
                         }
                     })
+                }else{
+                    if(icon.isDeleted === true){// 已删除后再添加，直接从删除中恢复
+                        await ctx.model.ProjectIcons.updateOne({
+                            iconsId: item._id
+                        }, {
+                            isDeleted: false
+                        })
+
+                        await ctx.model.Project.updateOne({ _id: data.id }, {
+                            font: {
+                                cssFile: res.font.cssFile,
+                                fontIsOld: true
+                            }
+                        })
+                    }
                 }
             }
             return null
@@ -50,7 +64,8 @@ class ProjectIconsSevice extends Service {
         const { ctx } = this;
         try{
             await ctx.model.ProjectIcons.updateOne({ _id: data.icon._id },{
-                isDeleted: true
+                isDeleted: true,
+                deleted_at: new Date()
             })
             await ctx.model.Project.updateOne({ _id: data.icon.projectIconsId }, {
                 "font.fontIsOld": true
