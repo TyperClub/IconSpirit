@@ -37,7 +37,7 @@ class ProjectIconsSevice extends Service {
 
             await ctx.model.Project.updateOne({ _id: data.id }, {
                 font: {
-                    cssFile: `${res.font.cssFile}.css`,
+                    cssFile: res.font.cssFile,
                     fontIsOld: true
                 }
             })
