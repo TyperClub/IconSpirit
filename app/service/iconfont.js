@@ -80,8 +80,9 @@ class IconfontSevice extends Service {
         const { ctx } = this;
         //判断是否有权限修改
         const res = await ctx.model.Project.findOne({ _id: data.id });
+        const icons = await ctx.model.ProjectIcons.find({ projectIconsId: data.id, isDeleted: false});
 
-        if(res.icons.length === 0 || !res.font.fontIsOld){
+        if(icons.length === 0 || !res.font.fontIsOld){
             return null
         }
         
@@ -95,8 +96,8 @@ class IconfontSevice extends Service {
         let path = `/test/font/font_${res._id}_${projectNum}`
 
         let cssStyle = InitCssStyle(res.fontFamily, path)
-        for(let index in res.icons){
-            let item = res.icons[index]
+        for(let index in icons){
+            let item = icons[index]
             let unicode = item.unicode
             let unicode16 = unicode.toString(16)
             let className = res.prefix + item.ENG_Name
