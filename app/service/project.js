@@ -1,6 +1,5 @@
 // service -> user.js
 const Service = require('egg').Service
-const { ArrayDiff } = require('../util/tool')
 class ProjectSevice extends Service {
     async create(data){
         const { ctx } = this;

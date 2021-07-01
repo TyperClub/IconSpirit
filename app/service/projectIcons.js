@@ -1,5 +1,4 @@
 const Service = require('egg').Service
-const { ArrayDiff } = require('../util/tool')
 
 class ProjectIconsSevice extends Service {
     async addIcons(data){
@@ -14,7 +13,10 @@ class ProjectIconsSevice extends Service {
                 let item = data.icons[index]
                 
                 await ctx.model.ProjectIcons.findOneAndUpdate(
-                    {iconsId: item._id}, 
+                    {
+                        iconsId: item._id,
+                        isDeleted: false
+                    }, 
                     { $set: {
                             projectIconsId: res._id,
                             iconsId: item._id,
@@ -32,14 +34,6 @@ class ProjectIconsSevice extends Service {
                     {upsert: true, new: true}
                 )
             }
-            // let arr = ArrayDiff(data.icons, res.icons)
-            // await ctx.model.Project.updateOne({ _id: data.id }, {
-            //     font: {
-            //         ...res.font,
-            //         fontIsOld: true
-            //     },
-            //     icons: [...arr, ...res.icons]
-            // })
             return null
         }catch(e){
             this.ctx.throw(500, e);
