@@ -23,7 +23,7 @@
                     <template #label>
                         <span><i class="opsfont ops-base_itemxiangmuguanli"></i> 我的项目</span>
                     </template>
-                    <div class="m-project-box">
+                    <div class="m-project-box" v-if="ownList.length">
                         <div class="m-project">
                             <div class="u-project">
                                 <div><i class="el-icon-menu menu"></i><span class="project-title">我发起的项目</span></div>
@@ -36,6 +36,11 @@
                             </div>
                         </div>
                         <project-view :project-list="ownList[current]" @newGetProjects="newGetProjects"></project-view>
+                    </div>
+                    <div class="m-project-tool" @click="createProject" v-else>
+                        <div class="m-create-icons-projects">
+                            <span><i class="el-icon-plus"></i> 创建项目</span> 
+                        </div>
                     </div>
                 </el-tab-pane>
                 <el-tab-pane name="2">

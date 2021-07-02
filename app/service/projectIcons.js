@@ -13,7 +13,8 @@ class ProjectIconsSevice extends Service {
                 let item = data.icons[index]
 
                 let icon = await ctx.model.ProjectIcons.findOne({
-                    iconsId: item._id
+                    iconsId: item._id,
+                    projectIconsId: data.id
                 })
 
                 if(!icon){
