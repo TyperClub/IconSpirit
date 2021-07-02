@@ -204,8 +204,8 @@
                 </div>
                 <div class="body">
                     <div>
-                        <span class="username">杨韦韦</span>
-                        <span class="email">weiwei.yang@zhangmen.com</span>
+                        <span class="username">{{ownList[current].creater}}</span>
+                        <span class="email">{{ownList[current].userEmail}}</span>
                         <span class="operate">创建人</span>
                     </div>
                     <div v-for="(item, index) in projectParticipants" :key="index">
@@ -325,6 +325,7 @@ export default {
         },
         rowItem(index){
             this.current = index
+            this.getProjectParticipantsList()
         },
         getProjectParticipantsList(){
             projectParticipantsList({
