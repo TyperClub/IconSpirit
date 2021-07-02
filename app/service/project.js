@@ -37,12 +37,12 @@ class ProjectSevice extends Service {
                 telephone: ctx.session.cas.user,
             });
             // 查询发起项目
-            let res = await ctx.model.Project.find({
+            let ownProjects = await ctx.model.Project.find({
                 isDeleted: false,
                 userEmail: user.userEmail
             });
-            for(let index in res){
-                let item = res[index]
+            for(let index in ownProjects){
+                let item = ownProjects[index]
                 let icons = await ctx.model.ProjectIcons.find({
                     projectIconsId: item._id,
                     isDeleted: false
@@ -51,9 +51,16 @@ class ProjectSevice extends Service {
             }
             // 查询删除项目
 
+            let delProjects = await ctx.model.Project.find({
+                isDeleted: true,
+                userEmail: user.userEmail
+            });
             //查询被邀请项目
-            
-            return res
+            return {
+                ownProjects,
+                delProjects,
+                corpProjects: []
+            }
         }catch(e){
             this.ctx.throw(500, e);
         }

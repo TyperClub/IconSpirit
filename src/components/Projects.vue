@@ -219,10 +219,10 @@ export default {
         },
         getProjects(){
             getProjects().then(res => {
-                res.data && res.data.forEach(item => {
+                res.data && res.data.ownProjects && res.data.ownProjects.forEach(item => {
                     item.create_at = Moment(item.createDate).format("YYYY-MM-DD HH:mm")
                 });
-                this.ownList = res.data
+                this.ownList = res.data.ownProjects
                 store.dispatch('setOwnProjects', res.data)
             })
         },
