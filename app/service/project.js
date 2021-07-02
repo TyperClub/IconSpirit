@@ -49,17 +49,38 @@ class ProjectSevice extends Service {
                 }).sort({createDate: -1})
                 item.icons = icons
             }
-            // 查询删除项目
 
+            const participantsProjects = await ctx.model.ProjectParticipants.find({
+                userEmail: user.userEmail,
+            });
+
+            // 查询删除项目
             let delProjects = await ctx.model.Project.find({
                 isDeleted: true,
-                userEmail: user.userEmail
+                userEmail: user.userEmail //被自己删除，或者被其它参入者给删除
             });
+            
             //查询被邀请项目
+            let corpProjects = []
+
+            for(let index in participantsProjects){
+                let item = participantsProjects[index]
+                let project = await ctx.model.Project.findOne({
+                    _id: item.projectId
+                })
+
+                project.icons = await ctx.model.ProjectIcons.find({
+                    projectIconsId: item.projectId,
+                    isDeleted: false
+                }).sort({createDate: -1})
+                
+                corpProjects.push(project)
+            }
+
             return {
                 ownProjects,
                 delProjects,
-                corpProjects: []
+                corpProjects
             }
         }catch(e){
             this.ctx.throw(500, e);
