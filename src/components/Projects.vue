@@ -23,9 +23,9 @@
                     <template #label>
                         <span><i class="opsfont ops-base_itemxiangmuguanli"></i> 我的项目</span>
                     </template>
-                    <div class="m-project-box" v-if="ownList.length">
+                    <div class="m-project-box" v-if="ownList.length || corpList.length">
                         <div class="m-project">
-                            <div class="u-project">
+                            <div class="u-project" v-if="ownList.length">
                                 <div><i class="el-icon-menu menu"></i><span class="project-title">我发起的项目</span></div>
                                 <div class="project-list">
                                     <div class="item" @click="rowItem(index, 'own')" :class="ownCurrent === index && activeType === 'own' ? 'current' : ''"  v-for="(item, index) in ownList" :key="index"><span>{{item.name}}</span></div>
@@ -163,9 +163,14 @@ export default {
                 res.data && res.data.ownProjects && res.data.ownProjects.forEach(item => {
                     item.create_at = Moment(item.createDate).format("YYYY-MM-DD HH:mm")
                 });
-                console.log(111, res.data)
                 this.ownList = res.data.ownProjects
                 this.corpList = res.data.corpProjects
+                
+                if(!this.ownList.length && this.corpList.length && this.activeType === 'own'){
+                    this.activeType = 'corp'
+                    this.corpCurrent = 0
+                }
+
                 store.dispatch('setOwnProjects', res.data)
             })
         },

@@ -142,7 +142,9 @@ export default {
     computed: {
         ...mapState({
             username: state => state.userInfo.userName,
-            ownProjects: state => state.ownProjects.ownProjects
+            ownProjects: state =>{
+                return [...state.ownProjects.ownProjects, ...state.ownProjects.corpProjects]
+            }
         })
     },
     methods: {
