@@ -68,9 +68,9 @@ class ProjectIconsSevice extends Service {
                 isDeleted: true,
                 deleted_at: new Date()
             })
-            await ctx.model.Project.updateOne({ _id: data.icon.projectIconsId }, {
-                "font.fontIsOld": true
-            })
+            // await ctx.model.Project.updateOne({ _id: data.icon.projectIconsId }, {
+            //     "font.fontIsOld": true
+            // })
             return null
         }catch(e){
             this.ctx.throw(500, e);
