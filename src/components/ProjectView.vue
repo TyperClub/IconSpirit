@@ -500,18 +500,14 @@ export default {
             margin: 2px;
         }
     }
-    .icon-base-selected{
-        border-color: #60606d;
-        border: 1px dashed transparent;
-        background: linear-gradient(white,white) padding-box,
-        repeating-linear-gradient(-45deg,#ccc 0, #ccc 0.25em,white 0,white 0.75em);
-    }
     .icon-base-view{
         margin: 0 auto;
         width: 100px;
         height: 100%;
         position: relative;
         text-align: center;
+        border: 1px dashed transparent;
+        border-radius: 5px;
         .icon-name,.icon-code{
             width: 100%;
             height: 20px;
@@ -535,6 +531,9 @@ export default {
             }
         }
         
+    }
+    .icon-base-selected{
+        border-color: #60606d;
     }
 }
 
