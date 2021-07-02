@@ -509,7 +509,7 @@ export default {
         border: 1px dashed transparent;
         border-radius: 5px;
         .icon-name,.icon-code{
-            width: 100%;
+            padding: 0 5px;
             height: 20px;
             line-height: 20px;
             color: #666;
