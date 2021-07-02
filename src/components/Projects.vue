@@ -1,7 +1,7 @@
 <template>
 <el-container style="height: 100%;">
     <el-header style="text-align: right; font-size: 12px">
-        <navigation></navigation>
+        <navigation ref="navigation"></navigation>
     </el-header>
     <div class="home">
         <div class="m-content">
@@ -41,8 +41,8 @@
                                 <div class="delete-project"><i class="el-icon-menu menu"></i><span class="project-title">我删除的项目</span></div>
                             </div> -->
                         </div>
-                        <project-view v-if="activeType === 'own'" :project-list="ownList[ownCurrent]" @newGetProjects="getProjects"></project-view>
-                        <project-view v-if="activeType === 'corp'" :project-list="corpList[corpCurrent]" @newGetProjects="getProjects"></project-view>
+                        <project-view v-if="activeType === 'own'" :project-list="ownList[ownCurrent]" @newGetProjects="getProjects" @addIcons="addIcons"></project-view>
+                        <project-view v-if="activeType === 'corp'" :project-list="corpList[corpCurrent]" @newGetProjects="getProjects" @addIcons="addIcons"></project-view>
                     </div>
                     <div class="m-project-tool" @click="createProject" v-else>
                         <div class="m-create-icons-projects">
@@ -204,6 +204,10 @@ export default {
         transfer(){
             this.dialogVisible2 = true
         },
+        addIcons(type, item){
+            console.log(1111, this.$refs.navigation)
+            this.$refs.navigation.addIcons(type, item)
+        }
     },
     components: {
       Navigation,
@@ -218,6 +222,9 @@ export default {
 .icon {
   font-size: 36px;
   color: #666;
+}
+.el-tabs__content{
+    overflow: auto;
 }
 </style>
 <style lang="less" scoped>

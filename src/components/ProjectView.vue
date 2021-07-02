@@ -39,7 +39,7 @@
                     <p class="icon-name">{{item.CH_Name}}</p>
                     <p class="icon-code">{{projectList.prefix + item.ENG_Name}}</p>
                     <div class="icon-cover">
-                        <i title="添加入库" class="opsfont ops-03 cover-item"></i>
+                        <i title="添加入库" @click="addToCart($event, item)" class="opsfont ops-03 cover-item"></i>
                         <i title="编辑" class="el-icon-edit cover-item"></i>
                         <i title="删除" @click="deleteIcon(item)" class="el-icon-delete cover-item"></i>
                         <i title="下载" @click="downIcon(item)" class="opsfont ops-xiazai cover-item"></i>
@@ -112,6 +112,19 @@
         </div>
     </div>
 </el-dialog>
+
+        <!-- 小球 -->
+        <transition appear
+            @before-appear="beforeEnter"
+            @enter="enter"
+            @after-appear='afterEnter'
+            v-for="(item,index) in showMoveDot"
+            :key="index.id">
+        <div class="move_dot"
+              ref="ball"
+              v-if="item" :style="{top:elTop+'px',left:elLeft+'px'}" v-html="imgUrl">
+        </div>
+        </transition>
     </div>
 </template>
 
@@ -128,7 +141,11 @@ export default {
             current: 0,
             loading: false,
             invitationName: "",
-            invitations: []
+            invitations: [],
+            showMoveDot: [],
+            imgUrl:'',
+            elLeft: 0, //当前点击购物车按钮在网页中的绝对top值
+            elTop: 0, //当前点击购物车按钮在网页中的绝对left值
         }
     },
     watch: {
@@ -277,7 +294,43 @@ export default {
         },
         help(){
             this.$router.push('help')
-        }
+        },
+        beforeEnter(el) {
+            // 设置transform值
+            el.style.opacity = 0;
+            el.style.transform = 'translate(0, 0)'
+       },
+        afterEnter(el) {
+            // 设置透明度
+            el.style.opacity = 1;
+            setTimeout(()=>{
+                this.count +=1;
+            },810)
+        },
+        enter(el, done) {
+            el.offsetWidth;
+            // 获取徽标在页面中的位置
+            let badgePosition = document.getElementById('appCart').getBoundingClientRect();
+            const xDist = badgePosition.left - this.elLeft - 10;
+            const yDist = badgePosition.top - this.elTop;
+            el.style.transform = `translate(${xDist}px, ${yDist}px)`;
+            el.style.transition = 'all 0.8s cubic-bezier(0.12,0.78,0.53,0.92)';
+            this.showMoveDot = this.showMoveDot.map(() => false);
+            done()
+        },
+        addToCart(event, item){
+            let type = 'remove'
+            if(!item.status){
+            type = 'add'
+            this.showMoveDot = [...this.showMoveDot, true];
+            // //显示图片
+            this.imgUrl = item.content;
+            this.elLeft = event.target.getBoundingClientRect().left;
+            this.elTop = event.target.getBoundingClientRect().top + 20;
+            }
+            item.status = !item.status
+            this.$emit('addIcons', type, item)
+      },
     }
 }
 </script>
@@ -541,5 +594,88 @@ export default {
         padding-top: 15px;
     }
 }
+
+ .move_dot {
+        width: 50px;
+        height: 50px;
+        /*border-radius: 50%;*/
+        /*background-color: #00b38a;*/
+        position: fixed;
+        z-index: 99;
+        img {
+            animation: 0.8s move ease-in-out;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+    }
+    @keyframes move {
+        0% {
+            transform: scale(1);
+        }
+        25% {
+            transform: scale(0.8);
+        }
+        50% {
+            transform: scale(0.6);
+        }
+        75% {
+            transform: scale(0.4);
+        }
+        100% {
+            transform: scale(0.2);
+        }
+    }
+    @-moz-keyframes move {
+        0% {
+            transform: scale(1);
+        }
+        25% {
+            transform: scale(0.8);
+        }
+        50% {
+            transform: scale(0.6);
+        }
+        75% {
+            transform: scale(0.4);
+        }
+        100% {
+            transform: scale(0.2);
+        }
+    }
+    @-webkit-keyframes move {
+        0% {
+            transform: scale(1);
+        }
+        25% {
+            transform: scale(0.8);
+        }
+        50% {
+            transform: scale(0.6);
+        }
+        75% {
+            transform: scale(0.4);
+        }
+        100% {
+            transform: scale(0.2);
+        }
+    }
+    @-o-keyframes move {
+        0% {
+            transform: scale(1);
+        }
+        25% {
+            transform: scale(0.8);
+        }
+        50% {
+            transform: scale(0.6);
+        }
+        75% {
+            transform: scale(0.4);
+        }
+        100% {
+            transform: scale(0.2);
+        }
+    }
 
 </style>
