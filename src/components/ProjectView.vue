@@ -34,7 +34,7 @@
         </div>
         <el-row class="m-icons" v-show="projectList && projectList.icons">
             <el-col :span="3" class="u-item" v-for="(item, index) in projectList && projectList.icons" :key="index">
-                <div class="icon-base-view">
+                <div class="icon-base-view" :class="item.status ? 'icon-base-selected' : '' ">
                     <div class="u-icon-svg" v-html="item.content"></div>
                     <p class="icon-name">{{item.CH_Name}}</p>
                     <p class="icon-code">{{projectList.prefix + item.ENG_Name}}</p>
@@ -499,6 +499,12 @@ export default {
             cursor: pointer;
             margin: 2px;
         }
+    }
+    .icon-base-selected{
+        border-color: #60606d;
+        border: 1px dashed transparent;
+        background: linear-gradient(white,white) padding-box,
+        repeating-linear-gradient(-45deg,#ccc 0, #ccc 0.25em,white 0,white 0.75em);
     }
     .icon-base-view{
         margin: 0 auto;
