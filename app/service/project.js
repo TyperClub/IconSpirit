@@ -21,7 +21,6 @@ class ProjectSevice extends Service {
     async delete(data){
         const { ctx } = this;
         try{
-            console.log(1111, data.id)
             let res = await ctx.model.Project.updateOne({_id: data.id}, {
                 isDeleted: true,
                 deleted_at: new Date()
@@ -34,8 +33,13 @@ class ProjectSevice extends Service {
     async findAll(){
         const { ctx } = this;
         try{
+            const user = await ctx.model.User.findOne({
+                telephone: ctx.session.cas.user,
+            });
+            // 查询发起项目
             let res = await ctx.model.Project.find({
-                isDeleted: false
+                isDeleted: false,
+                userEmail: user.userEmail
             });
             for(let index in res){
                 let item = res[index]
@@ -45,6 +49,9 @@ class ProjectSevice extends Service {
                 }).sort({createDate: -1})
                 item.icons = icons
             }
+            // 查询删除项目
+
+            //查询被邀请项目
             
             return res
         }catch(e){
