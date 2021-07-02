@@ -28,14 +28,21 @@
                             <div class="u-project">
                                 <div><i class="el-icon-menu menu"></i><span class="project-title">我发起的项目</span></div>
                                 <div class="project-list">
-                                    <div class="item" @click="rowItem(index)" :class="current === index ? 'current' : ''"  v-for="(item, index) in ownList" :key="index"><span>{{item.name}}</span></div>
+                                    <div class="item" @click="rowItem(index, 'own')" :class="ownCurrent === index && activeType === 'own' ? 'current' : ''"  v-for="(item, index) in ownList" :key="index"><span>{{item.name}}</span></div>
+                                </div>
+                            </div>
+                            <div class="u-project" v-if="corpList.length">
+                                <div><i class="el-icon-menu menu"></i><span class="project-title">我参入的项目</span></div>
+                                <div class="project-list">
+                                    <div class="item" @click="rowItem(index, 'corp')" :class="corpCurrent === index && activeType === 'corp' ? 'current' : ''"  v-for="(item, index) in corpList" :key="index"><span>{{item.name}}</span></div>
                                 </div>
                             </div>
                             <div class="u-project">
                                 <div class="delete-project"><i class="el-icon-menu menu"></i><span class="project-title">我删除的项目</span></div>
                             </div>
                         </div>
-                        <project-view :project-list="ownList[current]" @newGetProjects="newGetProjects"></project-view>
+                        <project-view v-if="activeType === 'own'" :project-list="ownList[ownCurrent]" @newGetProjects="getProjects"></project-view>
+                        <project-view v-if="activeType === 'corp'" :project-list="corpList[corpCurrent]" @newGetProjects="getProjects"></project-view>
                     </div>
                     <div class="m-project-tool" @click="createProject" v-else>
                         <div class="m-create-icons-projects">
@@ -56,7 +63,6 @@
                 </el-tab-pane>
             </el-tabs>
         </div>
-   
     </div>
     <el-dialog
     title="新建项目"
@@ -117,11 +123,11 @@ export default {
         dialogVisible: false,
         dialogVisible2: false,
         activeName: "1",
+        activeType: "own",
         ownList: [],
-        current: 0,
-        loading: false,
-        invitationName: "",
-        invitations: [],
+        corpList: [],
+        ownCurrent: 0,
+        corpCurrent: 0,
         form: {
             name: "",
             description: "",
@@ -152,15 +158,14 @@ export default {
         createProject(){
             this.dialogVisible = true
         },
-        newGetProjects(){
-            this.getProjects()
-        },
         getProjects(){
             getProjects().then(res => {
                 res.data && res.data.ownProjects && res.data.ownProjects.forEach(item => {
                     item.create_at = Moment(item.createDate).format("YYYY-MM-DD HH:mm")
                 });
+                console.log(111, res.data)
                 this.ownList = res.data.ownProjects
+                this.corpList = res.data.corpProjects
                 store.dispatch('setOwnProjects', res.data)
             })
         },
@@ -183,8 +188,9 @@ export default {
                 }
             });
         },
-        rowItem(index){
+        rowItem(index, type){
             this.current = index
+            this.activeType = type
         },
         transfer(){
             this.dialogVisible2 = true
