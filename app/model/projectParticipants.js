@@ -6,7 +6,7 @@ module.exports = app => {
   const Schema = mongoose.Schema;
 
   const ProjectParticipantsSchema = new Schema({
-    projectIconsId: {             // 项目名称, 对应 _id
+    projectId: {             // 项目名称, 对应 _id
         type: String,
         required: true
     },
@@ -19,6 +19,9 @@ module.exports = app => {
         required: true
     },
     department: {
+        type: String
+    },
+    occupation: {
         type: String
     },
     userRole: {

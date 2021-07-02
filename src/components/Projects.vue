@@ -180,11 +180,13 @@
                 style="width: 300px;"
                 filterable
                 remote
+                clear
                 reserve-keyword
                 :remote-method="remoteInvitation"
             >
                 <el-option
                 v-for="item in invitations"
+                @click="changeInvitation(item)"
                 :key="item.value"
                 :label="item.label"
                 :value="item.userName">
@@ -218,7 +220,7 @@
 <script>
 import { mapState } from 'vuex'
 import store from '../store'
-import { createProjects, getProjects, generateFont, deleteProjectIcons, deleteProjects, queryUser } from '../services/index';
+import { createProjects, getProjects, generateFont, deleteProjectIcons, deleteProjects, queryUser, addprojectParticipants } from '../services/index';
 import Clipboard from 'clipboard'
 import Navigation from './Navigation';
 import Transfer from './Transfer'
@@ -395,8 +397,19 @@ export default {
                 })
             }
         },
-        invitation(item){
+        invitation(){
+            this.invitationName = ""
+            this.options = []
             this.dialogVisible3 = true
+        },
+        changeInvitation(item){
+            console.log(111, item)
+            addprojectParticipants({
+                id: item._id,
+                projectId: this.ownList[this.current]._id
+            }).then(res =>{
+                console.log(111, res)
+            })
         },
         remoteInvitation(query){
             if (query !== '') {
