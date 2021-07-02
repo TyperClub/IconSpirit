@@ -52,6 +52,16 @@ class UserController extends Controller {
         // 2、如果数据库中不存在该用户则拉取OA信息同步
         console.log(2222, user, userRes)
     }
+    async queryUser(){
+        const { ctx } = this;
+        const { u } = ctx.query;
+        const res = await ctx.service.user.queryUserName(u);
+        
+        ctx.helper.success({
+          ctx,
+          res,
+        });
+    }
 }
 
 module.exports = UserController;

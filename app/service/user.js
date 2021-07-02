@@ -80,6 +80,17 @@ class UserSevice extends Service {
       .populate('dept')
       .populate('role');
   }
+  async queryUserName(){
+    const reg = new RegExp(userName);
+    const query = { username: reg };
+
+    return this.ctx.model.User
+      .find(query)
+      .limit(10)
+      .sort({ updateTime: -1 })
+      .populate('dept')
+      .populate('role');
+  }
 }
 
 module.exports = UserSevice
