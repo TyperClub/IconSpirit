@@ -5,39 +5,18 @@ module.exports = app => {
   const mongoose = app.mongoose;
   const Schema = mongoose.Schema;
 
-  const ProjectIconsSchema = new Schema({
+  const ProjectParticipantsSchema = new Schema({
     projectIconsId: {             // 项目名称, 对应 _id
         type: String,
         required: true
     },
-    iconsId: {
+    userName: {
         type: String,
         required: true
     },
-    unicode: {
-        type: Number,
-        required: true,
-    },
-    type: {
+    userEmail: {
         type: String,
-        required: true,
-    },
-    gurop: {
-        type: String,
-        required: true,
-    },
-    CH_Name: {
-        type: String,
-        required: true,
-    },
-    ENG_Name: {
-        type: String,
-    },
-    author: {
-        type: String,
-    },
-    content: {
-        type: String,
+        required: true
     },
     createDate: {      // 添加时间
       type: Date,
@@ -55,5 +34,5 @@ module.exports = app => {
     }
   });
 
-  return mongoose.model('ProjectIcons', ProjectIconsSchema);
+  return mongoose.model('ProjectParticipants', ProjectParticipantsSchema);
 };

@@ -38,6 +38,9 @@
                                     <div class="item"><span>测试项目</span></div>
                                 </div>
                             </div> -->
+                            <div class="u-project">
+                                <div class="delete-project"><i class="el-icon-menu menu"></i><span class="project-title">我删除的项目</span></div>
+                            </div>
                         </div>
                         <div class="m-project-tool" v-if="ownList.length">
                             <div class="tool">
@@ -688,5 +691,8 @@ export default {
     margin-bottom: 16px;
     cursor: pointer;
     border-radius: 8px;
+}
+.delete-project{
+    cursor: pointer;
 }
 </style>

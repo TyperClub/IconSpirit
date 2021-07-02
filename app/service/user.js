@@ -43,58 +43,6 @@ class UserSevice extends Service {
     }
   }
 
-    // 登录接口
-  async signin(signinMsg) {
-    const { ctx } = this;
-    const res = {};
-    const queryResult = await ctx.model.User.findOne({
-      userName: signinMsg.userName,
-    });
-    if (!queryResult) {
-      res.code = -2;
-      res.msg = '用户不存在,请前去注册';
-      res.data = {};
-    } else {
-      const result = await ctx.model.User.findOne(signinMsg);
-      if (!result) {
-        res.code = -1;
-        res.msg = '用户信息不正确';
-        res.data = {};
-      } else {
-        const token = JWT.sign({
-            userName: result.userName,
-          },
-          this.config.jwt.secret, {
-            expiresIn: 60 * 60,
-        });
-        res.data = result;
-        res.code = 1;
-        res.msg = '登录成功';
-        res.token = token;
-      }
-    }
-    return res;
-  }
-  // 注册
-  async signup(signupMsg) {
-    const { ctx } = this;
-    const res = {};
-    // 查询用户名是否存在
-    const queryResult = await ctx.model.User.findOne({
-      userName: signupMsg.userName,
-    });
-    // 判断用户名是否存在
-    if (queryResult) {
-      res.code = -1;
-      res.msg = '账号已存在';
-    } else {
-      // 创建用户
-      res.data = await ctx.model.User.create(signupMsg);
-      res.code = 1;
-      res.msg = '注册成功';
-    }
-    return res;
-  }
   async getUserInfoByMobile({ mobile }) {
     const ctx = this.ctx;
     let userData;
