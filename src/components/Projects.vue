@@ -15,7 +15,7 @@
                     <p class="f-size-14"><i class="opsfont ops-xinxi"></i> {{userInfo.occupation}} | {{userInfo.department}}</p>
                 </div>
                 <div class="m-tool">
-                    <div class="create-project"><span @click="createProject"><i class="el-icon-plus"></i> 创建项目</span> <span @click="transfer"><i class="opsfont ops-migrate"></i> 迁入项目</span></div>
+                    <div class="create-project"><span @click="createProject"><i class="el-icon-plus"></i> 创建项目</span> <span @click="transfer"><i class="opsfont ops-migrate"></i> 迁入项目</span> <span><i class="opsfont ops-huishouzhan"></i> 我删除的项目</span></div>
                 </div>
             </div>
             <el-tabs class="m-menu padding-top-20" v-model="activeName" @tab-click="handleClick">
@@ -37,9 +37,9 @@
                                     <div class="item" @click="rowItem(index, 'corp')" :class="corpCurrent === index && activeType === 'corp' ? 'current' : ''"  v-for="(item, index) in corpList" :key="index"><span>{{item.name}}</span></div>
                                 </div>
                             </div>
-                            <div class="u-project">
+                            <!-- <div class="u-project">
                                 <div class="delete-project"><i class="el-icon-menu menu"></i><span class="project-title">我删除的项目</span></div>
-                            </div>
+                            </div> -->
                         </div>
                         <project-view v-if="activeType === 'own'" :project-list="ownList[ownCurrent]" @newGetProjects="getProjects"></project-view>
                         <project-view v-if="activeType === 'corp'" :project-list="corpList[corpCurrent]" @newGetProjects="getProjects"></project-view>
