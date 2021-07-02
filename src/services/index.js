@@ -11,8 +11,10 @@ const login = query => http.post('/api/v1/login', query)
 const logout =  () => http.post('/api/v1/logout')
 const getUser = () => http.post('/api/v1/user')
 const queryUser = (query) => http.post('/api/v1/user/query', query)
-const addprojectParticipants = query => http.post('/api/v1/projectParticipants/add', query) 
+const addprojectParticipants = query => http.post('/api/v1/projectParticipants/add', query)
+const deleteProjectParticipants = query => http.post('/api/v1/projectParticipants/delete', query) 
 const projectParticipantsList = query => http.post('/api/v1/projectParticipants/list', query) 
+
 
 export {
     iconList,
@@ -23,6 +25,7 @@ export {
     addProjectIcons,
     deleteProjectIcons,
     addprojectParticipants,
+    deleteProjectParticipants,
     projectParticipantsList,
     getProjects,
     generateFont,

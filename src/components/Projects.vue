@@ -211,7 +211,7 @@
                     <div v-for="(item, index) in projectParticipants" :key="index">
                         <span class="username">{{item.userName}}</span>
                         <span class="email">{{item.userEmail}}</span>
-                        <span class="operate">移除</span>
+                        <span @click="deleteInvitation(item)" class="operate operate-delete">移除</span>
                     </div>
                 </div>
             </div>
@@ -225,7 +225,7 @@
 <script>
 import { mapState } from 'vuex'
 import store from '../store'
-import { createProjects, getProjects, generateFont, deleteProjectIcons, deleteProjects, queryUser, addprojectParticipants, projectParticipantsList } from '../services/index';
+import { createProjects, getProjects, generateFont, deleteProjectIcons, deleteProjects, queryUser, addprojectParticipants, projectParticipantsList, deleteProjectParticipants } from '../services/index';
 import Clipboard from 'clipboard'
 import Navigation from './Navigation';
 import Transfer from './Transfer'
@@ -416,12 +416,21 @@ export default {
             this.options = []
             this.dialogVisible3 = true
         },
+        deleteInvitation(item){
+            deleteProjectParticipants({
+                userEmail: item.userEmail,
+                projectId: this.ownList[this.current]._id
+            }).then(res => {
+                this.getProjectParticipantsList()
+                console.log(111, res)
+            })
+        },
         changeInvitation(item){
-            console.log(111, item)
             addprojectParticipants({
                 id: item._id,
                 projectId: this.ownList[this.current]._id
             }).then(res =>{
+                this.getProjectParticipantsList()
                 console.log(111, res)
             })
         },
@@ -829,6 +838,9 @@ export default {
             }
             .email{
                 width: 360px;
+            }
+            .operate-delete{
+                cursor: pointer;
             }
         }
     }

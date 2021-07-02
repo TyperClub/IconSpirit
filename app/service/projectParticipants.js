@@ -39,6 +39,19 @@ class projectParticipantsSevice extends Service {
             this.ctx.throw(500, e);
         }
     }
+
+    async delete(data){
+        const { ctx } = this;
+        try{
+            const projectParticipants = await ctx.model.ProjectParticipants.remove({
+                userEmail: data.userEmail,
+                projectId: data.projectId,
+            });
+            return projectParticipants
+        }catch(e){
+            this.ctx.throw(500, e);
+        }
+    }
 }
 
 module.exports = projectParticipantsSevice
