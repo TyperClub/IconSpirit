@@ -15,7 +15,7 @@
                     <p class="f-size-14"><i class="opsfont ops-xinxi"></i> {{userInfo.occupation}} | {{userInfo.department}}</p>
                 </div>
                 <div class="m-tool">
-                    <div class="create-project"><span @click="createProject"><i class="el-icon-plus"></i> 创建项目</span> <span @click="transfer"><i class="opsfont ops-migrate"></i> 迁入项目</span> <span><i class="opsfont ops-huishouzhan"></i> 我删除的项目</span></div>
+                    <div class="create-project"><span @click="createProject"><i class="el-icon-plus"></i> 创建项目</span> <span @click="transfer"><i class="opsfont ops-migrate"></i> 迁入项目</span> <span><i class="opsfont ops-huishouzhan"></i> 被删除的项目</span></div>
                 </div>
             </div>
             <el-tabs class="m-menu padding-top-20" v-model="activeName" @tab-click="handleClick">

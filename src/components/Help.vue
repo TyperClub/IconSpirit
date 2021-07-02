@@ -268,7 +268,7 @@ import Navigation from './Navigation';
 
 
 #tabs .active {
-  border-bottom-color: #f00;
+  border-bottom-color: #409ef4;
   color: #222;
 }
 
