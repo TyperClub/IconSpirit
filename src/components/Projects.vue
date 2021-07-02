@@ -194,7 +194,11 @@ export default {
             });
         },
         rowItem(index, type){
-            this.current = index
+            if(type === 'own'){
+                this.ownCurrent = index
+            }else{
+                this.corpCurrent = index
+            }
             this.activeType = type
         },
         transfer(){

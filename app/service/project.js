@@ -66,15 +66,17 @@ class ProjectSevice extends Service {
             for(let index in participantsProjects){
                 let item = participantsProjects[index]
                 let project = await ctx.model.Project.findOne({
+                    isDeleted: false,
                     _id: item.projectId
                 })
-
-                project.icons = await ctx.model.ProjectIcons.find({
-                    projectIconsId: item.projectId,
-                    isDeleted: false
-                }).sort({createDate: -1})
-                
-                corpProjects.push(project)
+                if(project){
+                    project.icons = await ctx.model.ProjectIcons.find({
+                        projectIconsId: item.projectId,
+                        isDeleted: false
+                    }).sort({createDate: -1})
+                    
+                    corpProjects.push(project)
+                }
             }
 
             return {
