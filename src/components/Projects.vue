@@ -31,13 +31,6 @@
                                     <div class="item" @click="rowItem(index)" :class="current === index ? 'current' : ''"  v-for="(item, index) in ownList" :key="index"><span>{{item.name}}</span></div>
                                 </div>
                             </div>
-                            <!-- <div class="u-project">
-                                <div><i class="el-icon-menu menu"></i><span class="project-title">我参入的项目</span></div>
-                                <div class="project-list">
-                                    <div class="item"><span>ops-ui</span></div>
-                                    <div class="item"><span>测试项目</span></div>
-                                </div>
-                            </div> -->
                             <div class="u-project">
                                 <div class="delete-project"><i class="el-icon-menu menu"></i><span class="project-title">我删除的项目</span></div>
                             </div>
@@ -65,17 +58,17 @@
                                     <span><i class="opsfont ops-shiyongbangzhu1"></i> 使用帮助</span>
                                 </div>
                                 <div class="project-code-warp">
-                                   <div class="css-path" :class="ownList && ownList[current] && ownList[current].font && ownList[current].font.fontIsOld && 'font-old'" v-if="ownList && ownList[current] && ownList[current].font && ownList[current].font.cssFile">
+                                   <div class="css-path" :class="ownList[current] &&  ownList[current].font.fontIsOld && 'font-old'" v-if="ownList[current].font.cssFile">
                                        <a target="_blank" id="cssPath" :href="ownList[current].font.website + ownList[current].font.cssFile">{{ownList[current].font.website + ownList[current].font.cssFile}}</a>
                                     </div>
                                    <div class="css-path" v-else> <span class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 暂无代码，点此生成</span></div>
-                                   <div class="copy" v-if="ownList && ownList[current] && ownList[current].font && ownList[current].font.cssFile">
-                                        <span v-if="ownList && ownList[current] && ownList[current].font && ownList[current].font.fontIsOld" class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 更新代码</span>
+                                   <div class="copy" v-if="ownList[current].font && ownList[current].font.cssFile">
+                                        <span v-if="ownList[current].font.fontIsOld" class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 更新代码</span>
                                         <span class="copy-code" data-clipboard-target="#cssPath" @click="copyCode"><i class="opsfont ops-fuzhi"></i> 复制代码</span> 
                                     </div>
                                 </div>
                             </div>
-                            <el-row class="m-icons" v-show="ownList && ownList[current] && ownList[current].icons">
+                            <el-row class="m-icons" v-show="ownList[current] && ownList[current].icons">
                                 <el-col :span="3" class="u-item" v-for="(item, index) in ownList[current] && ownList[current].icons" :key="index">
                                     <div class="icon-base-view">
                                         <div class="u-icon-svg" v-html="item.content"></div>
