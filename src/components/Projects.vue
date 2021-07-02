@@ -54,7 +54,7 @@
                                     <span class="tool-1"><i class="opsfont ops-huishouzhan"></i> 回收站</span>
                                 </div>
                                 <div class="tool-right">
-                                    <span class="u-invitation" @click="invitation(ownList[current])"><i class="opsfont ops-chengyuan"></i> 成员：<i class="el-icon-user user"></i> x 3 <i class="el-icon-arrow-down"></i></span>
+                                    <span class="u-invitation" @click="invitation(ownList[current])"><i class="opsfont ops-chengyuan"></i> 成员：<i class="el-icon-user user"></i> x {{ projectParticipants.length + 1 }} <i class="el-icon-arrow-down"></i></span>
                                 </div>
                             </div>
                             <div class="project-code" 
@@ -208,6 +208,11 @@
                         <span class="email">weiwei.yang@zhangmen.com</span>
                         <span class="operate">创建人</span>
                     </div>
+                    <div v-for="(item, index) in projectParticipants" :key="index">
+                        <span class="username">{{item.userName}}</span>
+                        <span class="email">{{item.userEmail}}</span>
+                        <span class="operate">移除</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -220,7 +225,7 @@
 <script>
 import { mapState } from 'vuex'
 import store from '../store'
-import { createProjects, getProjects, generateFont, deleteProjectIcons, deleteProjects, queryUser, addprojectParticipants } from '../services/index';
+import { createProjects, getProjects, generateFont, deleteProjectIcons, deleteProjects, queryUser, addprojectParticipants, projectParticipantsList } from '../services/index';
 import Clipboard from 'clipboard'
 import Navigation from './Navigation';
 import Transfer from './Transfer'
@@ -235,6 +240,7 @@ export default {
         dialogVisible3: false,
         activeName: "1",
         ownList: [],
+        projectParticipants: [],
         current: 0,
         loading: false,
         invitationName: "",
@@ -275,6 +281,7 @@ export default {
                     item.create_at = Moment(item.createDate).format("YYYY-MM-DD HH:mm")
                 });
                 this.ownList = res.data.ownProjects
+                this.getProjectParticipantsList()
                 store.dispatch('setOwnProjects', res.data)
             })
         },
@@ -318,6 +325,13 @@ export default {
         },
         rowItem(index){
             this.current = index
+        },
+        getProjectParticipantsList(){
+            projectParticipantsList({
+                projectId: this.ownList[this.current]._id
+            }).then(res =>{
+                this.projectParticipants = res.data
+            })
         },
         transfer(){
             this.dialogVisible2 = true

@@ -27,6 +27,18 @@ class projectParticipantsSevice extends Service {
             this.ctx.throw(500, e);
         }
     }
+
+    async list(data){
+        const { ctx } = this;
+        try{
+            const projectParticipants = await ctx.model.ProjectParticipants.find({
+                projectId: data.projectId,
+            });
+            return projectParticipants
+        }catch(e){
+            this.ctx.throw(500, e);
+        }
+    }
 }
 
 module.exports = projectParticipantsSevice
