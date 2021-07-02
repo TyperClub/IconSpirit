@@ -173,7 +173,25 @@
     <div>
         <div class="search">
             <i class="opsfont ops-chengyuan"></i><span class="txt">项目成员管理：</span>
-            <el-input size="small" v-model="invitationName" placeholder="请输入中文名" style="width: 300px;" clearable></el-input>
+            <el-select 
+                size="small" 
+                v-model="invitationName" 
+                placeholder="请输入中文名" 
+                style="width: 300px;"
+                filterable
+                remote
+                reserve-keyword
+                :remote-method="remoteInvitation"
+            >
+                <el-option
+                v-for="item in invitations"
+                :key="item.value"
+                :label="item.label"
+                :value="item.userName">
+                    <span style="float: left">{{ item.userName }}</span>
+                    <span style="float: right; color: #8492a6; font-size: 13px">{{ item.department }}</span>
+                </el-option>
+            </el-select>
         </div>
         <div class="data-list">
             <div class="users">
@@ -200,7 +218,7 @@
 <script>
 import { mapState } from 'vuex'
 import store from '../store'
-import { createProjects, getProjects, generateFont, deleteProjectIcons, deleteProjects } from '../services/index';
+import { createProjects, getProjects, generateFont, deleteProjectIcons, deleteProjects, queryUser } from '../services/index';
 import Clipboard from 'clipboard'
 import Navigation from './Navigation';
 import Transfer from './Transfer'
@@ -218,6 +236,7 @@ export default {
         current: 0,
         loading: false,
         invitationName: "",
+        invitations: [],
         form: {
             name: "",
             description: "",
@@ -378,6 +397,15 @@ export default {
         },
         invitation(item){
             this.dialogVisible3 = true
+        },
+        remoteInvitation(query){
+            if (query !== '') {
+                queryUser({u: query}).then(res => {
+                    this.invitations = res.data
+                })
+            }else{
+                this.options = [];
+            }
         }
     },
     components: {

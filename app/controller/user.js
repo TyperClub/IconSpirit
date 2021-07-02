@@ -54,7 +54,7 @@ class UserController extends Controller {
     }
     async queryUser(){
         const { ctx } = this;
-        const { u } = ctx.query;
+        const { u } = ctx.request.body;
         const res = await ctx.service.user.queryUserName(u);
         
         ctx.helper.success({

@@ -10,10 +10,12 @@ const deleteProjectIcons = query => http.post('/api/v1/projectIcons/delete', que
 const login = query => http.post('/api/v1/login', query)
 const logout =  () => http.post('/api/v1/logout')
 const getUser = () => http.post('/api/v1/user')
+const queryUser = (query) => http.post('/api/v1/user/query', query)
 
 export {
     iconList,
     getUser,
+    queryUser,
     createProjects,
     deleteProjects,
     addProjectIcons,

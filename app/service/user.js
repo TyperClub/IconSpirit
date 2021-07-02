@@ -80,9 +80,9 @@ class UserSevice extends Service {
       .populate('dept')
       .populate('role');
   }
-  async queryUserName(){
+  async queryUserName(userName){
     const reg = new RegExp(userName);
-    const query = { username: reg };
+    const query = { userName: reg };
 
     return this.ctx.model.User
       .find(query)
