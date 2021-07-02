@@ -18,6 +18,12 @@ module.exports = app => {
         type: String,
         required: true
     },
+    department: {
+        type: String
+    },
+    userRole: {
+        type: Number
+    },
     createDate: {      // 添加时间
       type: Date,
       default: Date.now,
