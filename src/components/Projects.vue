@@ -54,7 +54,7 @@
                                     <span class="tool-1"><i class="opsfont ops-huishouzhan"></i> 回收站</span>
                                 </div>
                                 <div class="tool-right">
-                                    <span><i class="opsfont ops-chengyuan"></i> 成员：<i class="el-icon-user user"></i> x 3 <i class="el-icon-arrow-down"></i></span>
+                                    <span class="u-invitation" @click="invitation(ownList[current])"><i class="opsfont ops-chengyuan"></i> 成员：<i class="el-icon-user user"></i> x 3 <i class="el-icon-arrow-down"></i></span>
                                 </div>
                             </div>
                             <div class="project-code" 
@@ -165,6 +165,35 @@
         :before-close="handleClose">
        <transfer></transfer>
     </el-dialog>
+    <el-dialog
+    v-model="dialogVisible3"
+    custom-class="m-invitation"
+    width="600px"
+    :before-close="handleClose">
+    <div>
+        <div class="search">
+            <i class="opsfont ops-chengyuan"></i><span class="txt">项目成员管理：</span>
+            <el-input size="small" v-model="invitationName" placeholder="请输入中文名" style="width: 300px;" clearable></el-input>
+        </div>
+        <div class="data-list">
+            <div class="users">
+                <div class="header">
+                    <span class="username">用户名</span>
+                    <span class="email">email</span>
+                    <span class="operate">操作</span>
+                </div>
+                <div class="body">
+                    <div>
+                        <span class="username">杨韦韦</span>
+                        <span class="email">weiwei.yang@zhangmen.com</span>
+                        <span class="operate">创建人</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</el-dialog>
 </el-container>
 </template>
 
@@ -183,10 +212,12 @@ export default {
         circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
         dialogVisible: false,
         dialogVisible2: false,
+        dialogVisible3: false,
         activeName: "1",
         ownList: [],
         current: 0,
         loading: false,
+        invitationName: "",
         form: {
             name: "",
             description: "",
@@ -344,6 +375,9 @@ export default {
                     this.loading = false
                 })
             }
+        },
+        invitation(item){
+            this.dialogVisible3 = true
         }
     },
     components: {
@@ -358,6 +392,11 @@ export default {
 .icon {
   font-size: 36px;
   color: #666;
+}
+.m-invitation{
+    .el-dialog__body{
+        padding-top: 0px;
+    }
 }
 </style>
 <style lang="less" scoped>
@@ -510,12 +549,16 @@ export default {
             color: #409EFF;
         }
     }
+    .u-invitation{
+        cursor: pointer;
+    }
     .user{
         width: 18px;
         height: 18px;
         line-height: 18px;
         text-align: center;
-        border: 1px solid #ccc;
+        background: #409EFF;
+        color: #fff;
         border-radius: 50%;
     }
 }
@@ -694,5 +737,45 @@ export default {
 }
 .delete-project{
     cursor: pointer;
+}
+.search{
+    .txt{
+        padding-left: 5px;
+        font-weight: bold;
+    }
+}
+.data-list{
+    margin-top: 15px;
+    .users{
+        border: 1px solid #dddfe6;
+        border-radius: 3px;
+        .header{
+            line-height: 32px;
+            border-bottom: 1px solid #dddfe6;
+            span{
+                display: inline-block;
+                padding: 0 5px;
+                font-weight: bold;
+            }
+            .username{
+                width: 90px;
+            }
+            .email{
+                width: 360px;
+            }
+        }
+        .body{
+            span{
+                display: inline-block;
+                padding: 8px 5px;
+            }
+            .username{
+                width: 90px;
+            }
+            .email{
+                width: 360px;
+            }
+        }
+    }
 }
 </style>
