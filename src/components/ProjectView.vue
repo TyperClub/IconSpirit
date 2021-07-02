@@ -19,7 +19,7 @@
         element-loading-text="代码生成中..."
         >
             <div class="help">
-                <span><i class="opsfont ops-shiyongbangzhu1"></i> 使用帮助</span>
+                <span @click="help"><i class="opsfont ops-bangzhushouce"></i> 使用帮助</span>
             </div>
             <div class="project-code-warp">
                 <div class="css-path" :class="projectList?.font.fontIsOld && 'font-old'" v-if="projectList?.font.cssFile">
@@ -274,6 +274,9 @@ export default {
         },
         downIcon(item){
             console.log(111, item)
+        },
+        help(){
+            this.$router.push('help')
         }
     }
 }
