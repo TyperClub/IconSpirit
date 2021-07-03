@@ -334,6 +334,9 @@ export default {
         cursor: pointer;
         padding-top: 16px;
         line-height: 20px;
+        &:hover{
+            color: #409EFF;
+        }
     }
     .upload{
         cursor: pointer;
@@ -365,6 +368,9 @@ export default {
     font-size: 26px;
     padding: 0 4px;
     margin-left: 15px;
+    &:hover{
+        color: #409EFF;
+    }
 }
 .m-drawer{
     position: relative;

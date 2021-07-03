@@ -290,8 +290,8 @@ export default {
         font-size: 14px;
         margin-bottom: 5px;
         span{
-            padding: 10px;
-            border-radius: 6px;
+            padding: 7px 10px;
+            border-radius: 5px;
             &:hover{
                 color: #409EFF;
                  background: rgba(25,103,210,.04);

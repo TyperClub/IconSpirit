@@ -353,7 +353,7 @@ import Navigation from './Navigation';
       justify-content: center;
     }
     .icon-base-view-right{
-      width: 160px;
+      min-width: 140px;
       height: 42px;
       display: flex;
       flex-direction: column;
