@@ -170,7 +170,7 @@ export default {
                     this.activeType = 'corp'
                     this.corpCurrent = 0
                 }
-
+                this.getSessionStorageIcons()
                 store.dispatch('setOwnProjects', res.data)
             })
         },
@@ -200,6 +200,7 @@ export default {
                 this.corpCurrent = index
             }
             this.activeType = type
+            this.getSessionStorageIcons()
         },
         transfer(){
             this.dialogVisible2 = true
@@ -222,6 +223,25 @@ export default {
                 this.ownList[this.ownCurrent].icons = icons
             }else{
                 this.corpList[this.corpCurrent].icons = icons
+            }
+        },
+        getSessionStorageIcons(){
+            let icons = window.sessionStorage.getItem('ops-icons')
+            icons = icons ? JSON.parse(icons) : []
+            let data = this.activeType == "own" ? this.ownList[this.ownCurrent].icons : this.corpList[this.corpCurrent].icons
+            data.forEach(item => {
+                item.status = false
+                icons.forEach(obj =>{
+                    if(obj.id  ==  item.id){
+                        item.status  =  true
+                    }
+                })
+            })
+
+            if(this.activeType == "own"){
+                this.ownList[this.ownCurrent].icons = data
+            }else{
+                this.corpList[this.corpCurrent].icons = data
             }
         }
     },
