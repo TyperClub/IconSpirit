@@ -10,6 +10,10 @@ module.exports = app => {
         type: String,
         required: true
     },
+    id: {
+        type: String,
+        required: true,
+    },
     iconsId: {
         type: String,
         required: true

@@ -1,7 +1,7 @@
 <template>
 <el-container style="height: 100%;">
     <el-header style="text-align: right; font-size: 12px">
-        <navigation ref="navigation"></navigation>
+        <navigation ref="navigation" @deleteSelectIcon="deleteSelectIcon"></navigation>
     </el-header>
     <div class="home">
         <div class="m-content">
@@ -205,8 +205,24 @@ export default {
             this.dialogVisible2 = true
         },
         addIcons(type, item){
-            console.log(1111, this.$refs.navigation)
             this.$refs.navigation.addIcons(type, item)
+        },
+        deleteSelectIcon(type, item){
+            let icons = this.activeType == "own" ? this.ownList[this.ownCurrent].icons : this.corpList[this.corpCurrent].icons
+            icons.forEach(obj =>{
+                if(type == "all"){
+                    obj.status = false
+                }else{
+                    if(obj.id == item.id){
+                        obj.status = false
+                    }
+                }
+            })
+            if(this.activeType == "own"){
+                this.ownList[this.ownCurrent].icons = icons
+            }else{
+                this.corpList[this.corpCurrent].icons = icons
+            }
         }
     },
     components: {

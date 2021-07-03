@@ -19,6 +19,7 @@ class ProjectIconsSevice extends Service {
 
                 if(!icon){
                     await ctx.model.ProjectIcons.create({
+                        id: item.id,
                         projectIconsId: res._id,
                         iconsId: item._id,
                         CH_Name: item.CH_Name,
