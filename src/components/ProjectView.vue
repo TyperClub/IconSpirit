@@ -16,7 +16,7 @@
         </div>
         <div class="project-code" 
         v-loading="loading"
-        element-loading-text="代码生成中..."
+        element-loading-text="正在努力生成代码中..."
         >
             <div class="help">
                 <span @click="help"><i class="opsfont ops-bangzhushouce"></i> 使用帮助</span>
@@ -290,7 +290,13 @@ export default {
             }
         },
         downIcon(item){
-            console.log(111, item)
+            let dataURL = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(item.content))); //给图片对象写入base64编码的svg流
+            let dl = document.createElement("a");
+            let fileName = this.projectList.prefix + item.ENG_Name
+            document.body.appendChild(dl); // This line makes it work in Firefox.
+            dl.setAttribute("href", dataURL);
+            dl.setAttribute("download", `${fileName}.svg`);
+            dl.click();
         },
         help(){
             this.$router.push('help')
