@@ -163,6 +163,9 @@ export default {
                 res.data && res.data.ownProjects && res.data.ownProjects.forEach(item => {
                     item.create_at = Moment(item.createDate).format("YYYY-MM-DD HH:mm")
                 });
+                res.data && res.data.corpProjects && res.data.corpProjects.forEach(item => {
+                    item.create_at = Moment(item.createDate).format("YYYY-MM-DD HH:mm")
+                });
                 this.ownList = res.data.ownProjects
                 this.corpList = res.data.corpProjects
                 
