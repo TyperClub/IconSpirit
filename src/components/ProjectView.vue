@@ -351,6 +351,17 @@ export default {
         padding-top: 0px;
     }
 }
+.u-icon-svg{
+    svg{
+        font-size: 36px;
+        color: #666;
+        width: 1em;
+        height: 1em;
+        vertical-align: middle;
+        fill: currentColor;
+        overflow: hidden;
+    }
+}
 </style>
 
 <style lang="less" scoped>

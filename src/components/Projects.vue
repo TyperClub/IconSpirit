@@ -102,7 +102,7 @@
         width="600px"
         custom-class="m-transferBox"
         :before-close="handleClose">
-       <transfer @closeTransfer="closeTransfer"></transfer>
+       <transfer ref="transfer" @closeTransfer="closeTransfer"></transfer>
     </el-dialog>
 </el-container>
 </template>
@@ -157,6 +157,7 @@ export default {
     methods: {
         createProject(){
             this.dialogVisible = true
+            this.$refs.form.resetFields();
         },
         getProjects(){
             getProjects().then(res => {
@@ -207,6 +208,7 @@ export default {
         },
         transfer(){
             this.dialogVisible2 = true
+            this.$refs.transfer.init()
         },
         addIcons(type, item){
             this.$refs.navigation.addIcons(type, item)

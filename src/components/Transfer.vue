@@ -1,5 +1,5 @@
 <template>
-     <div>
+     <div v-loading="loading" element-loading-text="正在努力迁移中...">
         <el-form  :model="form2" :rules="rules2" ref="form2"  label-width="115px">
             <el-form-item label="项目名称" prop="name">
                 <el-input style="width: 438px" v-model="form2.name" placeholder="请输入项目名称" clearable></el-input>
@@ -20,9 +20,10 @@ export default {
     data(){
         return{
             active: 1,
+            loading: false,
             form2: {
                 name: "",
-                url: "https://at.alicdn.com/t/font_1246635_1rd1nwr9kqp.css"
+                url: ""
             },
             rules2: {
                 name: [{ required: true, message: '请输入项目名', trigger: 'blur' }],
@@ -31,12 +32,27 @@ export default {
         }
     },
     methods:{
+        init(){
+            this.$refs.form2.resetFields();
+        },
         next(formName){
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    fontTransfer(this.form2).then(() =>{
+                    this.loading = true
+                    let url = this.form2.url
+                    if(url.substr(0, 2) === "//"){
+                        url =  `https:${url}`
+                    }
+                    fontTransfer({
+                        name: this.form2.name,
+                        url
+                    }).then(() =>{
                         this.$message.success("迁移成功！")
+                        this.loading = false
                         this.$emit('closeTransfer')
+                    }).catch(err=>{
+                        this.loading = false
+                        this.$message.error(err.error)
                     })
                 }else{
                     return false;
