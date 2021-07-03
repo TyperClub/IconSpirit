@@ -102,7 +102,7 @@
         width="600px"
         custom-class="m-transferBox"
         :before-close="handleClose">
-       <transfer></transfer>
+       <transfer @closeTransfer="closeTransfer"></transfer>
     </el-dialog>
 </el-container>
 </template>
@@ -246,6 +246,10 @@ export default {
             }else{
                 this.corpList[this.corpCurrent].icons = data
             }
+        },
+        closeTransfer(){
+            this.dialogVisible2 = false
+            this.getProjects()
         }
     },
     components: {

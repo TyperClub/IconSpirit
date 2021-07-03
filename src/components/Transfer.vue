@@ -34,8 +34,9 @@ export default {
         next(formName){
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    fontTransfer(this.form2).then(res =>{
-                        console.log(111,res)
+                    fontTransfer(this.form2).then(() =>{
+                        this.$message.success("迁移成功！")
+                        this.$emit('closeTransfer')
                     })
                 }else{
                     return false;
