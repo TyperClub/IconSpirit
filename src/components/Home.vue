@@ -24,7 +24,7 @@
       <div>
         <el-row v-if="tableData.length > 0" class="u-row" :gutter="20">
           <el-col :span="4" v-for="(item,index) in tableData" :key="index" class="u-item">
-              <el-card :shadow="item.status ? 'never' : 'hover'"  v-bind:class=" item.status ? 'selected' : '' " @mouseenter="showUI($event,item)" @mouseleave="hideUI($event,item)" @click="selectUI($event, item, index)">
+              <el-card :shadow="item.status ? 'never' : 'hover'"  v-bind:class=" item.status ? 'selected' : '' "  @click="selectUI($event, item, index)">
                 <div class="icon-base-view">
                   <div class="icon-base-view-left" v-html="item.content"></div>
                   <div class="icon-base-view-right">
@@ -100,12 +100,6 @@ import Navigation from './Navigation';
       this.getIconsList(this.searchName)
     },
     methods: {
-      showUI(event){
-        event.target.querySelector(".icon-base-view-mask").style.display="block"
-      },
-      hideUI(event){
-        event.target.querySelector(".icon-base-view-mask").style.display="none"
-      },
        beforeEnter(el) {
             // 设置transform值
             el.style.opacity = 0;
@@ -328,7 +322,7 @@ import Navigation from './Navigation';
    .icon-base-view-mask{
      position: absolute;
      right: 15px;
-      display: none;
+     color: #fff;
       i{
         font-size: 20px;
       }
@@ -339,7 +333,8 @@ import Navigation from './Navigation';
   .icon-base-view{
     &:hover{
       .icon-base-view-mask{
-        display: block;
+        animation: 0.5s shopping ease-in-out;
+        color: #000;
       }
     }
     display: flex;
@@ -409,6 +404,15 @@ import Navigation from './Navigation';
     margin-top: 20px;
     text-align: right;
   }
+
+  @keyframes shopping {
+    from {
+        color: #fff;
+    }
+    to {
+        color: #000;
+    }
+}
 
   .move_dot {
         width: 50px;

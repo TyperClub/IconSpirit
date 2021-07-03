@@ -21,7 +21,7 @@
             <el-tabs class="m-menu padding-top-20" v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane name="1">
                     <template #label>
-                        <span><i class="opsfont ops-base_itemxiangmuguanli"></i> 我的项目</span>
+                        <span class="menu-title"><i class="opsfont ops-base_itemxiangmuguanli"></i> 我的项目</span>
                     </template>
                     <div class="m-project-box" v-if="ownList.length || corpList.length">
                         <div class="m-project">
@@ -52,13 +52,13 @@
                 </el-tab-pane>
                 <el-tab-pane name="2">
                     <template #label>
-                        <span><i class="opsfont ops-shoucang"></i> 我的收藏</span>
+                        <span class="menu-title"><i class="opsfont ops-shoucang"></i> 我的收藏</span>
                     </template>
                     我的收藏
                 </el-tab-pane>
                 <el-tab-pane name="3">我的部门
                     <template #label>
-                        <span><i class="opsfont ops-bumenguanli"></i> 我的部门</span>
+                        <span class="menu-title"><i class="opsfont ops-bumenguanli"></i> 我的部门</span>
                     </template>
                 </el-tab-pane>
             </el-tabs>
@@ -273,6 +273,11 @@ export default {
 .m-menu{
     position: relative;
 }
+.menu-title{
+    padding-bottom: 5px;
+    font-size: 14px;
+    color: #666;
+}
 .padding-top-20{
     padding-top: 20px;
 }
@@ -283,10 +288,13 @@ export default {
     .create-project{
         cursor: pointer;
         font-size: 14px;
+        margin-bottom: 5px;
         span{
-            padding-left: 10px;
-             &:hover{
+            padding: 10px;
+            border-radius: 6px;
+            &:hover{
                 color: #409EFF;
+                 background: rgba(25,103,210,.04);
             }
         }
     }

@@ -39,7 +39,7 @@
                     <p class="icon-name">{{item.CH_Name}}</p>
                     <p class="icon-code">{{projectList.prefix + item.ENG_Name}}</p>
                     <div class="icon-cover">
-                        <i title="添加入库" @click="addToCart($event, item)" class="opsfont ops-03 cover-item"></i>
+                        <i title="添加入库" @click="addToCart($event, item)" :class="item.status ? 'ops-03f': 'ops-03'"  class="opsfont cover-item"></i>
                         <i title="编辑" class="el-icon-edit cover-item"></i>
                         <i title="删除" @click="deleteIcon(item)" class="el-icon-delete cover-item"></i>
                         <i title="下载" @click="downIcon(item)" class="opsfont ops-xiazai cover-item"></i>
@@ -421,10 +421,17 @@ export default {
     .font-old{
         opacity: 0.3;
     }
+    .copy-code{
+        color: #409EFF;
+        &:hover{
+            color: #0366d6 !important;
+        }
+    }
     .operation-generate{
         cursor: pointer;
+        color: #409EFF;
         &:hover{
-            color: #409EFF;
+            color: #0366d6 !important;
         }
     }
     .copy{

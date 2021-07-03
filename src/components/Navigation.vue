@@ -535,7 +535,7 @@ export default {
         width: 200px;
     }
     .current{
-        background: #eee;
+        background: #E8F3FF;
         border: 1px solid #409EFF;
     }
     li{
@@ -549,7 +549,7 @@ export default {
             padding-left: 5px;
         }
         &:hover{
-            background: #eee;
+            background: #E8F3FF;
         }
         .f-department{
             float: right;
