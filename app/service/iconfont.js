@@ -135,6 +135,13 @@ class IconfontSevice extends Service {
             this.ctx.throw(500, e);
         }
     }
+
+    async fontTransfer(){
+        const { ctx } = this;
+        var font = FontCarrier.create()
+        let transFont = FontCarrier.transfer('/Users/wiwi/data/webstorm/devops/code/ops-iconfont/test/font_2627940_flbnyr7meh.ttf')
+        console.log(111, transFont.getSvg("&#xE603;"))
+    }
 }
 
 module.exports = IconfontSevice

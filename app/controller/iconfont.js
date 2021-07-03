@@ -13,6 +13,16 @@ class IconfontController extends Controller {
     })
   }
 
+  async fontTransfer(){
+    const { ctx } = this;
+    const body = ctx.request.body;
+    const result = await ctx.service.iconfont.fontTransfer(body);
+    ctx.helper.success({
+        ctx,
+        res: result
+    })
+  }
+
   async list(){
     const { ctx } = this;
     const rule = {
