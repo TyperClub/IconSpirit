@@ -2,9 +2,10 @@
 const Service = require('egg').Service
 const FontCarrier = require('font-carrier')
 const Oss = require('../util/oss')
-const { InitCssStyle, addItemStyle } = require('../util/cssStyle')
+const { InitCssStyle, addItemStyle, transfer } = require('../util/cssStyle')
 const fs = require('fs')
 const path = require('path')
+
 class IconfontSevice extends Service {
     async add(data) {
         const { ctx } = this;
@@ -136,11 +137,45 @@ class IconfontSevice extends Service {
         }
     }
 
-    async fontTransfer(){
+    async fontTransfer(data){
         const { ctx } = this;
-        var font = FontCarrier.create()
-        let transFont = FontCarrier.transfer('/Users/wiwi/data/webstorm/devops/code/ops-iconfont/test/font_2627940_flbnyr7meh.ttf')
-        console.log(111, transFont.getSvg("&#xE603;"))
+        try{
+            
+            let { fontFamily, prefix, iconListSvg} = await transfer(data.url)
+
+            const user = await ctx.model.User.findOne({
+                telephone: ctx.session.cas.user,
+            });
+            let parameter = {"name": data.name,"description":"","fontFormat":["WOFF2","WOFF","TTF"],"fontFamily": fontFamily,"prefix": prefix}
+            
+            let res = await ctx.model.Project.create({
+                creater: user.userName,
+                userEmail: user.userEmail,
+                department: user.department,
+                ...parameter
+            });
+            
+            for(let index in iconListSvg){
+                let item = iconListSvg[index]
+                await ctx.model.ProjectIcons.create({
+                    id: `transfer-${item.unicode}`,
+                    projectIconsId: res._id,
+                    iconsId: `transfer-${item.unicode}`,
+                    CH_Name: item.CH_Name,
+                    ENG_Name: item.ENG_Name,
+                    author: user.userName,
+                    content: item.content,
+                    gurop: user.department,
+                    type: "transfer",
+                    unicode: item.unicode,
+                    createDate:  new Date(),
+                    isDeleted: false
+                })
+            }
+            return null
+        }catch(e){
+            this.ctx.throw(500, e);
+        }        
     }
 }
 

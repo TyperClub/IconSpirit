@@ -1,20 +1,15 @@
 <template>
      <div>
-        <el-steps class="m-steps" :active="1" simple>
-            <el-step title="迁移信息"></el-step>
-            <el-step title="项目信息"></el-step>
-        </el-steps>
-        <div v-show="active == 1">
-            <el-form  :model="form2" :rules="rules2" ref="form2"  label-width="115px">
-                <el-form-item label="地址" prop="url">
-                    <el-input style="width: 280px" v-model="form2.url" placeholder="请输入 iconfont css 链接地址" clearable></el-input>
-                    <a class="u-link" href="https://www.iconfont.cn/" target="_blank">打开 iconfont 复制链接</a>
-                </el-form-item>
-            </el-form>
-            <div class="btn-wrap first">
-                <el-button type="primary" @click="next('form2')">下一步</el-button>
-            </div>
-        </div>
+        <el-form  :model="form2" :rules="rules2" ref="form2"  label-width="115px">
+            <el-form-item label="项目名称" prop="name">
+                <el-input style="width: 438px" v-model="form2.name" placeholder="请输入项目名称" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="地址" prop="url">
+                <el-input style="width: 330px" v-model="form2.url" placeholder="请输入 iconfont css 链接地址" clearable></el-input>
+                <!-- <a class="u-link" href="https://www.iconfont.cn/" target="_blank">打开 iconfont 复制链接</a> -->
+                <el-button class="transfer-btn" type="primary" @click="next('form2')">一键迁移</el-button>
+            </el-form-item>
+        </el-form>
     </div>
 </template>
 
@@ -26,9 +21,11 @@ export default {
         return{
             active: 1,
             form2: {
-                url: "//at.alicdn.com/t/font_2627940_flbnyr7meh.ttf?t=1625298507664"
+                name: "",
+                url: "https://at.alicdn.com/t/font_1246635_1rd1nwr9kqp.css"
             },
             rules2: {
+                name: [{ required: true, message: '请输入项目名', trigger: 'blur' }],
                 url: [{ required: true, message: '请输入 iconfont css 链接地址', trigger: 'blur' }],
             }
         }
@@ -37,9 +34,7 @@ export default {
         next(formName){
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    fontTransfer({
-                        url: this.form2.url
-                    }).then(res =>{
+                    fontTransfer(this.form2).then(res =>{
                         console.log(111,res)
                     })
                 }else{
@@ -80,5 +75,8 @@ export default {
     &:hover{
         color: #409EFF;
     }
+}
+.transfer-btn{
+    margin-left: 10px;
 }
 </style>
