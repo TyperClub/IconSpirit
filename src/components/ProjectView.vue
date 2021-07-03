@@ -394,11 +394,15 @@ export default {
     }
 }
 
-
 .project-code{
     .help{
-        cursor: pointer;
-        font-size: 14px;
+        span{
+            cursor: pointer;
+            font-size: 14px;
+            &:hover{
+                color: #409EFF;
+            }
+        }
     }
 }
 .project-code-warp{
