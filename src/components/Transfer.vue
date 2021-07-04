@@ -4,7 +4,7 @@
             <el-form-item label="项目名称" prop="name">
                 <el-input style="width: 438px" v-model="form2.name" placeholder="请输入项目名称" clearable></el-input>
             </el-form-item>
-            <el-form-item label="地址" prop="url">
+            <el-form-item label="css 链接" prop="url">
                 <el-input style="width: 330px" v-model="form2.url" placeholder="请输入 iconfont css 链接地址" clearable></el-input>
                 <!-- <a class="u-link" href="https://www.iconfont.cn/" target="_blank">打开 iconfont 复制链接</a> -->
                 <el-button class="transfer-btn" type="primary" @click="next('form2')">一键迁移</el-button>
