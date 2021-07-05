@@ -51,6 +51,8 @@ const transfer = async (cssUrl) =>{
     });
     let buffer = Buffer.from(response, 'binary');
     let transFont = FontCarrier.transfer(buffer)
+    let fontFamily = transFont.getFontface().options.fontFamily
+    let prefix = iconList[0].name.split('-')[0] + '-'
 
     let iconListSvg = []
     for(let index in iconList){
@@ -58,14 +60,12 @@ const transfer = async (cssUrl) =>{
         let unicode10 = hex2int(item.unicode.replace(/&#|;/g, ''))
         let unicode = insertStr(item.unicode, 2, 'x')
         iconListSvg.push({
-            CH_Name: item.name,
-            ENG_Name: item.name,
+            CH_Name: item.name.slice(prefix.length),
+            ENG_Name: item.name.slice(prefix.length),
             content: transFont.getSvg(unicode),
             unicode: unicode10
         })
     }
-    let fontFamily = transFont.getFontface().options.fontFamily
-    let prefix = iconList[0].name.split('-')[0] + '-'
 
     return {
         fontFamily,

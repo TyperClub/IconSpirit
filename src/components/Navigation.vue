@@ -233,6 +233,9 @@ export default {
                     }).then(res =>{
                         if(res.code === 200){
                             window.sessionStorage.removeItem('ops-icons')
+                            this.drawer = false
+                            this.count = 0
+                            this.icons = []
                             this.$message.success("添加成功!")
                             this.$router.push('projects')
                         }
