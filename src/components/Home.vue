@@ -23,7 +23,7 @@
     <el-main class="home">
       <div>
         <el-row v-if="tableData.length > 0" class="u-row" :gutter="20">
-          <el-col :span="4" v-for="(item,index) in tableData" :key="index" class="u-item">
+          <el-col :xs="8" :sm="6" :md="6" :lg="4" v-for="(item,index) in tableData" :key="index" class="u-item">
               <el-card :shadow="item.status ? 'never' : 'hover'"  v-bind:class=" item.status ? 'selected' : '' "  @click="selectUI($event, item, index)">
                 <div class="icon-base-view">
                   <div class="icon-base-view-left" v-html="item.content"></div>
@@ -33,6 +33,7 @@
                   </div>
                   <div class="icon-base-view-mask">
                     <i :class="item.status ? 'ops-03f': 'ops-03'" class="opsfont" @click="addToCart($event, item)"></i>
+                    <!-- <i class="opsfont ops-xiazai" @click="addToCart($event, item)"></i> -->
                   </div>
                   <!-- <span class="author"> <i class="el-icon-user user"></i> {{item.author || 'other'}}</span> -->
                 </div>
@@ -324,7 +325,11 @@ import Navigation from './Navigation';
      right: 15px;
      color: #fff;
       i{
-        font-size: 20px;
+        padding-left: 5px;
+        font-size: 22px;
+        &:hover{
+          color: #0366d6;
+        }
       }
       &:hover{
         display: block;
@@ -334,7 +339,7 @@ import Navigation from './Navigation';
     &:hover{
       .icon-base-view-mask{
         animation: 0.5s shopping ease-in-out;
-        color: #000;
+        color: #409EFF;
       }
     }
     display: flex;
@@ -410,7 +415,7 @@ import Navigation from './Navigation';
         color: #fff;
     }
     to {
-        color: #000;
+        color: #409EFF;
     }
 }
 
