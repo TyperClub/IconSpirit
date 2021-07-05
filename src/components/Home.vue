@@ -336,7 +336,7 @@ import Navigation from './Navigation';
      position: absolute;
      right: 15px;
      color: #fff;
-     display: none;
+     opacity: 0;
       i{
         margin-left: 5px;
         font-size: 22px;
@@ -362,8 +362,8 @@ import Navigation from './Navigation';
         transition: opacity 0.3s;
       }
       .icon-base-view-mask{
-        display: block;
-        // animation: 0.5s shopping ease-in-out;
+        opacity: 1;
+        transition: opacity 0.3s;
       }
     }
     display: flex;
@@ -433,15 +433,6 @@ import Navigation from './Navigation';
     margin-top: 20px;
     text-align: right;
   }
-
-  @keyframes shopping {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0.3;
-    }
-}
 
   .move_dot {
         width: 50px;
