@@ -131,8 +131,8 @@ import Navigation from './Navigation';
           this.showMoveDot = [...this.showMoveDot, true];
           // //显示图片
           this.imgUrl = item.content;
-          this.elLeft = event.target.getBoundingClientRect().left;
-          this.elTop = event.target.getBoundingClientRect().top + 20;
+          this.elLeft = event.target.getBoundingClientRect().left + 10;
+          this.elTop = event.target.getBoundingClientRect().top + 30;
         }
         item.status = !item.status
         this.$refs.navigation.addIcons(type, item)
@@ -324,9 +324,17 @@ import Navigation from './Navigation';
      position: absolute;
      right: 15px;
      color: #fff;
+     display: none;
       i{
+        
         padding-left: 5px;
         font-size: 22px;
+        line-height: 22px;
+        text-align: center;
+        background: rgba(25, 103, 210, 0.05);
+        border-radius: 50%;
+        padding: 8px;
+        font-weight: bold;
         &:hover{
           color: #0366d6;
         }
@@ -338,7 +346,8 @@ import Navigation from './Navigation';
   .icon-base-view{
     &:hover{
       .icon-base-view-mask{
-        animation: 0.5s shopping ease-in-out;
+        display: block;
+        // animation: 0.5s shopping ease-in-out;
         color: #409EFF;
       }
     }
