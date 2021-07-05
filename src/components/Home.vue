@@ -32,8 +32,8 @@
                       <div class="name">{{item.ENG_Name || 'other'}}</div>
                   </div>
                   <div class="icon-base-view-mask">
-                    <i :class="item.status ? 'ops-03f': 'ops-03'" class="opsfont" @click="addToCart($event, item)"></i>
-                    <!-- <i class="opsfont ops-xiazai" @click="addToCart($event, item)"></i> -->
+                    <i :class="item.status ? 'ops-03f': 'ops-03'" class="opsfont" @click="addToCart($event, item)" title="添加到购物车"></i>
+                    <i class="opsfont ops-xiazai"  @click="downIcon(item)" title="下载"></i>
                   </div>
                   <!-- <span class="author"> <i class="el-icon-user user"></i> {{item.author || 'other'}}</span> -->
                 </div>
@@ -123,6 +123,18 @@ import Navigation from './Navigation';
           el.style.transition = 'all 0.8s cubic-bezier(0.12,0.78,0.53,0.92)';
           this.showMoveDot = this.showMoveDot.map(() => false);
           done()
+      },
+      downIcon(item){
+        let dataURL = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(item.content))); //给图片对象写入base64编码的svg流
+        let dl = document.createElement("a");
+        let fileName = item.ENG_Name
+        dl.style.display = 'none';
+        document.body.appendChild(dl); // This line makes it work in Firefox.
+        dl.setAttribute("href", dataURL);
+        dl.setAttribute("download", `${fileName}.svg`);
+        dl.click();
+        // 然后移除
+        document.body.removeChild(dl);
       },
       addToCart(event, item){
         let type = 'remove'
@@ -326,8 +338,7 @@ import Navigation from './Navigation';
      color: #fff;
      display: none;
       i{
-        
-        padding-left: 5px;
+        margin-left: 5px;
         font-size: 22px;
         line-height: 22px;
         text-align: center;
@@ -335,6 +346,7 @@ import Navigation from './Navigation';
         border-radius: 50%;
         padding: 8px;
         font-weight: bold;
+        color: #409EFF;
         &:hover{
           color: #0366d6;
         }
@@ -345,10 +357,13 @@ import Navigation from './Navigation';
     }
   .icon-base-view{
     &:hover{
+      .icon-base-view-right, .icon-base-view-left{
+        opacity: 0.3;
+        transition: opacity 0.3s;
+      }
       .icon-base-view-mask{
         display: block;
         // animation: 0.5s shopping ease-in-out;
-        color: #409EFF;
       }
     }
     display: flex;
@@ -421,10 +436,10 @@ import Navigation from './Navigation';
 
   @keyframes shopping {
     from {
-        color: #fff;
+        opacity: 1;
     }
     to {
-        color: #409EFF;
+        opacity: 0.3;
     }
 }
 
