@@ -1,7 +1,7 @@
 <template>
      <div v-loading="loading" element-loading-text="正在努力迁移中...">
         <el-form  :model="form2" :rules="rules2" ref="form2"  label-width="115px">
-            <el-form-item label="项目名称" prop="name">
+            <el-form-item label="新项目名称" prop="name">
                 <el-input style="width: 438px" v-model="form2.name" placeholder="请输入项目名称" clearable></el-input>
             </el-form-item>
             <el-form-item label="css 链接" prop="url">
@@ -9,6 +9,7 @@
                 <!-- <a class="u-link" href="https://www.iconfont.cn/" target="_blank">打开 iconfont 复制链接</a> -->
                 <el-button class="transfer-btn" type="primary" @click="next('form2')">一键迁移</el-button>
             </el-form-item>
+            <p class="u-tips">* 填写地址如：//at.alicdn.com/t/font_1246635_1rd1nwr9kqp.css</p>
         </el-form>
     </div>
 </template>
@@ -102,5 +103,10 @@ export default {
 }
 .transfer-btn{
     margin-left: 10px;
+}
+.u-tips{
+    text-align: center;
+    font-size: 12px;
+    color: #8a8a8a;
 }
 </style>

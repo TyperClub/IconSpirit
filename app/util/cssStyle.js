@@ -59,9 +59,11 @@ const transfer = async (cssUrl) =>{
         let item = iconList[index]
         let unicode10 = hex2int(item.unicode.replace(/&#|;/g, ''))
         let unicode = insertStr(item.unicode, 2, 'x')
+        let name = item.name.slice(prefix.length) || item.name
+        
         iconListSvg.push({
-            CH_Name: item.name.slice(prefix.length),
-            ENG_Name: item.name.slice(prefix.length),
+            CH_Name: name,
+            ENG_Name: name,
             content: transFont.getSvg(unicode),
             unicode: unicode10
         })
