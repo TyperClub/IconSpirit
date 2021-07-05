@@ -178,7 +178,7 @@ export default {
                     if(res.code === 200){
                         this.$message({
                             type: 'success',
-                            message: '删除成功!'
+                            message: '项目删除成功，可以从被删除项目中恢复!'
                         });
                         this.$emit('newGetProjects')
                     }

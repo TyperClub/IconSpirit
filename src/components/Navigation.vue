@@ -143,6 +143,12 @@ export default {
         ...mapState({
             username: state => state.userInfo.userName,
             ownProjects: state =>{
+                state.ownProjects.ownProjects.forEach(obj => {
+                    obj.type = 'own'
+                });
+                state.ownProjects.corpProjects.forEach(obj => {
+                    obj.type = 'corp'
+                })
                 return [...state.ownProjects.ownProjects, ...state.ownProjects.corpProjects]
             }
         })
@@ -237,7 +243,13 @@ export default {
                             this.count = 0
                             this.icons = []
                             this.$message.success("添加成功!")
-                            this.$router.push('projects')
+                            this.$router.push({
+                                path: '/projects',
+                                query: {
+                                    type: this.ownProjects[this.current].type,
+                                    id: this.ownProjects[this.current]._id
+                                }
+                            })
                         }
                     })
                 }

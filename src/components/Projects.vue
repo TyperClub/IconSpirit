@@ -28,21 +28,21 @@
                             <div class="u-project" v-if="ownList.length">
                                 <div><i class="el-icon-menu menu"></i><span class="project-title">我发起的项目</span></div>
                                 <div class="project-list">
-                                    <div class="item" @click="rowItem(index, 'own')" :class="ownCurrent === index && activeType === 'own' ? 'current' : ''"  v-for="(item, index) in ownList" :key="index"><span>{{item.name}}</span></div>
+                                    <div class="item" @click="rowItem(ownList[ownCurrent], index, 'own')" :class="ownCurrent === index && activeType === 'own' ? 'current' : ''"  v-for="(item, index) in ownList" :key="index"><span>{{item.name}}</span></div>
                                 </div>
                             </div>
                             <div class="u-project" v-if="corpList.length">
                                 <div><i class="el-icon-menu menu"></i><span class="project-title">我参入的项目</span></div>
                                 <div class="project-list">
-                                    <div class="item" @click="rowItem(index, 'corp')" :class="corpCurrent === index && activeType === 'corp' ? 'current' : ''"  v-for="(item, index) in corpList" :key="index"><span>{{item.name}}</span></div>
+                                    <div class="item" @click="rowItem(corpList[corpCurrent], index, 'corp')" :class="corpCurrent === index && activeType === 'corp' ? 'current' : ''"  v-for="(item, index) in corpList" :key="index"><span>{{item.name}}</span></div>
                                 </div>
                             </div>
                             <!-- <div class="u-project">
                                 <div class="delete-project"><i class="el-icon-menu menu"></i><span class="project-title">我删除的项目</span></div>
                             </div> -->
                         </div>
-                        <project-view v-if="activeType === 'own'" :project-list="ownList[ownCurrent]" @newGetProjects="getProjects" @addIcons="addIcons"></project-view>
-                        <project-view v-if="activeType === 'corp'" :project-list="corpList[corpCurrent]" @newGetProjects="getProjects" @addIcons="addIcons"></project-view>
+                        <project-view v-if="activeType === 'own'" :project-list="ownList[ownCurrent]" @newGetProjects="newGetProjects" @addIcons="addIcons"></project-view>
+                        <project-view v-if="activeType === 'corp'" :project-list="corpList[corpCurrent]" @newGetProjects="newGetProjects" @addIcons="addIcons"></project-view>
                     </div>
                     <div class="m-project-tool" @click="createProject" v-else>
                         <div class="m-create-icons-projects">
@@ -159,6 +159,9 @@ export default {
             this.dialogVisible = true
             this.$refs.form.resetFields();
         },
+        newGetProjects(){
+            window.location.reload()
+        },
         getProjects(){
             getProjects().then(res => {
                 res.data && res.data.ownProjects && res.data.ownProjects.forEach(item => {
@@ -169,6 +172,22 @@ export default {
                 });
                 this.ownList = res.data.ownProjects
                 this.corpList = res.data.corpProjects
+
+                if(this.$route.query.type ===  'corp'){
+                    res.data.corpProjects.forEach((obj,index) => {
+                        if(obj._id === this.$route.query.id){
+                            this.activeType = 'corp'
+                            this.corpCurrent = index
+                        }
+                    });
+                }else if(this.$route.query.type ===  'own'){
+                    res.data.ownProjects.forEach((obj,index) => {
+                        if(obj._id === this.$route.query.id){
+                            this.activeType = 'own'
+                            this.ownCurrent = index
+                        }
+                    });
+                }
                 
                 if(!this.ownList.length && this.corpList.length && this.activeType === 'own'){
                     this.activeType = 'corp'
@@ -197,13 +216,21 @@ export default {
                 }
             });
         },
-        rowItem(index, type){
+        rowItem(item, index, type){
             if(type === 'own'){
                 this.ownCurrent = index
             }else{
                 this.corpCurrent = index
             }
             this.activeType = type
+            
+            this.$router.push({
+                path: '/projects',
+                query: {
+                    type: type,
+                    id: item._id
+                }
+            })
             this.getSessionStorageIcons()
         },
         transfer(){
@@ -407,6 +434,7 @@ export default {
 .m-create-icons-projects{
     width: 100%;
     height: 72px;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     background: #f8f9fa;
