@@ -5,8 +5,27 @@ const Oss = require('../util/oss')
 const { InitCssStyle, addItemStyle, transfer } = require('../util/cssStyle')
 const fs = require('fs')
 const path = require('path')
+const request = require('request')
+const rp  = require('request-promise');
 
 class IconfontSevice extends Service {
+    async downloadCssFile(data){
+        const { ctx } = this;
+        try{
+            const res = await ctx.model.Project.findOne({ _id: data.id });
+            let url = `https:${res.font.website}${res.font.cssFile}`
+            let response = await rp({
+                uri: url,
+                method:'GET',
+                encoding: "binary",
+            });
+            return {
+                content: response
+            }
+        }catch(e){
+            this.ctx.throw(500, e);
+        }
+    }
     async add(data) {
         const { ctx } = this;
         const res = {};

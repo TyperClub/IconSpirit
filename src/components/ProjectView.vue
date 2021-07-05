@@ -28,7 +28,8 @@
                 <div class="css-path" v-else> <span class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 暂无代码，点此生成</span></div>
                 <div class="copy" v-if="projectList && projectList.font && projectList.font.cssFile">
                     <span v-if="projectList && projectList.font.fontIsOld" class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 更新代码</span>
-                    <span class="copy-code" data-clipboard-target="#cssPath" @click="copyCode"><i class="opsfont ops-fuzhi"></i> 复制代码</span> 
+                    <span class="copy-code" data-clipboard-target="#cssPath" @click="copyCode"><i class="opsfont ops-fuzhi"></i> 复制代码</span>
+                    <span class="copy-code" @click="downFont(projectList)"><i class="opsfont ops-xiazai"></i> 下载文件</span> 
                 </div>
             </div>
         </div>
@@ -129,7 +130,7 @@
 </template>
 
 <script>
-import { deleteProjects, projectParticipantsList, deleteProjectIcons, generateFont, deleteProjectParticipants, addprojectParticipants, queryUser} from '../services/index';
+import { deleteProjects, projectParticipantsList, deleteProjectIcons, generateFont, deleteProjectParticipants, addprojectParticipants, queryUser, downloadCssFile} from '../services/index';
 import Clipboard from 'clipboard'
 
 export default {
@@ -289,14 +290,31 @@ export default {
                 this.options = [];
             }
         },
+        downFont(item){
+            let filename = item.font.cssFile.split("font/")[1]
+            downloadCssFile({id: item._id}).then(res => {
+                const buf = Buffer.from(res.data.content, 'binary')
+                let blob = new Blob([buf], {type: 'text/css'});
+                let a = document.createElement('a')
+                a.style.display = 'none';
+                a.download = filename
+                a.href = URL.createObjectURL(blob)
+                document.body.appendChild(a)
+                a.click()
+                document.body.removeChild(a)
+            })
+        },
         downIcon(item){
             let dataURL = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(item.content))); //给图片对象写入base64编码的svg流
             let dl = document.createElement("a");
             let fileName = this.projectList.prefix + item.ENG_Name
+            dl.style.display = 'none';
             document.body.appendChild(dl); // This line makes it work in Firefox.
             dl.setAttribute("href", dataURL);
             dl.setAttribute("download", `${fileName}.svg`);
             dl.click();
+            // 然后移除
+            document.body.removeChild(dl);
         },
         help(){
             this.$router.push('help')

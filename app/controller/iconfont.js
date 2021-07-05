@@ -41,6 +41,16 @@ class IconfontController extends Controller {
     const result = await ctx.service.iconfont.add(body.data);
     ctx.body = result;
   }
+
+  async downloadCssFile(){
+    const { ctx } = this;
+    const body = ctx.query;
+    const result = await ctx.service.iconfont.downloadCssFile(body);
+    ctx.helper.success({
+        ctx,
+        res: result
+    })
+  }
 }
 
 module.exports = IconfontController;

@@ -15,8 +15,10 @@ const queryUser = (query) => http.post('/api/v1/user/query', query)
 const addprojectParticipants = query => http.post('/api/v1/projectParticipants/add', query)
 const deleteProjectParticipants = query => http.post('/api/v1/projectParticipants/delete', query) 
 const projectParticipantsList = query => http.post('/api/v1/projectParticipants/list', query) 
+const downloadCssFile = params => http.get('/api/v1/iconfont/fontCss/download', params)
 
 export {
+    downloadCssFile,
     iconList,
     getUser,
     queryUser,
