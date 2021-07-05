@@ -207,6 +207,13 @@ export default {
                             this.dialogVisible = false
                             this.$refs.form.resetFields()
                             this.$message.success("创建成功！")
+                            this.$router.push({
+                                path: '/projects',
+                                query: {
+                                    type: 'own',
+                                    id: res.data._id
+                                }
+                            })
                             this.getProjects()
                         }
                     })

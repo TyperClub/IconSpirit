@@ -46,9 +46,16 @@ export default {
                     fontTransfer({
                         name: this.form2.name,
                         url
-                    }).then(() =>{
+                    }).then((res) =>{
                         this.$message.success("迁移成功！")
                         this.loading = false
+                        this.$router.push({
+                            path: '/projects',
+                            query: {
+                                type: 'own',
+                                id: res.data._id
+                            }
+                        })
                         this.$emit('closeTransfer')
                     }).catch(err=>{
                         this.loading = false

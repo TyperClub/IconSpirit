@@ -191,7 +191,7 @@ class IconfontSevice extends Service {
                     isDeleted: false
                 })
             }
-            return null
+            return res
         }catch(e){
             this.ctx.throw(500, e);
         }        
