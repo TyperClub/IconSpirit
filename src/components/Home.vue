@@ -12,7 +12,7 @@
                         <el-row>
                             <el-col :span="10">
                                 <div class="m-box">
-                                    <h3 class="title"><vue3-autocounter ref='counter' :startAmount='0' :endAmount='156' :duration='1' separator=',' :autoinit='true'/> free icons</h3>
+                                    <h3 class="title"><vue3-autocounter ref='counter' :startAmount='0' :endAmount='total' :duration='1' separator=',' :autoinit='true'/> free icons</h3>
                                     <p class="tips">这里有你需要的图标，也有属于你的风格，让工作变得更轻松</p>
                                     <div class="u-search">
                                         <el-input size="medium" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
@@ -37,6 +37,7 @@
 
 <script>
 import Navigation from './Navigation';
+import {iconList} from '../services/index';
 import $ from 'jquery'
 
 export default {
@@ -44,6 +45,7 @@ export default {
         return {
             searchName: "",
             interval: null,
+            total: 0,
             num: 0,
             tips: ['用户 杨韦韦 刚发起了 aaaa 项目', '用户 admin 刚发起了 bbb 项目']
         }
@@ -51,6 +53,7 @@ export default {
     mounted(){
         this.animate();
         this.startTips()
+        this.getIconsList()
     },
     methods: {
         animate(){
@@ -105,6 +108,16 @@ export default {
                 }
             }
         },
+        getIconsList(){
+          iconList({
+            "pageNum": 1,
+            "pageSize": 1
+          }).then(res => {
+            this.total = res.total
+          }).catch(err => {
+            console.log('错误', err)
+          })
+       },
         startTips(){
           clearInterval(this.interval)
           this.interval = setInterval(() =>{
