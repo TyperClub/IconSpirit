@@ -6,7 +6,7 @@ const MD5  = require('./md5');
 
 async function getIconName(name){
     if(/^[a-zA-Z]+$/.test(name.replace(/[-|_|0-9]+/g, ''))){
-        return name.replace(/\s+/g, '').toLowerCase().replace(/(-+)$/g,"")
+        return name.replace(/\s+/g, '').toLowerCase().replace(/(-+|\(|\))$/g,"")
     }
     let nameArr = name.split('-')
     if(nameArr.length > 1){
@@ -42,7 +42,7 @@ async function getIconName(name){
     try {
         let body = JSON.parse(rpbody)
         Eg_name = body.trans_result[0].dst.replace(/\s+/g, '-').toLowerCase()
-        Eg_name = Eg_name.replace(/-+/g, '-').replace(/(-+)$/g,"")
+        Eg_name = Eg_name.replace(/-+/g, '-').replace(/(-+|\(|\))$/g,"")
     } catch (error){
         console.log("Get Icon name is error:", error, rpbody)
     }
@@ -123,7 +123,7 @@ const open = async (browser, url, itemIndex) =>{
   await page.setUserAgent(
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36'
  );
-  await page.goto('https://www.iconfont.cn/collections/index?page=1');
+  await page.goto('https://www.iconfont.cn/collections/index?page=2');
   await page.waitForTimeout(3000);
   try {
     const pages = await page.$eval('#J_collections_lists .total', (e) => e.textContent.replace(/[^0-9]/ig,""));
