@@ -12,7 +12,7 @@
                         <el-row>
                             <el-col :span="10">
                                 <div class="m-box">
-                                    <h3 class="title">156 free icons</h3>
+                                    <h3 class="title"><vue3-autocounter ref='counter' :startAmount='0' :endAmount='156' :duration='1' separator=',' :autoinit='true'/> free icons</h3>
                                     <p class="tips">这里有你需要的图标，也有属于你的风格，让工作变得更轻松</p>
                                     <div class="u-search">
                                         <el-input size="medium" class="search" v-model="name" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
@@ -20,7 +20,7 @@
                                         </el-input>
                                     </div>
                                     <div class="gonggao">
-                                        <span><i class="opsfont ops-gonggao"></i> 用户 <span>杨韦韦</span> 刚创建了 aaaa 项目</span>
+                                        <span><i class="opsfont ops-gonggao"></i> 用户 <span>杨韦韦</span> 刚发起了 aaaa 项目</span>
                                     </div>
                                 </div>
                             </el-col>
