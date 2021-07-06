@@ -9,7 +9,7 @@
             </a>
         </div>
     </el-col>
-    <el-col class="nav-right" :span="18">
+    <el-col :class="logoStatus ? 'nav-right': ''" :span="18">
         <div class="grid-content f-fr">
             <span class="shopping"  @click="openDrawer" >
                  <el-badge :value="count" class="item">
