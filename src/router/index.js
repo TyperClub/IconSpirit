@@ -9,12 +9,20 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/home'
+      redirect: '/search'
     },
     {
       path: '/home',
       name: 'home',
       component: () => import('../components/Home'),
+      meta: {
+        index: 1
+      }
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: () => import('../components/Search'),
       meta: {
         index: 1
       }

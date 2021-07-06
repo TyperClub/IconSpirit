@@ -36,8 +36,8 @@
         </div>
         <div class="grid-center f-fr">
             <el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-                <el-menu-item @click="projects('/')" index="/">首页</el-menu-item>
-                <el-menu-item @click="projects('/home')" index="/home">图标库</el-menu-item>
+                <el-menu-item @click="projects('/home')" index="/home">首页</el-menu-item>
+                <el-menu-item @click="projects('/search')" index="/search">图标库</el-menu-item>
                 <el-menu-item v-if="!username" @click="projects('/projects')">项目管理</el-menu-item>
                 <el-menu-item v-else @click="projects('/projects')"  index="/projects">项目管理</el-menu-item>
                 <el-menu-item @click="projects('/help')" index="/help">使用指南</el-menu-item>
@@ -157,9 +157,9 @@ export default {
         querySearch(e){
             if(e === "click"){
                 this.$emit('searchIcons',this.searchName)
-                if(this.$route.path != '/home'){
+                if(this.$route.path != '/search'){
                     this.$router.push({
-                        name: 'home',
+                        name: 'search',
                         query: {
                             search: this.searchName
                         }
@@ -169,9 +169,9 @@ export default {
                 let keyCode = window.event ? e.keyCode : e.which;
                 if (keyCode == 13) {
                     this.$emit('searchIcons',this.searchName)
-                    if(this.$route.path != '/home'){
+                    if(this.$route.path != '/search'){
                         this.$router.push({
-                            name: 'home',
+                            name: 'search',
                             query: {
                                 search: this.searchName
                             }

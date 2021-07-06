@@ -63,6 +63,7 @@
                 </el-tab-pane>
             </el-tabs>
         </div>
+        <el-backtop></el-backtop>
     </div>
     <el-dialog
     title="新建项目"
