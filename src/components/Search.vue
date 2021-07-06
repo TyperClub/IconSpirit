@@ -207,7 +207,7 @@ import Navigation from './Navigation';
       },
       handleCurrentChange(val){
         this.pageInfo.current = val
-        this.getIconsList()
+        this.getIconsList(this.searchName)
       }
     },
     components: {
