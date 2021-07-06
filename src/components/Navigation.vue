@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <div class="icon-manage-bottom">
-                    <el-button :disabled="!icons.length" @click="addIconsToProject" size="small" round>确定</el-button>
+                    <el-button class="icon-manage-bottom-left" type="primary" :disabled="!icons.length" @click="addIconsToProject" size="small" round>确定</el-button>
                     <el-button :disabled="!icons.length" @click="drawer = false" size="small" round>取消</el-button>
                 </div>
             </div>

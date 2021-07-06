@@ -15,9 +15,7 @@
                                     <h3 class="title"><vue3-autocounter ref='counter' :startAmount='0' :endAmount='total' :duration='1' separator=',' :autoinit='true'/> free icons</h3>
                                     <p class="tips">这里有你需要的图标，也有属于你的风格，让工作变得更轻松</p>
                                     <div class="u-search">
-                                        <el-input size="medium" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
-                                            <template #append><el-button size="medium" icon="el-icon-search" @click="querySearch('click')"></el-button></template>
-                                        </el-input>
+                                        <el-input class="search" suffix-icon="el-icon-search" v-model="searchName" placeholder="请输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable></el-input>
                                     </div>
                                     <div class="gonggao">
                                         <span><i class="opsfont ops-gonggao"></i> {{tips[num]}}</span>
