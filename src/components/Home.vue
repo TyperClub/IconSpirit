@@ -15,7 +15,7 @@
                                     <h3 class="title"><vue3-autocounter ref='counter' :startAmount='0' :endAmount='156' :duration='1' separator=',' :autoinit='true'/> free icons</h3>
                                     <p class="tips">这里有你需要的图标，也有属于你的风格，让工作变得更轻松</p>
                                     <div class="u-search">
-                                        <el-input size="medium" class="search" v-model="name" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
+                                        <el-input size="medium" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
                                             <template #append><el-button size="medium" icon="el-icon-search" @click="querySearch('click')"></el-button></template>
                                         </el-input>
                                     </div>
@@ -42,7 +42,7 @@ import $ from 'jquery'
 export default {
     data(){
         return {
-            name: ""
+            searchName: ""
         }
     },
     mounted(){
@@ -77,9 +77,30 @@ export default {
             });
             animate();
         },
-        querySearch(){
-            
-        }
+        querySearch(e){
+            if(e === "click"){
+                if(this.$route.path != '/search'){
+                    this.$router.push({
+                        name: 'search',
+                        query: {
+                            search: this.searchName
+                        }
+                    })
+                }
+            }else{
+                let keyCode = window.event ? e.keyCode : e.which;
+                if (keyCode == 13) {
+                    if(this.$route.path != '/search'){
+                        this.$router.push({
+                            name: 'search',
+                            query: {
+                                search: this.searchName
+                            }
+                        })
+                    }
+                }
+            }
+        },
     },
     components:{
         Navigation
@@ -112,7 +133,7 @@ export default {
 .w3l-banner .banner-image {
   position: absolute;
   overflow: hidden;
-  background-image: url(../assets/banner.png);
+  background-image: url(../assets/banner_1.png);
   background-size: cover;
   background-position: center;
   top: 0;
