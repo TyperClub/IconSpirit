@@ -4,12 +4,12 @@
     <el-col :span="6">
         <div class="m-logo">
             <a class="home-link" href="#">
-                <img class="logo" src="../assets/logo.png" alt="">
-                <span class="site-name">ICONS</span> 
+                <img class="logo" :src="logoStatus ? require('../assets/logo_white.png') : require('../assets/logo_black.png')" alt="">
+                <span class="site-name" :class="logoStatus ? 'site-name-white': ''">ICONS</span> 
             </a>
         </div>
     </el-col>
-    <el-col :span="18">
+    <el-col class="nav-right" :span="18">
         <div class="grid-content f-fr">
             <span class="shopping"  @click="openDrawer" >
                  <el-badge :value="count" class="item">
@@ -123,6 +123,12 @@ import { mapState } from 'vuex'
 
 export default {
     name: "Navigation",
+    props: {
+        logoStatus: {
+            type: Boolean,
+            default: false,
+        }
+    },
     data() {
         let icons = window.sessionStorage.getItem('ops-icons')
         icons = icons ? JSON.parse(icons) : []
@@ -327,9 +333,12 @@ export default {
         text-decoration: none
     }
     .logo{
-        height: 2.5rem;
-        min-width: 2.125rem;
+        height: 28px;
+        line-height: 28px;
         margin: 0 .8rem 0 2.4rem;
+        vertical-align: middle;
+        top: -4px;
+        position: relative;
     }
     .site-name{
         font-size: 1.3rem;
@@ -340,9 +349,15 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
     }
+    .site-name-white{
+        color: #fff;
+    }
 }
 .m-login{
     text-align: left;
+}
+.nav-right{
+    background: #fff;
 }
 .grid-content{
     font-size: 1.1rem;

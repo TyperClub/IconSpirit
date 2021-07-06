@@ -1,7 +1,7 @@
 <template>
     <el-container style="height: 100%;">
-        <el-header style="text-align: right; font-size: 12px">
-            <navigation class="m-home-nav" ref="navigation" @deleteSelectIcon="deleteSelectIcon"></navigation>
+        <el-header class="m-el-header" style="text-align: right; font-size: 12px">
+            <navigation class="m-home-nav" ref="navigation" @deleteSelectIcon="deleteSelectIcon" :logoStatus="true"></navigation>
         </el-header>
     <div class="home">
            <section id="home" class="w3l-banner py-5">
@@ -20,7 +20,7 @@
                                         </el-input>
                                     </div>
                                     <div class="gonggao">
-                                        <span><i class="opsfont ops-gonggao"></i> 杨韦韦，刚创建了 aaaa 项目</span>
+                                        <span><i class="opsfont ops-gonggao"></i> 用户 <span>杨韦韦</span> 刚创建了 aaaa 项目</span>
                                     </div>
                                 </div>
                             </el-col>
@@ -94,7 +94,9 @@ export default {
 </style>
 
 <style lang="less" scoped>
-
+.m-el-header{
+  background: none;
+}
 .m-logo{
     padding-top: 200px;
 }
@@ -104,7 +106,7 @@ export default {
   padding-top: 145px;
   position: relative;
   overflow: hidden;
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 145px);
 }
 
 .w3l-banner .banner-image {
@@ -117,7 +119,7 @@ export default {
   width: 100%;
   height: 100%;
   transform: scale(1.1);
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 145px);
 }
 
 .w3l-banner .banner-content {
@@ -125,21 +127,8 @@ export default {
     z-index: 1;
   display: grid;
   align-items: center;
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 145px);
 }
-
-/* .w3l-banner {
-  background: url(../images/banner.png) no-repeat center;
-  background-size: cover;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  -ms-background-size: cover;
-  /* min-height: 800px; */
-/* min-height: 100vh;
-  display: flex;
-  align-items: center;
-} */
 
 .w3l-banner h3 {
   font-size: 38px;
@@ -237,6 +226,10 @@ export default {
     .gonggao{
         font-size: 14px;
     }
+}
+
+.img-fluid{
+    width: 580px;
 }
 
 </style>
