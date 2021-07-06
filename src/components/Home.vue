@@ -20,7 +20,7 @@
                                         </el-input>
                                     </div>
                                     <div class="gonggao">
-                                        <span><i class="opsfont ops-gonggao"></i> 用户 <span>杨韦韦</span> 刚发起了 aaaa 项目</span>
+                                        <span><i class="opsfont ops-gonggao"></i> {{tips[num]}}</span>
                                     </div>
                                 </div>
                             </el-col>
@@ -42,11 +42,15 @@ import $ from 'jquery'
 export default {
     data(){
         return {
-            searchName: ""
+            searchName: "",
+            interval: null,
+            num: 0,
+            tips: ['用户 杨韦韦 刚发起了 aaaa 项目', '用户 admin 刚发起了 bbb 项目']
         }
     },
     mounted(){
         this.animate();
+        this.startTips()
     },
     methods: {
         animate(){
@@ -101,6 +105,16 @@ export default {
                 }
             }
         },
+        startTips(){
+          clearInterval(this.interval)
+          this.interval = setInterval(() =>{
+            if(this.tips.length - 1 <= this.num){
+              this.num = 0
+            }else{
+              this.num ++
+            }
+          }, 3000)
+        }
     },
     components:{
         Navigation
