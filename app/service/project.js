@@ -18,6 +18,27 @@ class ProjectSevice extends Service {
             this.ctx.throw(500, e);
         }
     }
+    async createProjectAndIcons(data){
+        const { ctx } = this;
+        try{
+            const user = await ctx.model.User.findOne({
+                telephone: ctx.session.cas.user,
+            });
+            let res = await ctx.model.Project.create({
+                creater: user.userName,
+                userEmail: user.userEmail,
+                department: user.department,
+                name: data.projectName
+            });
+            await ctx.service.projectIcons.addIcons({
+                id: res._id,
+                icons: data.icons
+            })
+            return res
+        }catch(e){
+            this.ctx.throw(500, e);
+        }
+    }
     async delete(data){
         const { ctx } = this;
         try{

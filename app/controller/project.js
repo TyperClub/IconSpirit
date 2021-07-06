@@ -12,6 +12,16 @@ class ProjectController extends Controller {
             res: result
         })
     }
+    async createProjectAndIcons(){
+        const { ctx } = this;
+        const body = ctx.request.body;
+        const result = await ctx.service.project.createProjectAndIcons(body);
+        ctx.helper.success({
+            ctx,
+            res: result
+        })
+    }
+
     async delete(){
         const { ctx } = this;
         const body = ctx.request.body;

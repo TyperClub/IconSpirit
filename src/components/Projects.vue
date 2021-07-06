@@ -161,7 +161,7 @@ export default {
             this.$refs.form.resetFields();
         },
         newGetProjects(){
-            window.location.reload()
+           this.getProjects()
         },
         getProjects(){
             getProjects().then(res => {

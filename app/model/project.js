@@ -30,15 +30,18 @@ module.exports = app => {
     },
     fontFamily: {
         type: String,
-        required: true
+        required: true,
+        default: "iconfont"
     },
     fontFormat: {
         type: Array,
-        required: true
+        required: true,
+        default: ["WOFF2", "WOFF", "TTF", "SVG"]
     },
     prefix: {
         type: String,
-        required: true
+        required: true,
+        default: "prefix"
     },
     description: {
         type: String

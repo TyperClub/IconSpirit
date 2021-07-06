@@ -82,7 +82,7 @@
                 </div>
                 <div class="project-list">
                     <div v-if="isCreateProject">
-                        <el-input prefix-icon="el-icon-folder" class="new-project" size="small" v-model="newProjectName" type="text" placeholder="请输入新项目名称" clearable></el-input>
+                        <el-input prefix-icon="el-icon-folder" class="new-project" size="small" v-model="newProjectName" type="text" placeholder="您没有新的项目，请输入新项目名称" clearable></el-input>
                     </div>
                     <div v-else>
                         <ul v-if="ownProjects.length">
@@ -118,7 +118,7 @@
 
 <script>
 import Login from './Login';
-import { logout, addProjectIcons } from '../services/index';
+import { logout, addProjectIcons, createIconsAndProjects } from '../services/index';
 import { mapState } from 'vuex'
 
 export default {
@@ -231,16 +231,39 @@ export default {
             }
         },
         addIconsToProject(){
-            if(this.isCreateProject && !this.newProjectName){
-                this.$notify({
-                    title: '警告',
-                    message: '新项目名称不能为空!',
-                    type: 'warning'
-                });
+            if(this.isCreateProject){
+                if(!this.newProjectName){
+                    this.$notify({
+                        title: '警告',
+                        message: '新项目名称不能为空!',
+                        type: 'warning'
+                    });
+                }else{
+                    createIconsAndProjects({
+                        projectName: this.newProjectName,
+                        icons: this.icons
+                    }).then(res => {
+                        if(res.code === 200){
+                            window.sessionStorage.removeItem('ops-icons')
+                            this.drawer = false
+                            this.count = 0
+                            this.icons = []
+                            this.$message.success("添加成功!")
+                            this.$router.push({
+                                path: '/projects',
+                                query: {
+                                    type: 'own',
+                                    id: res.data._id
+                                }
+                            })
+                        }
+                    })
+                }
             }else{
                 if(this.icons.length){
+                    let id = this.ownProjects[this.current]._id
                     addProjectIcons({
-                        id: this.ownProjects[this.current]._id,
+                        id,
                         icons: this.icons
                     }).then(res =>{
                         if(res.code === 200){
@@ -253,7 +276,7 @@ export default {
                                 path: '/projects',
                                 query: {
                                     type: this.ownProjects[this.current].type,
-                                    id: this.ownProjects[this.current]._id
+                                    id
                                 }
                             })
                         }
@@ -571,7 +594,7 @@ export default {
     .new-project{
         margin-left: 20px;
         margin-top: 10px;
-        width: 200px;
+        width: 300px;
     }
     .current{
         background: #E8F3FF;
