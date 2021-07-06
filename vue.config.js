@@ -1,3 +1,5 @@
+const webpack = require("webpack");
+
 module.exports = {
   devServer: {
     proxy: { // 配置跨域处理 可以设置多个
@@ -8,5 +10,15 @@ module.exports = {
         secure: false, // 如果是https接口，需要配置这个参数
       }
     }
+  },
+  configureWebpack: {
+      //支持jquery
+      plugins: [
+          new webpack.ProvidePlugin({
+              $:"jquery",
+              jQuery:"jquery",
+              "windows.jQuery":"jquery"
+          })
+      ]
   }
 }

@@ -35,7 +35,7 @@
             </el-input>
         </div>
         <div class="grid-center f-fr">
-            <el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+            <el-menu  :default-active="$route.path" class="el-menu-nav" mode="horizontal" @select="handleSelect">
                 <el-menu-item @click="projects('/home')" index="/home">首页</el-menu-item>
                 <el-menu-item @click="projects('/search')" index="/search">图标库</el-menu-item>
                 <el-menu-item v-if="!username" @click="projects('/projects')">项目管理</el-menu-item>
@@ -304,7 +304,10 @@ export default {
     .icon-base-view .icon{
         font-size: 28px;
     }
-} 
+}
+.el-menu-nav{
+    border-bottom: none !important;
+}
 </style>
 <style lang="less" scoped>
 .f-fr{

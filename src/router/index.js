@@ -59,7 +59,7 @@ router.beforeEach((to, from, next) => {
     }).catch(err=>{
       console.log(to.path, err)
       if(to.path === "/projects"){
-        next({ path: '/home' })
+        next({ path: '/search' })
       }else{
         next()
       }
