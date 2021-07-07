@@ -41,7 +41,7 @@
                     <p class="icon-code">{{projectList.prefix + item.ENG_Name}}</p>
                     <div class="icon-cover">
                         <i title="添加入库" @click="addToCart($event, item)" :class="item.status ? 'ops-03f': 'ops-03'"  class="opsfont cover-item"></i>
-                        <i title="编辑" class="el-icon-edit cover-item"></i>
+                        <i title="编辑" @click="editIcon(item)" class="el-icon-edit cover-item"></i>
                         <i title="删除" @click="deleteIcon(item)" class="el-icon-delete cover-item"></i>
                         <i title="下载" @click="downIcon(item)" class="opsfont ops-xiazai cover-item"></i>
                         <div class="cover-code cover-copy">
@@ -114,6 +114,42 @@
     </div>
 </el-dialog>
 
+<el-dialog
+  title="编辑详情"
+  v-model="dialogVisible"
+   width="980px"
+  :before-close="handleClose">
+  <div class="m-editIcon">
+      <el-row>
+          <el-col :span="12">
+              <div class="icon-container">
+                  <div class="icon-container-svg" v-html="svgCode"></div>
+              </div>
+          </el-col>
+          <el-col :span="12">
+                <el-form class="m-form" ref="form" :model="form" :rules="rules" label-width="140px">
+                    <el-form-item label="图标中文名称" prop="CH_Name">
+                        <el-input class="u-input-text" size="small" v-model="form.CH_Name" clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="图标英文名称" prop="ENG_Name">
+                        <el-input class="u-input-text" size="small" v-model="form.ENG_Name" clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="图标分组">
+                         <el-input disabled class="u-input-text" size="small" v-model="form.gurop"></el-input>
+                    </el-form-item>
+                    <el-form-item label="图标颜色">
+                        <el-color-picker v-model="color"></el-color-picker>
+                    </el-form-item>
+                </el-form>
+          </el-col>
+      </el-row>
+      <div class="m-edit-button">
+            <el-button size="small" @click="dialogVisible = false">取消</el-button>
+            <el-button size="small" @click="next('form')" type="primary">保存并关闭</el-button>
+      </div>
+  </div>
+</el-dialog>
+
         <!-- 小球 -->
         <transition appear
             @before-appear="beforeEnter"
@@ -130,14 +166,27 @@
 </template>
 
 <script>
-import { deleteProjects, projectParticipantsList, deleteProjectIcons, generateFont, deleteProjectParticipants, addprojectParticipants, queryUser, downloadCssFile} from '../services/index';
+import { 
+    deleteProjects, 
+    projectParticipantsList, 
+    deleteProjectIcons, 
+    generateFont, 
+    deleteProjectParticipants,
+    addprojectParticipants, 
+    queryUser, 
+    downloadCssFile,
+    editProjectIcons
+} from '../services/index';
 import Clipboard from 'clipboard'
+import $ from 'jquery'
 
 export default {
     props: ['projectList'],
     data(){
         return {
+            dialogVisible: false,
             dialogVisible3: false,
+            svgCode: "",
             projectParticipants: [],
             current: 0,
             loading: false,
@@ -147,6 +196,15 @@ export default {
             imgUrl:'',
             elLeft: 0, //当前点击购物车按钮在网页中的绝对top值
             elTop: 0, //当前点击购物车按钮在网页中的绝对left值
+            color: "",
+            form: {
+                CH_Name: "",
+                ENG_Name: ""
+            },
+            rules: {
+                CH_Name:  [{ required: true, message: '请输入图标中文名称', trigger: 'blur' }],
+                ENG_Name:  [{ required: true, message: '请输入英文名称', trigger: 'blur' }],
+            }
         }
     },
     watch: {
@@ -184,6 +242,38 @@ export default {
                         this.$emit('newGetProjects')
                     }
                 })
+            })
+        },
+        editIcon(item){
+            this.svgCode = item.content
+            this.dialogVisible = true
+            this.color = ""
+            this.form = {
+                ...item
+            }
+            this.$nextTick(()=>{
+                $(".icon-container-svg").click((el)=> {
+                    if(el.target.nodeName === "path"){
+                         $(el.target).addClass('selected').siblings().removeClass("selected")
+                    }else{
+                        $(".icon-container-svg path").removeClass("selected")
+                    }
+                })
+            })
+        },
+        next(formName){
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    editProjectIcons(this.form).then(res=>{
+                        if(res.code === 200){
+                            this.dialogVisible = false
+                            this.$emit('newGetProjects')
+                            this.$message.success("图标修改成功！")
+                        }
+                    })
+                }else{
+                    return false;
+                }
             })
         },
         copyCode(){
@@ -377,6 +467,27 @@ export default {
     vertical-align: middle;
     fill: currentColor;
     overflow: hidden;
+}
+.icon-container-svg svg{
+    width: 100%!important;
+    height: 100%!important;
+    color: #333!important;
+    path{
+        cursor: pointer;
+    }
+    path.selected{
+        stroke: #666;
+        stroke-dasharray: 20;
+        stroke-width: 5;
+    }
+}
+.u-input-text input{
+    color: #333;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+.m-form .el-form-item__label{
+    color: #333;
 }
 </style>
 
@@ -642,6 +753,26 @@ export default {
     p{
         padding-top: 15px;
     }
+}
+
+.icon-container{
+    background-image: linear-gradient(90deg, rgba(200, 0, 0, 0.15) 10%, rgba(0, 0, 0, 0) 10%), linear-gradient(rgba(200, 0, 0, 0.15) 10%, rgba(0, 0, 0, 0) 10%);
+    background-size: 10px 10px;
+    border-radius: 4px;
+    border-right: 1px solid rgba(200, 0, 0, 0.15);
+    border-bottom: 1px solid rgba(200, 0, 0, 0.15);
+    .icon-container-svg{
+        height: 450px;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.m-editIcon{
+    padding: 0 20px;
+}
+.m-edit-button{
+    text-align: right;
 }
 
  .move_dot {

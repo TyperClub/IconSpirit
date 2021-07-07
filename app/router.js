@@ -19,6 +19,7 @@ module.exports = app => {
   router.get('/api/v1/project/list', controller.project.list);
 
   router.post('/api/v1/projectIcons/add', controller.projectIcons.add);
+  router.post('/api/v1/projectIcons/edit', controller.projectIcons.edit);
   router.post('/api/v1/projectIcons/delete', controller.projectIcons.delete);
 
   router.post('/api/v1/projectParticipants/add', controller.projectParticipants.add);

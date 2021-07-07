@@ -8,6 +8,7 @@ const createIconsAndProjects = query => http.post('/api/v1/project/icons/create'
 const deleteProjects = params => http.post('/api/v1/project/delete', params)
 const getProjects = () => http.get('/api/v1/project/list')
 const addProjectIcons = query => http.post('/api/v1/projectIcons/add', query)
+const editProjectIcons = query => http.post('/api/v1/projectIcons/edit', query)
 const deleteProjectIcons = query => http.post('/api/v1/projectIcons/delete', query)
 const login = query => http.post('/api/v1/login', query)
 const logout =  () => http.post('/api/v1/logout')
@@ -27,6 +28,7 @@ export {
     createIconsAndProjects,
     deleteProjects,
     addProjectIcons,
+    editProjectIcons,
     deleteProjectIcons,
     addprojectParticipants,
     deleteProjectParticipants,

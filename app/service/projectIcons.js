@@ -62,6 +62,18 @@ class ProjectIconsSevice extends Service {
         }
     }
 
+    async editIcons(data){
+        const { ctx } = this;
+        try{
+            await ctx.model.ProjectIcons.updateOne({ _id: data._id },{
+                CH_Name: data.CH_Name,
+                ENG_Name: data.ENG_Name
+            })
+        }catch(e){
+            this.ctx.throw(500, e);
+        }
+    }
+
     async deleteIcons(data){
         const { ctx } = this;
         try{

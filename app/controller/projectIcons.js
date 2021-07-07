@@ -13,6 +13,16 @@ class ProjectIconsController extends Controller {
         })
     }
 
+    async edit(){
+        const { ctx } = this;
+        const body = ctx.request.body;
+        const result = await ctx.service.projectIcons.editIcons(body);
+        ctx.helper.success({
+            ctx,
+            res: result
+        })
+    }
+
     async delete(){
         const { ctx } = this;
         const body = ctx.request.body;
