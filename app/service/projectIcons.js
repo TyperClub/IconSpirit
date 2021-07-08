@@ -67,7 +67,8 @@ class ProjectIconsSevice extends Service {
         try{
             await ctx.model.ProjectIcons.updateOne({ _id: data._id },{
                 CH_Name: data.CH_Name,
-                ENG_Name: data.ENG_Name
+                ENG_Name: data.ENG_Name,
+                content: data.content
             })
         }catch(e){
             this.ctx.throw(500, e);

@@ -123,7 +123,10 @@
       <el-row>
           <el-col :span="12">
               <div class="icon-container">
-                  <div class="icon-container-svg" v-html="svgCode"></div>
+                  <div class="icon-container-tool">
+                      <span @click="revokeIcon"><i class="opsfont ops-chexiao"></i> 撤销</span>
+                  </div>
+                  <div class="icon-container-svg" :key="svgCodeIndex" v-html="svgCode"></div>
               </div>
           </el-col>
           <el-col :span="12">
@@ -138,7 +141,8 @@
                          <el-input disabled class="u-input-text" size="small" v-model="form.gurop"></el-input>
                     </el-form-item>
                     <el-form-item label="图标颜色">
-                        <el-color-picker v-model="color"></el-color-picker>
+                        <el-input style="width: 200px" class="u-input-text" placeholder="请输入内容" size="small"  v-model="color"></el-input>
+                        <el-color-picker @change="changeColorPicker" class="u-colorPicker" size="small" v-model="color"></el-color-picker>
                     </el-form-item>
                 </el-form>
           </el-col>
@@ -186,6 +190,7 @@ export default {
         return {
             dialogVisible: false,
             dialogVisible3: false,
+            svgCodeIndex: 0, //撤销次数
             svgCode: "",
             projectParticipants: [],
             current: 0,
@@ -251,6 +256,9 @@ export default {
             this.form = {
                 ...item
             }
+            this.operationElementSvg()
+        },
+        operationElementSvg(){
             this.$nextTick(()=>{
                 $(".icon-container-svg").click((el)=> {
                     if(el.target.nodeName === "path"){
@@ -261,10 +269,26 @@ export default {
                 })
             })
         },
+        changeColorPicker(val){
+            let obj = $(".icon-container-svg path.selected")
+            if(!obj.length){
+                $(".icon-container-svg path").attr('fill', val)
+            }else{
+                obj.attr('fill', val)
+            }
+        },
+        revokeIcon(){
+            this.svgCodeIndex = ++ this.svgCodeIndex
+            this.operationElementSvg()
+        },
         next(formName){
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    editProjectIcons(this.form).then(res=>{
+                    let content = $(".icon-container-svg path").removeClass('selected').parents('.icon-container-svg').html()
+                    editProjectIcons({
+                        ...this.form,
+                        content
+                    }).then(res=>{
                         if(res.code === 200){
                             this.dialogVisible = false
                             this.$emit('newGetProjects')
@@ -488,6 +512,15 @@ export default {
 }
 .m-form .el-form-item__label{
     color: #333;
+}
+.u-colorPicker{
+    position: absolute;
+    top: 3px;
+    left: 200px;
+    background: #f8f9fa;
+    .el-color-picker__trigger{
+        border: 1px solid #f8f9fa;
+    }
 }
 </style>
 
@@ -756,6 +789,7 @@ export default {
 }
 
 .icon-container{
+    position: relative;
     background-image: linear-gradient(90deg, rgba(200, 0, 0, 0.15) 10%, rgba(0, 0, 0, 0) 10%), linear-gradient(rgba(200, 0, 0, 0.15) 10%, rgba(0, 0, 0, 0) 10%);
     background-size: 10px 10px;
     border-radius: 4px;
@@ -765,6 +799,20 @@ export default {
         height: 450px;
         align-items: center;
         justify-content: center;
+    }
+    .icon-container-tool{
+        position: absolute;
+        top: 4px;
+        left: 0;
+        span{
+            padding: 5px 10px;
+            background: #f8efef;
+            cursor: pointer;
+            color: #333;
+            &:hover{
+                color: #409EFF;
+            }
+        }
     }
 }
 
