@@ -148,7 +148,7 @@
 <script>
 import { mapState } from 'vuex'
 import store from '../store'
-import { createProjects, getProjects } from '../services/index';
+import { createProjects, getProjects, recoveryProjects } from '../services/index';
 import Navigation from './Navigation';
 import Transfer from './Transfer'
 import ProjectView from './ProjectView'
@@ -272,8 +272,15 @@ export default {
         handleClick(){
             this.deleteProjectStatus = false
         },
-        recoveryProject(){
-
+        recoveryProject(item){
+            recoveryProjects({
+                id: item._id
+            }).then(res => {
+                if(res.code == 200){
+                    this.$message.success("项目恢复成功！")
+                    this.getProjects()
+                }
+            })
         },
         rowItem(item, index, type){
             if(type === 'own'){

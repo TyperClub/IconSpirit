@@ -31,6 +31,17 @@ class ProjectController extends Controller {
             res: result
         })
     }
+
+    async recovery(){
+        const { ctx } = this;
+        const body = ctx.request.body;
+        const result = await ctx.service.project.recovery(body);
+        ctx.helper.success({
+            ctx,
+            res: result
+        })
+    }
+
     async list(){
         const { ctx } = this;
         const result = await ctx.service.project.findAll();

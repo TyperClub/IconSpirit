@@ -55,6 +55,19 @@ class ProjectSevice extends Service {
             this.ctx.throw(500, e);
         }
     }
+
+    async recovery(data){
+        const { ctx } = this;
+        try{
+            let res = await ctx.model.Project.updateOne({_id: data.id}, {
+                isDeleted: false
+            });
+            return res
+        }catch(e){
+            this.ctx.throw(500, e);
+        }
+    }
+
     async findAll(){
         const { ctx } = this;
         try{
