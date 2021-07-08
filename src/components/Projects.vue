@@ -1,7 +1,7 @@
 <template>
 <el-container style="height: 100%;">
     <el-header style="text-align: right; font-size: 12px">
-        <navigation ref="navigation" @deleteSelectIcon="deleteSelectIcon"></navigation>
+        <navigation ref="navigation" @deleteSelectIcon="deleteSelectIcon" @addIconsShopping="addIconsShopping"></navigation>
     </el-header>
     <div class="home">
         <div class="m-content">
@@ -247,6 +247,9 @@ export default {
         },
         addIcons(type, item){
             this.$refs.navigation.addIcons(type, item)
+        },
+        addIconsShopping(){
+            this.getProjects()
         },
         deleteSelectIcon(type, item){
             let icons = this.activeType == "own" ? this.ownList[this.ownCurrent].icons : this.corpList[this.corpCurrent].icons

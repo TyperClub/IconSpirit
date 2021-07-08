@@ -249,6 +249,7 @@ export default {
                             this.count = 0
                             this.icons = []
                             this.$message.success("添加成功!")
+                            this.$emit('addIconsShopping')
                             this.$router.push({
                                 path: '/projects',
                                 query: {
@@ -272,6 +273,7 @@ export default {
                             this.count = 0
                             this.icons = []
                             this.$message.success("添加成功!")
+                            this.$emit('addIconsShopping')
                             this.$router.push({
                                 path: '/projects',
                                 query: {
