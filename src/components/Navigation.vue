@@ -30,8 +30,8 @@
             </el-dropdown>
         </div>
          <div class="m-nav-search f-fr">
-            <el-input size="mini" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
-              <template #append><el-button size="mini" icon="el-icon-search" @click="querySearch('click')"></el-button></template>
+            <el-input size="mini" class="search" v-model="searchName"  placeholder="输入图标关键词" suffix-icon="el-icon-search"  @keyup.enter.prevent="querySearch($event)">
+              <!-- <template #append><el-button size="mini" icon="el-icon-search" @click="querySearch('click')"></el-button></template> -->
             </el-input>
         </div>
         <div class="grid-center f-fr">

@@ -42,7 +42,11 @@ class ProjectSevice extends Service {
     async delete(data){
         const { ctx } = this;
         try{
+            const user = await ctx.model.User.findOne({
+                telephone: ctx.session.cas.user,
+            });
             let res = await ctx.model.Project.updateOne({_id: data.id}, {
+                deletedPerson: user.userName,
                 isDeleted: true,
                 deleted_at: new Date()
             });

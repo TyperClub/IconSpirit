@@ -15,7 +15,7 @@
                     <p class="f-size-14"><i class="opsfont ops-xinxi"></i> {{userInfo.occupation}} | {{userInfo.department}}</p>
                 </div>
                 <div class="m-tool">
-                    <div class="create-project"><span @click="createProject"><i class="el-icon-plus"></i> 创建项目</span> <span @click="transfer"><i class="opsfont ops-migrate"></i> 迁入项目</span> <span><i class="opsfont ops-huishouzhan"></i> 被删除的项目</span></div>
+                    <div class="create-project"><span @click="createProject"><i class="el-icon-plus"></i> 创建项目</span> <span @click="transfer"><i class="opsfont ops-migrate"></i> 迁入项目</span> <span @click="showDeleteProject"><i class="opsfont ops-huishouzhan"></i> 被删除的项目</span></div>
                 </div>
             </div>
             <el-tabs class="m-menu padding-top-20" v-model="activeName" @tab-click="handleClick">
@@ -38,8 +38,48 @@
                                 </div>
                             </div>
                         </div>
-                        <project-view v-if="activeType === 'own'" :project-list="ownList[ownCurrent]" @newGetProjects="newGetProjects" @addIcons="addIcons"></project-view>
-                        <project-view v-if="activeType === 'corp'" :project-list="corpList[corpCurrent]" @newGetProjects="newGetProjects" @addIcons="addIcons"></project-view>
+                        <div class="m-table-deleteProject" v-if="deleteProjectStatus">
+                            <div class="table-title"><span>被删除的项目</span><span @click="deleteProjectStatus = false" class="u-return"><i class="opsfont ops-fanhui"></i> 返回</span></div>
+                             <el-table
+                                :data="delProjects"
+                                style="width: 100%">
+                                <el-table-column
+                                    prop="name"
+                                    label="项目名称"
+                                    width="180">
+                                </el-table-column>
+                                <el-table-column
+                                    prop="department"
+                                    label="所属部门"
+                                    width="180">
+                                </el-table-column>
+                                 <el-table-column
+                                    prop="deletedPerson"
+                                    label="删除人"
+                                    width="180">
+                                </el-table-column>
+                                <el-table-column
+                                    prop="create_at"
+                                    label="创建时间"
+                                    width="180">
+                                </el-table-column>
+                                <el-table-column
+                                    prop="deleted_at"
+                                    label="删除时间"
+                                    width="180">
+                                </el-table-column>
+                                <el-table-column
+                                    label="操作">
+                                     <template #default="scope">
+                                        <el-button @click="recoveryProject(scope.row)" type="text" size="small">恢复</el-button>
+                                    </template>
+                                </el-table-column>
+                                </el-table>
+                        </div>
+                        <template v-else>
+                            <project-view v-if="activeType === 'own'" :project-list="ownList[ownCurrent]" @newGetProjects="newGetProjects" @addIcons="addIcons"></project-view>
+                            <project-view v-if="activeType === 'corp'" :project-list="corpList[corpCurrent]" @newGetProjects="newGetProjects" @addIcons="addIcons"></project-view>
+                        </template>
                     </div>
                     <div class="m-project-tool" @click="createProject" v-else>
                         <div class="m-create-icons-projects">
@@ -126,6 +166,8 @@ export default {
         corpList: [],
         ownCurrent: 0,
         corpCurrent: 0,
+        deleteProjectStatus: false,
+        delProjects: [],
         form: {
             name: "",
             description: "",
@@ -168,8 +210,14 @@ export default {
                 res.data && res.data.corpProjects && res.data.corpProjects.forEach(item => {
                     item.create_at = Moment(item.createDate).format("YYYY-MM-DD HH:mm")
                 });
+
+                res.data && res.data.delProjects && res.data.delProjects.forEach(item => {
+                    item.deleted_at = Moment(item.deleted_at).format("YYYY-MM-DD HH:mm")
+                    item.create_at = Moment(item.createDate).format("YYYY-MM-DD HH:mm")
+                });
                 this.ownList = res.data.ownProjects
                 this.corpList = res.data.corpProjects
+                this.delProjects = res.data.delProjects
 
                 if(this.$route.query.type ===  'corp'){
                     res.data.corpProjects.forEach((obj,index) => {
@@ -221,6 +269,12 @@ export default {
                 }
             });
         },
+        handleClick(){
+            this.deleteProjectStatus = false
+        },
+        recoveryProject(){
+
+        },
         rowItem(item, index, type){
             if(type === 'own'){
                 this.ownCurrent = index
@@ -236,6 +290,7 @@ export default {
                     id: item._id
                 }
             })
+            this.deleteProjectStatus = false
             this.getSessionStorageIcons()
         },
         transfer(){
@@ -284,6 +339,9 @@ export default {
                 this.corpList[this.corpCurrent].icons = data
             }
         },
+        showDeleteProject(){
+            this.deleteProjectStatus = !this.deleteProjectStatus
+        },
         closeTransfer(){
             this.dialogVisible2 = false
             this.getProjects()
@@ -327,7 +385,7 @@ export default {
 }
 .m-tool{
     position: absolute;
-    right: 0;
+    right: -30px;
     bottom: -50px;
     .create-project{
         cursor: pointer;
@@ -455,5 +513,19 @@ export default {
 }
 .delete-project{
     cursor: pointer;
+}
+.m-table-deleteProject{
+    width: 100%;
+    padding-left: 20px;
+    .table-title{
+        padding-bottom: 20px;
+    }
+    .u-return{
+        float: right;
+        cursor: pointer;
+        &:hover{
+            color: #409EFF;
+        }
+    }
 }
 </style>

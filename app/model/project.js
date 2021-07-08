@@ -65,6 +65,9 @@ module.exports = app => {
       type: Date,
       default: Date.now,
     },
+    deletedPerson: {
+      type: String
+    },
     isDeleted: {
         type: Boolean,
         default: false
