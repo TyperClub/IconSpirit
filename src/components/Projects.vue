@@ -37,9 +37,6 @@
                                     <div class="item" @click="rowItem(corpList[corpCurrent], index, 'corp')" :class="corpCurrent === index && activeType === 'corp' ? 'current' : ''"  v-for="(item, index) in corpList" :key="index"><span>{{item.name}}</span></div>
                                 </div>
                             </div>
-                            <!-- <div class="u-project">
-                                <div class="delete-project"><i class="el-icon-menu menu"></i><span class="project-title">我删除的项目</span></div>
-                            </div> -->
                         </div>
                         <project-view v-if="activeType === 'own'" :project-list="ownList[ownCurrent]" @newGetProjects="newGetProjects" @addIcons="addIcons"></project-view>
                         <project-view v-if="activeType === 'corp'" :project-list="corpList[corpCurrent]" @newGetProjects="newGetProjects" @addIcons="addIcons"></project-view>

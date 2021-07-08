@@ -101,12 +101,12 @@
                     <div>
                         <span class="username">{{projectList.creater}}</span>
                         <span class="email">{{projectList.userEmail}}</span>
-                        <span class="operate">创建人</span>
+                        <span class="operate" style="font-size: 12px; color: rgb(255, 152, 0);">创建人</span>
                     </div>
                     <div v-for="(item, index) in projectParticipants" :key="index">
                         <span class="username">{{item.userName}}</span>
                         <span class="email">{{item.userEmail}}</span>
-                        <span @click="deleteInvitation(item)" class="operate operate-delete">移除</span>
+                        <span @click="deleteInvitation(item)" class="operate operate-delete" style="font-size: 12px; color: #409EFF;">移除</span>
                     </div>
                 </div>
             </div>
@@ -124,7 +124,9 @@
           <el-col :span="12">
               <div class="icon-container">
                   <div class="icon-container-tool">
-                      <span @click="revokeIcon"><i class="opsfont ops-chexiao"></i> 撤销</span>
+                        <span @click="revokeIcon"><i class="opsfont ops-chexiao"></i> 撤销</span>
+                        <span @click="zoomIcon('zoom')"><i class="opsfont ops-fangda"></i> 放大</span>
+                        <span @click="zoomIcon('slack')"><i class="opsfont ops-suoxiao1"></i> 缩小</span>
                   </div>
                   <div class="icon-container-svg" :key="svgCodeIndex" v-html="svgCode"></div>
               </div>
@@ -182,6 +184,8 @@ import {
     editProjectIcons
 } from '../services/index';
 import Clipboard from 'clipboard'
+import { SVG } from '@svgdotjs/svg.js'
+import '@svgdotjs/svg.draggable.js'
 import $ from 'jquery'
 
 export default {
@@ -202,6 +206,7 @@ export default {
             elLeft: 0, //当前点击购物车按钮在网页中的绝对top值
             elTop: 0, //当前点击购物车按钮在网页中的绝对left值
             color: "",
+            zoom: 0.5,
             form: {
                 CH_Name: "",
                 ENG_Name: ""
@@ -252,6 +257,8 @@ export default {
         editIcon(item){
             this.svgCode = item.content
             this.dialogVisible = true
+            this.svgCodeIndex = ++ this.svgCodeIndex
+            this.zoom = 0.5
             this.color = ""
             this.form = {
                 ...item
@@ -260,6 +267,28 @@ export default {
         },
         operationElementSvg(){
             this.$nextTick(()=>{
+                let draw = SVG(".icon-container-svg svg")
+                let list = draw.find('path')
+                
+                list.forEach(obj => {
+
+                    obj = obj.draggable()
+                    var s = null;
+                    obj.on("dragstart", function() {
+                        s = obj.clone().opacity(0.2);
+                    });
+
+                    obj.on("dragmove", function() {
+                        console.log('dragmove')
+                        s.animate(200, '>').move(obj.x(), obj.y());
+                    });
+
+                    obj.on("dragend", function() {
+                        console.log('dragend')
+                        s.remove();
+                    });
+                });
+                
                 $(".icon-container-svg").click((el)=> {
                     if(el.target.nodeName === "path"){
                          $(el.target).addClass('selected').siblings().removeClass("selected")
@@ -268,6 +297,15 @@ export default {
                     }
                 })
             })
+        },
+        zoomIcon(type){
+            let draw = SVG(".icon-container-svg svg").size(449, 450)
+            if(type === "zoom"){
+                this.zoom += 0.1
+            }else{
+                this.zoom -= 0.1
+            }
+            draw.zoom(this.zoom)
         },
         changeColorPicker(val){
             let obj = $(".icon-container-svg path.selected")
@@ -279,6 +317,7 @@ export default {
         },
         revokeIcon(){
             this.svgCodeIndex = ++ this.svgCodeIndex
+            this.zoom = 0.5
             this.operationElementSvg()
         },
         next(formName){
@@ -802,11 +841,14 @@ export default {
     }
     .icon-container-tool{
         position: absolute;
-        top: 4px;
-        left: 0;
+        top: 5px;
+        left: 1px;
         span{
+            margin-right: 5px;
             padding: 5px 10px;
             background: #f8efef;
+            box-shadow: 2px 2px #ccc;
+            border-radius: 3px;
             cursor: pointer;
             color: #333;
             &:hover{
