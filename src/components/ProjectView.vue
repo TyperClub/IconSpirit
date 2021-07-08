@@ -126,7 +126,7 @@
                   <div class="icon-container-tool">
                         <span @click="revokeIcon"><i class="opsfont ops-chexiao"></i> 撤销</span>
                         <span @click="zoomIcon('zoom')"><i class="opsfont ops-fangda"></i> 放大</span>
-                        <span @click="zoomIcon('slack')"><i class="opsfont ops-suoxiao1"></i> 缩小</span>
+                        <span @click="zoomIcon('slack')" :class=" zoom === 0.1 ? 'notClick' : ''"><i class="opsfont ops-suoxiao1"></i> 缩小</span>
                   </div>
                   <div class="icon-container-svg" :key="svgCodeIndex" v-html="svgCode"></div>
               </div>
@@ -301,9 +301,13 @@ export default {
         zoomIcon(type){
             let draw = SVG(".icon-container-svg svg").size(449, 450)
             if(type === "zoom"){
-                this.zoom += 0.1
+                this.zoom = parseInt((this.zoom + 0.1) * 10)/10
             }else{
-                this.zoom -= 0.1
+                if(this.zoom === 0.1){
+                    this.zoom = 0.1
+                }else{
+                    this.zoom = parseInt((this.zoom - 0.1) * 10)/10
+                }
             }
             draw.zoom(this.zoom)
         },
@@ -863,6 +867,11 @@ export default {
 }
 .m-edit-button{
     text-align: right;
+}
+
+.notClick {
+  color:grey !important;
+  cursor:not-allowed !important;
 }
 
  .move_dot {
