@@ -562,6 +562,7 @@ export default {
     margin-bottom: 26px;
     cursor: pointer;
     border-radius: 8px;
+    border: none;
 }
 .delete-project{
     cursor: pointer;
