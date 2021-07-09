@@ -81,9 +81,47 @@
                             <project-view v-if="activeType === 'corp'" :project-list="corpList[corpCurrent]" @newGetProjects="newGetProjects" @addIcons="addIcons"></project-view>
                         </template>
                     </div>
-                    <div class="m-project-tool" @click="createProject" v-else>
-                        <div class="m-create-icons-projects">
+                    <div class="m-project-tool" v-else>
+                        <div class="m-create-icons-projects" @click="createProject">
                             <span><i class="el-icon-plus"></i> 创建项目</span> 
+                        </div>
+                        <div class="m-table-deleteProject" v-if="delProjects.length">
+                            <div class="table-title"><span>被删除的项目</span></div>
+                             <el-table
+                                :data="delProjects"
+                                style="width: 100%">
+                                <el-table-column
+                                    prop="name"
+                                    label="项目名称"
+                                    width="180">
+                                </el-table-column>
+                                <el-table-column
+                                    prop="department"
+                                    label="所属部门"
+                                    width="180">
+                                </el-table-column>
+                                 <el-table-column
+                                    prop="deletedPerson"
+                                    label="删除人"
+                                    width="180">
+                                </el-table-column>
+                                <el-table-column
+                                    prop="create_at"
+                                    label="创建时间"
+                                    width="180">
+                                </el-table-column>
+                                <el-table-column
+                                    prop="deleted_at"
+                                    label="删除时间"
+                                    width="180">
+                                </el-table-column>
+                                <el-table-column
+                                    label="操作">
+                                     <template #default="scope">
+                                        <el-button @click="recoveryProject(scope.row)" type="text" size="small">恢复</el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
                         </div>
                     </div>
                 </el-tab-pane>
@@ -328,22 +366,26 @@ export default {
             }
         },
         getSessionStorageIcons(){
-            let icons = window.sessionStorage.getItem('ops-icons')
-            icons = icons ? JSON.parse(icons) : []
-            let data = this.activeType == "own" ? this.ownList[this.ownCurrent].icons : this.corpList[this.corpCurrent].icons
-            data.forEach(item => {
-                item.status = false
-                icons.forEach(obj =>{
-                    if(obj.id  ==  item.id){
-                        item.status  =  true
-                    }
+            try{
+                let icons = window.sessionStorage.getItem('ops-icons')
+                icons = icons ? JSON.parse(icons) : []
+                let data = this.activeType == "own" ? this.ownList[this.ownCurrent].icons : this.corpList[this.corpCurrent].icons
+                data.forEach(item => {
+                    item.status = false
+                    icons.forEach(obj =>{
+                        if(obj.id  ==  item.id){
+                            item.status  =  true
+                        }
+                    })
                 })
-            })
 
-            if(this.activeType == "own"){
-                this.ownList[this.ownCurrent].icons = data
-            }else{
-                this.corpList[this.corpCurrent].icons = data
+                if(this.activeType == "own"){
+                    this.ownList[this.ownCurrent].icons = data
+                }else{
+                    this.corpList[this.corpCurrent].icons = data
+                }
+            }catch(e){
+                console.log(e)
             }
         },
         showDeleteProject(){
@@ -514,7 +556,7 @@ export default {
     font-size: 16px;
     color: #409EFF;
     padding-left: 18px;
-    margin-bottom: 16px;
+    margin-bottom: 26px;
     cursor: pointer;
     border-radius: 8px;
 }
@@ -523,6 +565,7 @@ export default {
 }
 .m-table-deleteProject{
     width: 100%;
+    box-sizing: border-box;
     padding-left: 20px;
     .table-title{
         padding-bottom: 20px;
