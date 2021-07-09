@@ -69,6 +69,8 @@ const transfer = async (cssUrl) =>{
         })
     }
 
+    iconListSvg = iconListSvg.reverse()
+    
     return {
         fontFamily,
         prefix,

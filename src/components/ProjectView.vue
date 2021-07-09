@@ -129,7 +129,7 @@
                         <span @click="revokeIcon"><i class="opsfont ops-chexiao"></i> 撤销</span>
                         <span @click="zoomIcon('zoom')"><i class="opsfont ops-fangda"></i> 放大</span>
                         <span @click="zoomIcon('slack')"><i class="opsfont ops-suoxiao1"></i> 缩小</span>
-                         <span><i class="opsfont ops-wenben"></i> 文本</span>
+                         <!-- <span><i class="opsfont ops-wenben"></i> 文本</span> -->
                   </div>
                   <div class="icon-container-svg" :key="svgCodeIndex" v-html="svgCode"></div>
               </div>
