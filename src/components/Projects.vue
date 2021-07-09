@@ -82,9 +82,12 @@
                         </template>
                     </div>
                     <div class="m-project-tool" v-else>
-                        <div class="m-create-icons-projects" @click="createProject">
-                            <span><i class="el-icon-plus"></i> 创建项目</span> 
-                        </div>
+                        <el-card class="m-create-icons-projects" shadow="hover" @click="createProject">
+                            <div class="m-create-icons-projects-box">
+                                <span><i class="el-icon-plus"></i> 创建项目</span> 
+                            </div>
+                        </el-card>
+                       
                         <div class="m-table-deleteProject" v-if="delProjects.length">
                             <div class="table-title"><span>被删除的项目</span></div>
                              <el-table
