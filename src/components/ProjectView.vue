@@ -194,7 +194,6 @@ import Clipboard from 'clipboard'
 import { SVG } from '@svgdotjs/svg.js'
 import '@svgdotjs/svg.draggable.js'
 import $ from 'jquery'
-import { BigNumber } from "bignumber.js"
 
 export default {
     props: ['projectList'],
@@ -309,48 +308,23 @@ export default {
                 })
             })
         },
-        getBigNumber(type, zoom){
-            zoom = Number(zoom)
-            let Big = new BigNumber(zoom)
-            if(type === "zoom"){
-                zoom = Big.plus(0.1)
-                return Number(zoom)
-            }else{
-                if(zoom <= 0.1){
-                    zoom = 0.1
-                }else{
-                    zoom = Big.minus(0.1)
-                }
-                return Number(zoom)
-            }
-          
-        },
-        getAttrNumber(obj, condition, condition1, attrName){
-            let zoom = obj.attr(attrName)
-            if(!zoom){
-                zoom = condition === condition1 ? 1.1 : 0.9
-            }else{
-                zoom = this.getBigNumber(condition, zoom)
-            }
-            obj.attr(attrName, zoom)
-            return zoom
-        },
         zoomIcon(type){
             let selectedPath = SVG(".icon-container-svg .selected")
             if(selectedPath){
-                let zoom = this.getAttrNumber(selectedPath, type, 'zoom', 'p-zoom')
-                selectedPath.transform({
-                    scale: zoom
-                })
+                if(type === "zoom"){
+                        selectedPath.scale(1.1)
+                    }else{
+                        selectedPath.scale(0.9)
+                }
             }else{
-                let paths = $(".icon-container-svg path")
                 let objPaths =  SVG(".icon-container-svg").find('path')
-                
-                paths.each((index, obj) => {
-                    let zoom = this.getAttrNumber($(obj), type, 'zoom', 'p-zoom')
-                    objPaths[index].transform({
-                        scale: zoom
-                    })
+                objPaths.each(obj => {
+                     if(type === "zoom"){
+                            obj.scale(1.1)
+                        }else{
+                            obj.scale(0.9)
+                    }
+                    
                 })
             }
         },
