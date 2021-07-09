@@ -106,7 +106,9 @@
                     <div v-for="(item, index) in projectParticipants" :key="index">
                         <span class="username">{{item.userName}}</span>
                         <span class="email">{{item.userEmail}}</span>
-                        <span @click="deleteInvitation(item)" class="operate operate-delete" style="font-size: 12px; color: #409EFF;">移除</span>
+                        <span @click="deleteInvitation(item, userInfo.userEmail === item.userEmail)" class="operate operate-delete" style="font-size: 12px; color: #409EFF;">
+                            {{userInfo.userEmail === item.userEmail ? "退出": "移除"}}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -172,6 +174,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { 
     deleteProjects, 
     projectParticipantsList, 
@@ -216,6 +219,11 @@ export default {
                 ENG_Name:  [{ required: true, message: '请输入英文名称', trigger: 'blur' }],
             }
         }
+    },
+    computed: {
+        ...mapState({
+            userInfo: state => state.userInfo
+        })
     },
     watch: {
         projectList:{
@@ -420,13 +428,18 @@ export default {
             this.options = []
             this.dialogVisible3 = true
         },
-        deleteInvitation(item){
+        deleteInvitation(item, status){
             deleteProjectParticipants({
                 userEmail: item.userEmail,
                 projectId: this.projectList._id
             }).then(res => {
-                this.getProjectParticipantsList()
-                console.log(111, res)
+                if(res.code === 200){
+                    this.getProjectParticipantsList()
+                    if(status === true){
+                        this.dialogVisible3 = false
+                        this.$emit('newGetProjects')
+                    }
+                }
             })
         },
         changeInvitation(item){
@@ -434,8 +447,9 @@ export default {
                 id: item._id,
                 projectId: this.projectList._id
             }).then(res =>{
-                this.getProjectParticipantsList()
-                console.log(111, res)
+                if(res.code === 200){
+                    this.getProjectParticipantsList()
+                }
             })
         },
         remoteInvitation(query){

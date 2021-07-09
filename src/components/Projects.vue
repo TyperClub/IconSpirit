@@ -318,7 +318,7 @@ export default {
                 id: item._id
             }).then(res => {
                 if(res.code == 200){
-                    this.$message.success("项目恢复成功！")
+                    this.$message.success("项目恢复成功，去看看！")
                     this.getProjects()
                 }
             })
