@@ -214,7 +214,6 @@ export default {
             elLeft: 0, //当前点击购物车按钮在网页中的绝对top值
             elTop: 0, //当前点击购物车按钮在网页中的绝对left值
             color: "",
-            zoom: 0.5,
             form: {
                 CH_Name: "",
                 ENG_Name: ""
@@ -271,7 +270,6 @@ export default {
             this.svgCode = item.content
             this.dialogVisible = true
             this.svgCodeIndex = ++ this.svgCodeIndex
-            this.zoom = 1
             this.color = ""
             this.form = {
                 ...item
@@ -311,28 +309,52 @@ export default {
                 })
             })
         },
-        zoomIcon(type){
+        getBigNumber(type, zoom){
+            zoom = Number(zoom)
+            let Big = new BigNumber(zoom)
             if(type === "zoom"){
-                let zoom = new BigNumber(this.zoom)
-                this.zoom = zoom.plus(0.1)
+                zoom = Big.plus(0.1)
+                return Number(zoom)
             }else{
-                if(this.zoom <= 0.1){
-                    this.zoom = 0.1
+                if(zoom <= 0.1){
+                    zoom = 0.1
                 }else{
-                    let zoom = new BigNumber(this.zoom)
-                    this.zoom = zoom.minus(0.1)
+                    zoom = Big.minus(0.1)
                 }
+                return Number(zoom)
             }
+          
+        },
+        zoomIcon(type){
             let selectedPath = SVG(".icon-container-svg .selected")
             if(selectedPath){
+                let zoom = selectedPath.attr('p-zoom')
+                if(!zoom){
+                    zoom = type === "zoom" ? 1.1 : 0.9
+                }else{
+                    zoom = this.getBigNumber(type, zoom)
+                }
+                selectedPath.attr('p-zoom', zoom)
+                
                 selectedPath.transform({
-                    scale: this.zoom
+                    scale: zoom
                 })
             }else{
-                let paths = SVG(".icon-container-svg svg").find('path')
-                paths.forEach(obj => {
-                    obj.transform({
-                        scale: this.zoom
+                let paths = $(".icon-container-svg path")
+                let objPaths =  SVG(".icon-container-svg").find('path')
+                
+                paths.each((index, obj) => {
+                    let zoom = $(obj).attr('p-zoom')
+                    if(!zoom){
+                        zoom = type === "zoom" ? 1.1 : 0.9
+                        $(obj).attr('p-zoom', zoom)
+                    }else{
+                        zoom = this.getBigNumber(type, zoom)
+                    }
+                    $(obj).attr('p-zoom', zoom)
+                    
+                    objPaths[index].transform({
+                        scale: zoom
                     })
                 })
             }
@@ -347,7 +369,6 @@ export default {
         },
         revokeIcon(){
             this.svgCodeIndex = ++ this.svgCodeIndex
-            this.zoom = 1
             this.operationElementSvg()
         },
         next(formName){
