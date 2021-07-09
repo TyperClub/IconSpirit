@@ -149,8 +149,8 @@
                         <el-color-picker @change="changeColorPicker" class="u-colorPicker" size="small" v-model="color"></el-color-picker>
                     </el-form-item>
                     <el-form-item label="旋转">
-                        <i class="opsfont ops-rotatexuanzhuan2 u-rotatexuanzhuan"></i>
-                        <i class="opsfont ops-rotatexuanzhuan u-rotatexuanzhuan"></i>
+                        <i class="opsfont ops-rotatexuanzhuan2 u-rotatexuanzhuan" @click="rotateIcon('left')"></i>
+                        <i class="opsfont ops-rotatexuanzhuan u-rotatexuanzhuan" @click="rotateIcon('right')"></i>
                     </el-form-item>
                 </el-form>
           </el-col>
@@ -325,17 +325,20 @@ export default {
             }
           
         },
+        getAttrNumber(obj, condition, condition1, attrName){
+            let zoom = obj.attr(attrName)
+            if(!zoom){
+                zoom = condition === condition1 ? 1.1 : 0.9
+            }else{
+                zoom = this.getBigNumber(condition, zoom)
+            }
+            obj.attr(attrName, zoom)
+            return zoom
+        },
         zoomIcon(type){
             let selectedPath = SVG(".icon-container-svg .selected")
             if(selectedPath){
-                let zoom = selectedPath.attr('p-zoom')
-                if(!zoom){
-                    zoom = type === "zoom" ? 1.1 : 0.9
-                }else{
-                    zoom = this.getBigNumber(type, zoom)
-                }
-                selectedPath.attr('p-zoom', zoom)
-                
+                let zoom = this.getAttrNumber(selectedPath, type, 'zoom', 'p-zoom')
                 selectedPath.transform({
                     scale: zoom
                 })
@@ -344,19 +347,31 @@ export default {
                 let objPaths =  SVG(".icon-container-svg").find('path')
                 
                 paths.each((index, obj) => {
-                    let zoom = $(obj).attr('p-zoom')
-                    if(!zoom){
-                        zoom = type === "zoom" ? 1.1 : 0.9
-                        $(obj).attr('p-zoom', zoom)
-                    }else{
-                        zoom = this.getBigNumber(type, zoom)
-                    }
-                    $(obj).attr('p-zoom', zoom)
-                    
+                    let zoom = this.getAttrNumber($(obj), type, 'zoom', 'p-zoom')
                     objPaths[index].transform({
                         scale: zoom
                     })
                 })
+            }
+        },
+        rotateIcon(type){
+           let selectedPath = SVG(".icon-container-svg .selected")
+            if(selectedPath){
+                if(type === "left"){
+                    selectedPath.rotate(-45)
+                }else{
+                     selectedPath.rotate(45)
+                }
+               
+            }else{
+                let objPaths =  SVG(".icon-container-svg").find('path')
+                objPaths.each(obj => {
+                    if(type === "left"){
+                        obj.rotate(-45)
+                    }else{
+                        obj.rotate(45)
+                    }
+                })      
             }
         },
         changeColorPicker(val){
