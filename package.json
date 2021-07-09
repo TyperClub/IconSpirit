@@ -21,6 +21,7 @@
     "@svgdotjs/svg.panzoom.js": "^2.1.1",
     "ali-oss": "^6.15.2",
     "axios": "^0.21.1",
+    "bignumber.js": "^9.0.1",
     "cheerio": "^1.0.0-rc.10",
     "clipboard": "^2.0.8",
     "core-js": "^3.6.5",

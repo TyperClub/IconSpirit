@@ -148,6 +148,10 @@
                         <el-input style="width: 200px" class="u-input-text" placeholder="请输入内容" size="small"  v-model="color"></el-input>
                         <el-color-picker @change="changeColorPicker" class="u-colorPicker" size="small" v-model="color"></el-color-picker>
                     </el-form-item>
+                    <el-form-item label="旋转">
+                        <i class="opsfont ops-rotatexuanzhuan2 u-rotatexuanzhuan"></i>
+                        <i class="opsfont ops-rotatexuanzhuan u-rotatexuanzhuan"></i>
+                    </el-form-item>
                 </el-form>
           </el-col>
       </el-row>
@@ -190,6 +194,7 @@ import Clipboard from 'clipboard'
 import { SVG } from '@svgdotjs/svg.js'
 import '@svgdotjs/svg.draggable.js'
 import $ from 'jquery'
+import { BigNumber } from "bignumber.js"
 
 export default {
     props: ['projectList'],
@@ -266,7 +271,7 @@ export default {
             this.svgCode = item.content
             this.dialogVisible = true
             this.svgCodeIndex = ++ this.svgCodeIndex
-            this.zoom = 0.5
+            this.zoom = 1
             this.color = ""
             this.form = {
                 ...item
@@ -307,17 +312,30 @@ export default {
             })
         },
         zoomIcon(type){
-            let draw = SVG(".icon-container-svg svg").size(449, 450)
             if(type === "zoom"){
-                this.zoom = parseInt((this.zoom + 0.1) * 10)/10
+                let zoom = new BigNumber(this.zoom)
+                this.zoom = zoom.plus(0.1)
             }else{
-                if(this.zoom === 0.1){
+                if(this.zoom <= 0.1){
                     this.zoom = 0.1
                 }else{
-                    this.zoom = parseInt((this.zoom - 0.1) * 10)/10
+                    let zoom = new BigNumber(this.zoom)
+                    this.zoom = zoom.minus(0.1)
                 }
             }
-            draw.zoom(this.zoom)
+            let selectedPath = SVG(".icon-container-svg .selected")
+            if(selectedPath){
+                selectedPath.transform({
+                    scale: this.zoom
+                })
+            }else{
+                let paths = SVG(".icon-container-svg svg").find('path')
+                paths.forEach(obj => {
+                    obj.transform({
+                        scale: this.zoom
+                    })
+                })
+            }
         },
         changeColorPicker(val){
             let obj = $(".icon-container-svg path.selected")
@@ -329,7 +347,7 @@ export default {
         },
         revokeIcon(){
             this.svgCodeIndex = ++ this.svgCodeIndex
-            this.zoom = 0.5
+            this.zoom = 1
             this.operationElementSvg()
         },
         next(formName){
@@ -886,6 +904,16 @@ export default {
 .notClick {
   color:grey !important;
   cursor:not-allowed !important;
+}
+
+.u-rotatexuanzhuan{
+    cursor: pointer;
+    font-size: 36px;
+    margin-right: 30px;
+    color: #999;
+    &:hover{
+        color: #409EFF;
+    }
 }
 
  .move_dot {
