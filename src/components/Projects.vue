@@ -12,7 +12,7 @@
                 </div>
                 <div class="user-info">
                     <div>欢迎，{{username}}</div>
-                    <p class="f-size-14"><i class="opsfont ops-xinxi"></i> {{userInfo.occupation}} | {{userInfo.department}}</p>
+                    <p class="f-size-14"><i class="opsfont ops-xinxi"></i> {{userInfo.occupation}} | {{userInfo.departmentFull}}</p>
                 </div>
                 <div class="m-tool">
                     <div class="create-project"><span @click="createProject"><i class="el-icon-plus"></i> 创建项目</span> <span @click="transfer"><i class="opsfont ops-migrate"></i> 迁入项目</span> <span @click="showDeleteProject"><i class="opsfont ops-huishouzhan"></i> 被删除的项目</span></div>

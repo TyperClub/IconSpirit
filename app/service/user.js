@@ -11,21 +11,27 @@ class UserSevice extends Service {
     try {
       let data = {}
       let department = ""
+      let departmentFull = ""
       if(username == "admin" && password == "admin"){
         data = {
           cn: username,
           mail: `${username}@zhangmen.com`,
           mobile: "13788954031",
           telephoneNumber: "13788954031",
-          title: "研发工程师"
+          title: "研发工程师",
+          description: ""
         }
         department = "研发效能组"
       }else{
         const options = AUTH_CONFIG[this.app.env]({ username, password })
         data = await authenticate(options)
         department = data.distinguishedName.split(',')[2].split('=')[1]
+        let OUs = data.distinguishedName.split(',').filter(obj=> {
+          return obj === "OU=掌门" ? false : /OU=/.test(obj)
+        })
+        departmentFull = OUs.reverse().join('-').replace(/OU=/g, "")
       }
-      
+
       let queryResult = await ctx.model.User.findOne({
         userEmail: data.mail,
       });
@@ -37,7 +43,9 @@ class UserSevice extends Service {
           userEmail: data.mail,
           telephone: data.mobile,
           occupation: data.title,
-          department: department
+          department: department,
+          departmentFull: departmentFull,
+          personCode: data.description
         });
       }else{
         await ctx.model.User.update({
@@ -46,7 +54,9 @@ class UserSevice extends Service {
           userName: data.cn,
           telephone: data.mobile,
           occupation: data.title,
-          department: department
+          department: department,
+          departmentFull: departmentFull,
+          personCode: data.description
         });
       }
       

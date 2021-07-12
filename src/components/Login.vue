@@ -11,7 +11,7 @@
                 <el-input type="password" @keyup.enter.prevent="submitForm($event, 'ruleForm')" prefix-icon="opsfont ops-icon-mima" v-model="ruleForm.password" placeholder="请输入密码" clearable></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button :icon="loading ? 'el-icon-loading' :''" class="submit-btn" type="primary" @click="submitForm('click','ruleForm')">登 录</el-button>
+                <el-button :disabled="loading" :icon="loading ? 'el-icon-loading' :''" class="submit-btn" type="primary" @click="submitForm('click','ruleForm')">登 录</el-button>
             </el-form-item>
         </el-form>
         <div class="tips">

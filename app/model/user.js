@@ -18,6 +18,9 @@ module.exports = app => {
       type: String,
       required: true,
     },
+    personCode: {
+      type: String,
+    },
     telephone: {
       type: String,
       required: true
@@ -37,6 +40,9 @@ module.exports = app => {
       default: Date.now,
     },
     department: {
+      type: String
+    },
+    departmentFull: {
       type: String
     },
     lastLoginTime: {
