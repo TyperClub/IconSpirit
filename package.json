@@ -11,7 +11,7 @@
     "egg:pro": "EGG_SERVER_ENV=fat egg-bin dev",
     "task": "node app/task/main.js",
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "fat": "vue-cli-service build --mode fat",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
