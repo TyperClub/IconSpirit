@@ -81,6 +81,10 @@ import Navigation from './Navigation';
 
   export default {
     data() {
+      let pagesize = 42
+      if(document.body.clientHeight >= 1000){
+        pagesize = 60
+      }
       return {
         activeIndex: '2',
         searchName: this.$route.query.search,
@@ -91,7 +95,7 @@ import Navigation from './Navigation';
         elTop: 0, //当前点击购物车按钮在网页中的绝对left值
         count:0,
         pageInfo: {
-          pagesize: 42,
+          pagesize,
           current: 1,
           total: 0
         }
