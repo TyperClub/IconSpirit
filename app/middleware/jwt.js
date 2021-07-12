@@ -7,8 +7,15 @@ module.exports = options => {
     const method = ctx.method.toLowerCase();
     if (method === 'get') {
       await next();
-    } else if (ctx.path === '/api/v1/signup' || ctx.path === '/api/v1/signin' || ctx.path === '/api/v1/login' || ctx.path === '/api/v1/logou' || ctx.path === '/api/v1/iconfont/generate' || ctx.path === '/api/v1/iconfont/list'
-      || ctx.path === '/api/v1/iconfont/add') {
+    } else if (ctx.path === '/api/v1/signup' || 
+      ctx.path === '/api/v1/signin' || 
+      ctx.path === '/api/v1/login' || 
+      ctx.path === '/api/v1/logou' || 
+      ctx.path === '/api/v1/iconfont/generate' || 
+      ctx.path === '/api/v1/iconfont/list'|| 
+      ctx.path === '/api/v1/iconfont/add' ||
+      ctx.path === '/@in/api/health'
+    ) {
         await next();
     } else {
       let decode;
