@@ -5,14 +5,21 @@ const rp  = require('request-promise');
 const { insertStr, hex2int } = require('./tool')
 
 const InitCssStyle = (fontFamily, fontFamilyPath, fontFormat) =>{
-    console.log(1111, fontFormat)
+    let fontsStyls = []
+    let fonts = {
+        woff2: `url('${config.website}${fontFamilyPath}.woff') format('woff2')`,
+        eot: `    url('${config.website}${fontFamilyPath}.eot'), /* IE9 */\nurl('${config.website}${fontFamilyPath}.eot?#iefix') format('embedded-opentype')`,
+        woff: `    url('${config.website}${fontFamilyPath}.woff') format('woff')`,
+        ttf: `    url('${config.website}${fontFamilyPath}.ttf') format('truetype')`
+    }
+    for(let index in fontFormat){
+        let attr = fontFormat[index].toLowerCase()
+        fontsStyls.push(fonts[attr])
+    }
+
 return [`@font-face {
     font-family: '${fontFamily}';
-    src: url('${config.website}${fontFamilyPath}.eot'); /* IE9 */
-    src: url('${config.website}${fontFamilyPath}.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('${config.website}${fontFamilyPath}.woff') format('woff2'),
-    url('${config.website}${fontFamilyPath}.woff') format('woff'), /* chrome、firefox */
-    url('${config.website}${fontFamilyPath}.ttf') format('truetype');
+    src: ${fontsStyls.join(',\n')};
 }
 .${fontFamily} {
     font-family: "${fontFamily}";
