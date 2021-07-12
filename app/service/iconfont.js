@@ -115,7 +115,7 @@ class IconfontSevice extends Service {
         projectNum = await this.app.redis.incr(`icons_project_${res._id}`);
         let path = `/test/font/font_${res._id}_${projectNum}`
 
-        let cssStyle = InitCssStyle(res.fontFamily, path)
+        let cssStyle = InitCssStyle(res.fontFamily, path, res.fontFormat)
         for(let index in icons){
             let item = icons[index]
             let unicode = item.unicode
@@ -134,14 +134,13 @@ class IconfontSevice extends Service {
         try {
             
             let buffers = font.output()
+            let putFile = [Oss.put(`${path}.css`, new Buffer.from(cssStyle.join('')))]
+            for(let index in res.fontFormat){
+                let attr = res.fontFormat[index].toLowerCase()
+                putFile.push(Oss.put(`${path}.${attr}`, buffers[attr]))
+            }
+            const [result] = await Promise.all(putFile)
 
-            await Oss.put(`${path}.svg`, buffers.svg);
-            await Oss.put(`${path}.ttf`, buffers.ttf);
-            await Oss.put(`${path}.woff`, buffers.woff);
-            await Oss.put(`${path}.woff2`, buffers.woff2);
-            await Oss.put(`${path}.eot`, buffers.eot);
-
-            let result = await Oss.put(`${path}.css`, new Buffer(cssStyle.join('')));
             if(result.res.statusCode == 200){
                 await ctx.model.Project.updateOne({ _id: data.id }, {
                     font: {

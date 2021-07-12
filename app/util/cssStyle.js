@@ -4,15 +4,15 @@ const request = require('request')
 const rp  = require('request-promise');
 const { insertStr, hex2int } = require('./tool')
 
-const InitCssStyle = (fontFamily, fontFamilyPath) =>{
-    return [`
-@font-face {
+const InitCssStyle = (fontFamily, fontFamilyPath, fontFormat) =>{
+    console.log(1111, fontFormat)
+return [`@font-face {
     font-family: '${fontFamily}';
     src: url('${config.website}${fontFamilyPath}.eot'); /* IE9 */
     src: url('${config.website}${fontFamilyPath}.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
     url('${config.website}${fontFamilyPath}.woff') format('woff2'),
     url('${config.website}${fontFamilyPath}.woff') format('woff'), /* chrome、firefox */
-    url('${config.website}${fontFamilyPath}.svg#iconfont') format('svg'); /* iOS 4.1- */
+    url('${config.website}${fontFamilyPath}.ttf') format('truetype');
 }
 .${fontFamily} {
     font-family: "${fontFamily}";
@@ -70,7 +70,7 @@ const transfer = async (cssUrl) =>{
     }
 
     iconListSvg = iconListSvg.reverse()
-    
+
     return {
         fontFamily,
         prefix,
