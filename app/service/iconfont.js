@@ -135,10 +135,10 @@ class IconfontSevice extends Service {
             
             let buffers = font.output()
             let putFile = [Oss.put(`${path}.css`, new Buffer.from(cssStyle.join('')))]
-            // for(let index in res.fontFormat){
-            //     let attr = res.fontFormat[index].toLowerCase()
-            //     putFile.push(Oss.put(`${path}.${attr}`, buffers[attr]))
-            // }
+            for(let index in res.fontFormat){
+                let attr = res.fontFormat[index].toLowerCase()
+                putFile.push(Oss.put(`${path}.${attr}`, buffers[attr]))
+            }
             const [result] = await Promise.all(putFile)
 
             if(result.res.statusCode == 200){
