@@ -186,20 +186,13 @@
         <div class="m-log">
             <div class="u-close"  @click="drawer = false"><i class="el-icon-close"></i></div>
             <div class="title">项目操作日志</div>
-            <el-timeline>
-                <el-timeline-item timestamp="2018/4/12">
-                    <p>杨韦韦 创建了项目</p>
-                </el-timeline-item>
-                <el-timeline-item timestamp="2018/4/3">
-                    <p>杨韦韦 添加了图标：购物 </p>
-                </el-timeline-item>
-                <el-timeline-item timestamp="2018/4/3">
-                    <p>杨韦韦 删除了图标：购物 </p>
-                </el-timeline-item>
-                <el-timeline-item timestamp="2018/4/2">
-                    <p>杨韦韦 删除了项目</p>
-                </el-timeline-item>
-            </el-timeline>
+            <div class="m-history">
+                <el-timeline>
+                    <el-timeline-item :timestamp="item.updated_at" v-for="(item, index) in history" :key="index">
+                        <p>{{`${item.creater} ${item.operationType}了${item.applicationType}：${item.content}`}}</p>
+                    </el-timeline-item>
+                </el-timeline>
+            </div>
         </div>
     </el-drawer>
     </div>
@@ -223,6 +216,7 @@ import Clipboard from 'clipboard'
 import { SVG } from '@svgdotjs/svg.js'
 import '@svgdotjs/svg.draggable.js'
 import $ from 'jquery'
+import Moment from 'moment'
 
 export default {
     props: ['projectList'],
@@ -233,6 +227,7 @@ export default {
             drawer: false,
             svgCodeIndex: 0, //撤销次数
             svgCode: "",
+            history: [],
             projectParticipants: [],
             current: 0,
             loading: false,
@@ -296,10 +291,16 @@ export default {
             })
         },
         openLog(){
+            this.drawer = true
             getHistory({
                 id: this.projectList._id
             }).then(res => {
-                console.log(111, res)
+                if(res.code === 200){
+                    res.data &&  res.data.forEach(item => {
+                        item.updated_at = Moment(item.updated_at).format("YYYY-MM-DD HH:mm")
+                    });
+                    this.history = res.data
+                }
             })
         },
         editProjects(data){
@@ -988,10 +989,21 @@ export default {
 }
 .m-log{
     padding: 0 20px;
+    position: relative;
+    height: 100%;
     .title{
         padding: 24px 0;
         font-size: 16px;
     }
+}
+.m-history{
+    position: absolute;
+    padding: 0 20px;
+    top: 72px;
+    bottom: 60px;
+    left: 0;
+    overflow-y: auto;
+    width: 100%;
 }
 
  .move_dot {
