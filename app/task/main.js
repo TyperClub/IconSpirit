@@ -16,6 +16,7 @@ async function getIconName(name){
     let appid = '20210618000866226';
     let key = 'yGxXuSKiDxaasPC06Wy7';
     let salt = (new Date).getTime();
+    name = name.split(',')[0]
     let query = name;
     // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
     let from = 'zh';
@@ -123,7 +124,7 @@ const open = async (browser, url, itemIndex) =>{
   await page.setUserAgent(
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36'
  );
-  await page.goto('https://www.iconfont.cn/collections/index?page=2');
+  await page.goto('https://www.iconfont.cn/collections/index?page=1');
   await page.waitForTimeout(3000);
   try {
     const pages = await page.$eval('#J_collections_lists .total', (e) => e.textContent.replace(/[^0-9]/ig,""));
