@@ -14,6 +14,7 @@ module.exports = app => {
   router.post('/api/v1/user/query', controller.user.queryUser);
 
   router.post('/api/v1/project/create', controller.project.create);
+  router.post('/api/v1/project/edit', controller.project.edit);
   router.post('/api/v1/project/icons/create', controller.project.createProjectAndIcons);
   router.post('/api/v1/project/delete', controller.project.delete);
   router.post('/api/v1/project/recovery', controller.project.recovery);

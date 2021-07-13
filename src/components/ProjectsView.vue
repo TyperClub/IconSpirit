@@ -5,7 +5,7 @@
                 <b>{{projectList?.name}}</b>
                 <span>{{projectList?.icons.length}} 个图标</span>
                 <span><i class="el-icon-time"></i> {{projectList?.create_at}}</span>
-                <span class="tool-1"><i class="el-icon-setting"></i> 项目设置</span>
+                <span @click="editProjects(projectList)" class="tool-1"><i class="el-icon-setting"></i> 项目设置</span>
                 <span class="tool-1"><i class="opsfont ops-log"></i> 操作日志</span>
                 <span @click="deleteProjects(projectList)" class="tool-1"><i class="el-icon-delete"></i> 删除项目</span>
                 <span class="tool-1"><i class="opsfont ops-huishouzhan"></i> 回收站</span>
@@ -265,6 +265,9 @@ export default {
                     }
                 })
             })
+        },
+        editProjects(data){
+            this.$emit('editProjects', data)
         },
         editIcon(item){
             this.svgCode = item.content

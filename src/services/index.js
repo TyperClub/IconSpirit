@@ -4,6 +4,7 @@ const iconList = params => http.get('/api/v1/iconfont/list', params)
 const generateFont = query => http.post('/api/v1/iconfont/generate', query)
 const fontTransfer = query => http.post('/api/v1/iconfont/fontTransfer', query)
 const createProjects = params => http.post('/api/v1/project/create', params)
+const editProjects = params => http.post('/api/v1/project/edit', params)
 const createIconsAndProjects = query => http.post('/api/v1/project/icons/create', query)
 const deleteProjects = params => http.post('/api/v1/project/delete', params)
 const recoveryProjects = params => http.post('/api/v1/project/recovery', params)
@@ -26,6 +27,7 @@ export {
     getUser,
     queryUser,
     createProjects,
+    editProjects,
     createIconsAndProjects,
     deleteProjects,
     recoveryProjects,

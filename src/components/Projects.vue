@@ -77,8 +77,8 @@
                                 </el-table>
                         </div>
                         <template v-else>
-                            <project-view v-if="activeType === 'own'" :project-list="ownList[ownCurrent]" @newGetProjects="newGetProjects" @addIcons="addIcons"></project-view>
-                            <project-view v-if="activeType === 'corp'" :project-list="corpList[corpCurrent]" @newGetProjects="newGetProjects" @addIcons="addIcons"></project-view>
+                            <projects-view v-if="activeType === 'own'" :project-list="ownList[ownCurrent]" @newGetProjects="newGetProjects" @addIcons="addIcons" @editProjects="editProjects"></projects-view>
+                            <projects-view v-if="activeType === 'corp'" :project-list="corpList[corpCurrent]" @newGetProjects="newGetProjects" @addIcons="addIcons" @editProjects="editProjects"></projects-view>
                         </template>
                     </div>
                     <div class="m-project-tool" v-else>
@@ -144,22 +144,22 @@
         <el-backtop></el-backtop>
     </div>
     <el-dialog
-    title="新建项目"
+    :title="dialogType === 'create' ? '新建项目': '项目设置'"
     v-model="dialogVisible"
     width="600px"
     :before-close="handleClose">
         <el-form  :model="form" :rules="rules" ref="form"  label-width="115px">
             <el-form-item label="项目名称" prop="name">
-                <el-input v-model="form.name" placeholder="请输入项目名" clearable></el-input>
+                <el-input :class="dialogType !== 'create' ? 'u-input-text-1': ''" size="medium" v-model="form.name" placeholder="请输入项目名" clearable></el-input>
             </el-form-item>
             <el-form-item label="项目描述">
-                <el-input type="textarea" v-model="form.description" placeholder="请输入项目描述" clearable></el-input>
+                <el-input :class="dialogType !== 'create' ? 'u-input-text-1': ''" size="medium" type="textarea" v-model="form.description" placeholder="请输入项目描述" clearable></el-input>
             </el-form-item>
-            <el-form-item label="FontClass前缀" prop="prefix">
-                <el-input v-model="form.prefix"  placeholder="请输入 FontClass 前缀，默认 icon-" clearable></el-input>
+            <el-form-item  label="FontClass前缀" prop="prefix">
+                <el-input :class="dialogType !== 'create' ? 'u-input-text-1': ''" size="medium" v-model="form.prefix"  placeholder="请输入 FontClass 前缀，默认 icon-" clearable></el-input>
             </el-form-item>
             <el-form-item label="Font Family" prop="fontFamily">
-                <el-input v-model="form.fontFamily" placeholder="请输入Font Family，默认 iconfont" clearable></el-input>
+                <el-input :class="dialogType !== 'create' ? 'u-input-text-1': ''" size="medium" v-model="form.fontFamily" placeholder="请输入Font Family，默认 iconfont" clearable></el-input>
             </el-form-item>
             <el-form-item label="字体格式" prop="fontFormat">
                 <el-checkbox-group v-model="form.fontFormat">
@@ -169,9 +169,12 @@
                 <el-checkbox label="EOT" name="eot"></el-checkbox>
                 </el-checkbox-group>
             </el-form-item>
+            <el-form-item label="创建人" v-if="dialogType !== 'create'">
+              {{form.creater}}
+            </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit('form')">新建</el-button>
-                <el-button @click="dialogVisible = false">取消</el-button>
+                <el-button size="medium" type="primary" @click="onSubmit('form')">{{dialogType === 'create' ? '新建': '保存'}}</el-button>
+                <el-button size="medium" @click="dialogVisible = false">取消</el-button>
             </el-form-item>
         </el-form>
     </el-dialog>
@@ -189,16 +192,18 @@
 <script>
 import { mapState } from 'vuex'
 import store from '../store'
-import { createProjects, getProjects, recoveryProjects } from '../services/index';
+import { createProjects, getProjects, recoveryProjects, editProjects } from '../services/index';
 import Navigation from './Navigation';
 import Transfer from './Transfer'
-import ProjectView from './ProjectView'
+import ProjectsView from './ProjectsView'
 import Moment from 'moment'
 
 export default {
     data() {
       return {
         circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+        dialogType: "create",
+        dialogId: "",
         dialogVisible: false,
         dialogVisible2: false,
         activeName: "1",
@@ -238,10 +243,25 @@ export default {
     methods: {
         createProject(){
             this.dialogVisible = true
+            this.dialogType = "create"
+            this.dialogId = ""
             this.$refs.form.resetFields();
         },
         newGetProjects(){
            this.getProjects()
+        },
+        editProjects(data){
+            this.dialogVisible = true
+            this.dialogType = "edit"
+            this.dialogId = data._id
+            this.form = {
+                name: data.name,
+                description: data.description,
+                fontFormat: data.fontFormat,
+                fontFamily: data.fontFamily,
+                prefix: data.prefix,
+                creater: data.creater
+            }
         },
         getProjects(){
             getProjects().then(res => {
@@ -287,23 +307,37 @@ export default {
         onSubmit(formName){
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    createProjects({
-                        ...this.form
-                    }).then(res=>{
-                        if(res.code == 200){
-                            this.dialogVisible = false
-                            this.$refs.form.resetFields()
-                            this.$message.success("创建成功！")
-                            this.$router.push({
-                                path: '/projects',
-                                query: {
-                                    type: 'own',
-                                    id: res.data._id
-                                }
-                            })
-                            this.getProjects()
-                        }
-                    })
+                    if(this.dialogType === "create"){
+                        createProjects({
+                            ...this.form
+                        }).then(res=>{
+                            if(res.code == 200){
+                                this.dialogVisible = false
+                                this.$refs.form.resetFields()
+                                this.$message.success("创建成功！")
+                                this.$router.push({
+                                    path: '/projects',
+                                    query: {
+                                        type: 'own',
+                                        id: res.data._id
+                                    }
+                                })
+                                this.getProjects()
+                            }
+                        })
+                    }else{
+                        editProjects({
+                            id: this.dialogId,
+                            data: this.form
+                        }).then(res => {
+                            if(res.code == 200){
+                                this.dialogVisible = false
+                                this.$refs.form.resetFields()
+                                this.$message.success("修改成功！")
+                                this.getProjects()
+                            }
+                        })
+                    }
                 } else {
                     console.log('error submit!!');
                     return false;
@@ -402,7 +436,7 @@ export default {
     components: {
       Navigation,
       Transfer,
-      ProjectView
+      ProjectsView
     }
   };
 </script>
@@ -415,6 +449,11 @@ export default {
 }
 .el-tabs__content{
     overflow: auto;
+}
+.u-input-text-1 input,.u-input-text-1 textarea{
+    color: #333;
+    background-color: #f8f9fa;
+    border-color: #eaedef;
 }
 </style>
 <style lang="less" scoped>

@@ -18,6 +18,19 @@ class ProjectSevice extends Service {
             this.ctx.throw(500, e);
         }
     }
+
+    async edit(data){
+        const { ctx } = this;
+        try{
+            let res = await ctx.model.Project.updateOne({_id: data.id}, {
+                ...data.data
+            });
+            return null
+        }catch(e){
+            this.ctx.throw(500, e);
+        }
+    }
+
     async createProjectAndIcons(data){
         const { ctx } = this;
         try{
