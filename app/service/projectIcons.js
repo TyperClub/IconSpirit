@@ -8,6 +8,9 @@ class ProjectIconsSevice extends Service {
             if(!data.icons.length) return null
 
             const res = await ctx.model.Project.findOne({ _id: data.id });
+            const user = await ctx.model.User.findOne({
+                telephone: ctx.session.cas.user,
+            });
 
             for(let index in data.icons){
                 let item = data.icons[index]
@@ -39,8 +42,16 @@ class ProjectIconsSevice extends Service {
                             fontIsOld: true
                         }
                     })
+                    await ctx.model.History.create({
+                        projectId:  data.id,
+                        creater: user.userName,
+                        createrEmail: user.userEmail,
+                        operationType: "添加",
+                        applicationType: "图标",
+                        content: item.CH_Name
+                    })
                 }else{
-                    if(icon.isDeleted === true){// 已删除后再添加，直接从删除中恢复
+                    if(icon.isDeleted === true){// 已删除后再添加，直接从删除中恢复？这种方式有问题
                         await ctx.model.ProjectIcons.updateOne({
                             iconsId: item._id
                         }, {
@@ -52,6 +63,14 @@ class ProjectIconsSevice extends Service {
                                 cssFile: res.font.cssFile,
                                 fontIsOld: true
                             }
+                        })
+                        await ctx.model.History.create({
+                            projectId:  data.id,
+                            creater: user.userName,
+                            createrEmail: user.userEmail,
+                            operationType: "添加",
+                            applicationType: "图标",
+                            content: item.CH_Name
                         })
                     }
                 }
@@ -70,6 +89,17 @@ class ProjectIconsSevice extends Service {
                 ENG_Name: data.ENG_Name,
                 content: data.content
             })
+            const user = await ctx.model.User.findOne({
+                telephone: ctx.session.cas.user,
+            });
+            await ctx.model.History.create({
+                projectId:  data._id,
+                creater: user.userName,
+                createrEmail: user.userEmail,
+                operationType: "编辑",
+                applicationType: "图标",
+                content: data.CH_Name
+            })
         }catch(e){
             this.ctx.throw(500, e);
         }
@@ -82,9 +112,17 @@ class ProjectIconsSevice extends Service {
                 isDeleted: true,
                 deleted_at: new Date()
             })
-            // await ctx.model.Project.updateOne({ _id: data.icon.projectIconsId }, {
-            //     "font.fontIsOld": true
-            // })
+            const user = await ctx.model.User.findOne({
+                telephone: ctx.session.cas.user,
+            });
+            await ctx.model.History.create({
+                projectId:  data.projectId,
+                creater: user.userName,
+                createrEmail: user.userEmail,
+                operationType: "删除",
+                applicationType: "图标",
+                content: data.icon.CH_Name
+            })
             return null
         }catch(e){
             this.ctx.throw(500, e);

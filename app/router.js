@@ -20,7 +20,7 @@ module.exports = app => {
   router.post('/api/v1/project/recovery', controller.project.recovery);
   router.get('/api/v1/project/list', controller.project.list);
 
-  router.post('/api/v1/projectIcons/add', controller.projectIcons.add);
+  router.post('/api/v1/projectIcons/add', controller.projectIcons.addIcons);
   router.post('/api/v1/projectIcons/edit', controller.projectIcons.edit);
   router.post('/api/v1/projectIcons/delete', controller.projectIcons.delete);
 
@@ -33,6 +33,8 @@ module.exports = app => {
   router.post('/api/v1/iconfont/fontTransfer', controller.iconfont.fontTransfer)
   router.post('/api/v1/iconfont/add', controller.iconfont.add)
   router.get('/api/v1/iconfont/fontCss/download', controller.iconfont.downloadCssFile)
+
+  router.get('/api/v1/history/list', controller.history.list)
 
   router.get('/@in/api/health', controller.health.health)
 };

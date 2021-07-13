@@ -3,7 +3,7 @@
 const Controller = require('egg').Controller;
 
 class ProjectIconsController extends Controller {
-    async add(){
+    async addIcons(){
         const { ctx } = this;
         const body = ctx.request.body;
         const result = await ctx.service.projectIcons.addIcons(body);

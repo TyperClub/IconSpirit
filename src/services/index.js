@@ -20,6 +20,7 @@ const addprojectParticipants = query => http.post('/api/v1/projectParticipants/a
 const deleteProjectParticipants = query => http.post('/api/v1/projectParticipants/delete', query) 
 const projectParticipantsList = query => http.post('/api/v1/projectParticipants/list', query) 
 const downloadCssFile = params => http.get('/api/v1/iconfont/fontCss/download', params)
+const getHistory =  params => http.get('/api/v1/history/list', params)
 
 export {
     downloadCssFile,
@@ -40,6 +41,7 @@ export {
     getProjects,
     generateFont,
     fontTransfer,
+    getHistory,
     login,
     logout
 }

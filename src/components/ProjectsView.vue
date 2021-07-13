@@ -6,7 +6,7 @@
                 <span>{{projectList?.icons.length}} 个图标</span>
                 <span><i class="el-icon-time"></i> {{projectList?.create_at}}</span>
                 <span @click="editProjects(projectList)" class="tool-1"><i class="el-icon-setting"></i> 项目设置</span>
-                <span class="tool-1"><i class="opsfont ops-log"></i> 操作日志</span>
+                <span @click="openLog" class="tool-1"><i class="opsfont ops-log"></i> 操作日志</span>
                 <span @click="deleteProjects(projectList)" class="tool-1"><i class="el-icon-delete"></i> 删除项目</span>
                 <span class="tool-1"><i class="opsfont ops-huishouzhan"></i> 回收站</span>
             </div>
@@ -175,6 +175,33 @@
               v-if="item" :style="{top:elTop+'px',left:elLeft+'px'}" v-html="imgUrl">
         </div>
         </transition>
+
+            <el-drawer
+        modal-class="m-drawer"
+        size="350px"
+        v-model="drawer"
+        :with-header="false"
+        direction="rtl"
+        destroy-on-close>
+        <div class="m-log">
+            <div class="u-close"  @click="drawer = false"><i class="el-icon-close"></i></div>
+            <div class="title">项目操作日志</div>
+            <el-timeline>
+                <el-timeline-item timestamp="2018/4/12">
+                    <p>杨韦韦 创建了项目</p>
+                </el-timeline-item>
+                <el-timeline-item timestamp="2018/4/3">
+                    <p>杨韦韦 添加了图标：购物 </p>
+                </el-timeline-item>
+                <el-timeline-item timestamp="2018/4/3">
+                    <p>杨韦韦 删除了图标：购物 </p>
+                </el-timeline-item>
+                <el-timeline-item timestamp="2018/4/2">
+                    <p>杨韦韦 删除了项目</p>
+                </el-timeline-item>
+            </el-timeline>
+        </div>
+    </el-drawer>
     </div>
 </template>
 
@@ -189,7 +216,8 @@ import {
     addprojectParticipants, 
     queryUser, 
     downloadCssFile,
-    editProjectIcons
+    editProjectIcons,
+    getHistory
 } from '../services/index';
 import Clipboard from 'clipboard'
 import { SVG } from '@svgdotjs/svg.js'
@@ -202,6 +230,7 @@ export default {
         return {
             dialogVisible: false,
             dialogVisible3: false,
+            drawer: false,
             svgCodeIndex: 0, //撤销次数
             svgCode: "",
             projectParticipants: [],
@@ -264,6 +293,13 @@ export default {
                         this.$emit('newGetProjects')
                     }
                 })
+            })
+        },
+        openLog(){
+            getHistory({
+                id: this.projectList._id
+            }).then(res => {
+                console.log(111, res)
             })
         },
         editProjects(data){
@@ -427,6 +463,7 @@ export default {
                 type: 'warning'
             }).then(() => {
                 deleteProjectIcons({
+                    projectId: this.projectList._id,
                     icon: item
                 }).then(res=>{
                     if(res.code === 200){
@@ -927,6 +964,33 @@ export default {
     color: #999;
     &:hover{
         color: #409EFF;
+    }
+}
+
+.u-close{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: -30px;
+    top: 0;
+    color: #fff;
+    background: #409EFF;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    .el-icon-close{
+        font-size: 16px;
+        font-weight: 600;
+    }
+}
+.m-log{
+    padding: 0 20px;
+    .title{
+        padding: 24px 0;
+        font-size: 16px;
     }
 }
 

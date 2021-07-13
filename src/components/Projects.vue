@@ -245,7 +245,9 @@ export default {
             this.dialogVisible = true
             this.dialogType = "create"
             this.dialogId = ""
-            this.$refs.form.resetFields();
+            this.$nextTick(()=>{
+                this.$refs.form.resetFields();
+            })
         },
         newGetProjects(){
            this.getProjects()
@@ -262,7 +264,9 @@ export default {
                 prefix: data.prefix,
                 creater: data.creater
             }
-            this.$refs.form.resetFields();
+            this.$nextTick(()=>{
+                this.$refs.form.resetFields();
+            })
         },
         getProjects(){
             getProjects().then(res => {
@@ -378,7 +382,9 @@ export default {
         },
         transfer(){
             this.dialogVisible2 = true
-            this.$refs.transfer.init()
+            this.$nextTick(()=> {
+                this.$refs.transfer.init()
+            })
         },
         addIcons(type, item){
             this.$refs.navigation.addIcons(type, item)

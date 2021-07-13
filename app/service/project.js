@@ -13,6 +13,15 @@ class ProjectSevice extends Service {
                 department: user.department,
                 ...data
             });
+
+            await ctx.model.History.create({
+                projectId: res._id,
+                creater: user.userName,
+                createrEmail: user.userEmail,
+                operationType: "创建",
+                applicationType: "项目",
+                content: res.name
+            })
             return res
         }catch(e){
             this.ctx.throw(500, e);
@@ -22,9 +31,20 @@ class ProjectSevice extends Service {
     async edit(data){
         const { ctx } = this;
         try{
-            let res = await ctx.model.Project.updateOne({_id: data.id}, {
+            await ctx.model.Project.updateOne({_id: data.id}, {
                 ...data.data
             });
+            const user = await ctx.model.User.findOne({
+                telephone: ctx.session.cas.user,
+            });
+            await ctx.model.History.create({
+                projectId: data.id,
+                creater: user.userName,
+                createrEmail: user.userEmail,
+                operationType: "编辑",
+                applicationType: "项目",
+                content: data.data.name
+            })
             return null
         }catch(e){
             this.ctx.throw(500, e);
@@ -43,6 +63,14 @@ class ProjectSevice extends Service {
                 department: user.department,
                 name: data.projectName
             });
+            await ctx.model.History.create({
+                projectId: res._id,
+                creater: user.userName,
+                createrEmail: user.userEmail,
+                operationType: "创建",
+                applicationType: "项目",
+                content: res.name
+            })
             await ctx.service.projectIcons.addIcons({
                 id: res._id,
                 icons: data.icons
@@ -63,6 +91,14 @@ class ProjectSevice extends Service {
                 isDeleted: true,
                 deleted_at: new Date()
             });
+            await ctx.model.History.create({
+                projectId: data.id,
+                creater: user.userName,
+                createrEmail: user.userEmail,
+                operationType: "删除",
+                applicationType: "项目",
+                content: ""
+            })
             return res
         }catch(e){
             this.ctx.throw(500, e);
@@ -72,9 +108,24 @@ class ProjectSevice extends Service {
     async recovery(data){
         const { ctx } = this;
         try{
-            let res = await ctx.model.Project.updateOne({_id: data.id}, {
+            await ctx.model.Project.updateOne({_id: data.id}, {
                 isDeleted: false
             });
+
+            let res = await ctx.model.Project.findOne({_id: data.id});
+            
+            const user = await ctx.model.User.findOne({
+                telephone: ctx.session.cas.user,
+            });
+
+            await ctx.model.History.create({
+                projectId: data.id,
+                creater: user.userName,
+                createrEmail: user.userEmail,
+                operationType: "恢复",
+                applicationType: "项目",
+                content: res.name
+            })
             return res
         }catch(e){
             this.ctx.throw(500, e);
