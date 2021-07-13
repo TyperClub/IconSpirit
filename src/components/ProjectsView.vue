@@ -775,6 +775,8 @@ export default {
         }
     }
     .u-icon-svg{
+        display: flex;
+        justify-content: center;
         padding-top: 18px;
         text-align: center;
     }

@@ -496,6 +496,8 @@ export default {
     }
     .u-icon-svg{
         text-align: center;
+        display: flex;
+        justify-content: center;
     }
     .u-delete{
         display: none;
