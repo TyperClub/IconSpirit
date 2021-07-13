@@ -22,7 +22,7 @@ module.exports = {
     },
     logger: {
         dir: '/opt/logs/13654/applog',
-        appLogName: 'info.log',
+        coreLogName: 'info.log',
         errorLogName: 'error.log',
     },
 };
