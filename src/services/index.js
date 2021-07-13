@@ -1,6 +1,6 @@
 import http from '../utils/index'
 
-const iconList = params => http.get('/api/v1/iconfont/list', params)
+const iconList = params => http.get(`/api/v1/iconfont/list?_t=${Date.now()}`, params)
 const generateFont = query => http.post('/api/v1/iconfont/generate', query)
 const fontTransfer = query => http.post('/api/v1/iconfont/fontTransfer', query)
 const createProjects = params => http.post('/api/v1/project/create', params)
@@ -8,7 +8,7 @@ const editProjects = params => http.post('/api/v1/project/edit', params)
 const createIconsAndProjects = query => http.post('/api/v1/project/icons/create', query)
 const deleteProjects = params => http.post('/api/v1/project/delete', params)
 const recoveryProjects = params => http.post('/api/v1/project/recovery', params)
-const getProjects = () => http.get('/api/v1/project/list')
+const getProjects = () => http.get(`/api/v1/project/list?_t=${Date.now()}`)
 const addProjectIcons = query => http.post('/api/v1/projectIcons/add', query)
 const editProjectIcons = query => http.post('/api/v1/projectIcons/edit', query)
 const deleteProjectIcons = query => http.post('/api/v1/projectIcons/delete', query)
@@ -19,9 +19,9 @@ const queryUser = (query) => http.post('/api/v1/user/query', query)
 const addprojectParticipants = query => http.post('/api/v1/projectParticipants/add', query)
 const deleteProjectParticipants = query => http.post('/api/v1/projectParticipants/delete', query) 
 const projectParticipantsList = query => http.post('/api/v1/projectParticipants/list', query) 
-const downloadCssFile = params => http.get('/api/v1/iconfont/fontCss/download', params)
-const getProjectsHistory =  params => http.get('/api/v1/history/list', params)
-const getLatelyHistory =  params => http.get('/api/v1/history/lately', params)
+const downloadCssFile = params => http.get(`/api/v1/iconfont/fontCss/download?_t=${Date.now()}`, params)
+const getProjectsHistory =  params => http.get(`/api/v1/history/list?_t=${Date.now()}`, params)
+const getLatelyHistory =  params => http.get(`/api/v1/history/lately?_t=${Date.now()}`, params)
 
 
 export {

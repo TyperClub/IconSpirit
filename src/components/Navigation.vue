@@ -24,7 +24,8 @@
                 <template #dropdown>
                     <el-dropdown-menu>
                         <el-dropdown-item @click="logout">
-                            <span><i class="opsfont ops-dengchu_o"></i>退出</span></el-dropdown-item>
+                            <span><i class="opsfont ops-dengchu_o"></i>退出</span>
+                        </el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
