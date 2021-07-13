@@ -8,7 +8,7 @@ module.exports = {
     },
     mongoose: {
         client: {
-            url: 'mongodb://127.0.0.1:27017/ops-iconfont',
+            url: 'mongodb://ops_iconfont_rw:pmoKstulRzgTsj0r@dds-bp1964edfcdd60741.mongodb.rds.aliyuncs.com:3717,dds-bp1964edfcdd60742.mongodb.rds.aliyuncs.com:3717/ops_iconfont?replicaSet=mgset-35904809',
             options: {}
         }
     },
