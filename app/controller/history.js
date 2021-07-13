@@ -12,6 +12,16 @@ class HistoryController extends Controller {
             res: result
         })
   }
+
+  async lately(){
+    const { ctx } = this;
+    const body = ctx.query;
+    const result = await ctx.service.history.lately(body);
+    ctx.helper.success({
+        ctx,
+        res: result
+    })
+  }
 }
 
 module.exports = HistoryController;

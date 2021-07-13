@@ -1,7 +1,7 @@
 <template>
 <el-container style="height: 100%;">
     <el-header style="text-align: right; font-size: 12px">
-        <navigation ref="navigation" @deleteSelectIcon="deleteSelectIcon" @addIconsShopping="addIconsShopping"></navigation>
+        <navigation ref="navigation" @deleteSelectIcon="deleteSelectIcon" @addIconsShopping="addIconsShopping" @openDrawer="openDrawer"></navigation>
     </el-header>
     <div class="home">
         <div class="m-content">
@@ -77,8 +77,8 @@
                                 </el-table>
                         </div>
                         <template v-else>
-                            <projects-view v-if="activeType === 'own'" :project-list="ownList[ownCurrent]" @newGetProjects="newGetProjects" @addIcons="addIcons" @editProjects="editProjects"></projects-view>
-                            <projects-view v-if="activeType === 'corp'" :project-list="corpList[corpCurrent]" @newGetProjects="newGetProjects" @addIcons="addIcons" @editProjects="editProjects"></projects-view>
+                            <projects-view ref="projectsView" v-if="activeType === 'own'" :project-list="ownList[ownCurrent]" @newGetProjects="newGetProjects" @addIcons="addIcons" @editProjects="editProjects"></projects-view>
+                            <projects-view ref="projectsView" v-if="activeType === 'corp'" :project-list="corpList[corpCurrent]" @newGetProjects="newGetProjects" @addIcons="addIcons" @editProjects="editProjects"></projects-view>
                         </template>
                     </div>
                     <div class="m-project-tool" v-else>
@@ -438,6 +438,9 @@ export default {
         closeTransfer(){
             this.dialogVisible2 = false
             this.getProjects()
+        },
+        openDrawer(){
+            this.$refs.projectsView.closeDrawer()
         }
     },
     components: {

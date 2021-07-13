@@ -35,7 +35,7 @@
 
 <script>
 import Navigation from './Navigation';
-import {iconList} from '../services/index';
+import { iconList, getLatelyHistory } from '../services/index';
 import $ from 'jquery'
 
 export default {
@@ -45,13 +45,14 @@ export default {
             interval: null,
             total: 0,
             num: 0,
-            tips: ['用户 杨韦韦 刚发起了 aaaa 项目', '用户 admin 刚发起了 bbb 项目']
+            tips: []
         }
     },
     mounted(){
         this.animate();
         this.startTips()
         this.getIconsList()
+        this.getLatelyHistory()
     },
     methods: {
         animate(){
@@ -115,6 +116,17 @@ export default {
           }).catch(err => {
             console.log('错误', err)
           })
+       },
+       getLatelyHistory(){
+         getLatelyHistory().then(res =>{
+           if(res.code === 200){
+             let tips = []
+             res.data.forEach(obj => {
+               tips.push(`用户 ${obj.creater} 刚${obj.operationType} ${obj.content} ${obj.applicationType}`)
+             });
+             this.tips = tips
+           }
+         })
        },
         startTips(){
           clearInterval(this.interval)

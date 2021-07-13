@@ -210,7 +210,7 @@ import {
     queryUser, 
     downloadCssFile,
     editProjectIcons,
-    getHistory
+    getProjectsHistory
 } from '../services/index';
 import Clipboard from 'clipboard'
 import { SVG } from '@svgdotjs/svg.js'
@@ -292,7 +292,7 @@ export default {
         },
         openLog(){
             this.drawer = true
-            getHistory({
+            getProjectsHistory({
                 id: this.projectList._id
             }).then(res => {
                 if(res.code === 200){
@@ -302,6 +302,9 @@ export default {
                     this.history = res.data
                 }
             })
+        },
+        closeDrawer(){
+            this.drawer = false
         },
         editProjects(data){
             this.$emit('editProjects', data)

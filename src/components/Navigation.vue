@@ -301,6 +301,7 @@ export default {
             if(this.ownProjects.length === 0){
                 this.isCreateProject = true
             }
+            this.$emit("openDrawer")
         },
         rowItem(index){
             this.current = index

@@ -35,6 +35,7 @@ module.exports = app => {
   router.get('/api/v1/iconfont/fontCss/download', controller.iconfont.downloadCssFile)
 
   router.get('/api/v1/history/list', controller.history.list)
+  router.get('/api/v1/history/lately', controller.history.lately)
 
   router.get('/@in/api/health', controller.health.health)
 };
