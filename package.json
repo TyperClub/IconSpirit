@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "egg:start": "egg-scripts start --daemon --title=egg-server-tester",
+    "egg:start": "EGG_SERVER_ENV=fat egg-scripts start --daemon --title=egg-server-tester",
     "egg:stop": "egg-scripts stop --title=egg-server-tester",
     "egg:dev": "egg-bin dev",
     "egg:fat": "EGG_SERVER_ENV=fat egg-bin dev",
@@ -11,7 +11,7 @@
     "egg:pro": "EGG_SERVER_ENV=fat egg-bin dev",
     "task": "node app/task/main.js",
     "serve": "vue-cli-service serve",
-    "FAT": "EGG_SERVER_ENV=fat pm2-runtime start ecosystem.config.js",
+    "FAT": "cross-env NODE_ENV=FAT EGG_SERVER_ENV=fat pm2-runtime start ecosystem.config.js",
     "fat": "vue-cli-service build --mode fat",
     "lint": "vue-cli-service lint"
   },

@@ -29,12 +29,12 @@ module.exports = {
         exec_mode: 'fork',
         max_memory_restart: '1G',
         env: {
-        NODE_ENV: 'development',
-        HOST: Host
+            NODE_ENV: 'fat',
+            HOST: Host
         },
         env_production: {
-        NODE_ENV: 'production',
-        HOST: Host
+            NODE_ENV: 'production',
+            HOST: Host
         },
     },
     ],
