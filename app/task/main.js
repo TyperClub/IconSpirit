@@ -10,7 +10,7 @@ if(process.argv[2] === 'fat'){
 }
 
 async function getIconName(name){
-    name = name.replace(/[-|_|0-9]+/g, '')
+    name = name.replace(/[-|_|\.|0-9]+/g, '')
     if(/^[a-zA-Z]+$/.test(name)){
         return name.replace(/\s+/g, '').toLowerCase().replace(/(-+|\(|\))$/g,"")
     }
@@ -49,6 +49,7 @@ async function getIconName(name){
         let body = JSON.parse(rpbody)
         Eg_name = body.trans_result[0].dst.replace(/\s+/g, '-').toLowerCase()
         Eg_name = Eg_name.replace(/-+/g, '-').replace(/(-+|\(|\))$/g,"")
+        Eg_name = Eg_name.replace(/['|\.]+/g, '')
     } catch (error){
         console.log("Get Icon name is error:", error, rpbody)
     }
