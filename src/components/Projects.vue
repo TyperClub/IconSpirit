@@ -262,6 +262,7 @@ export default {
                 prefix: data.prefix,
                 creater: data.creater
             }
+            this.$refs.form.resetFields();
         },
         getProjects(){
             getProjects().then(res => {
