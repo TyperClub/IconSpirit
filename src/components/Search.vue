@@ -84,6 +84,8 @@ import Navigation from './Navigation';
       let pagesize = 42
       if(document.body.clientHeight >= 1000){
         pagesize = 60
+      }else if(document.body.clientHeight >= 900){
+        pagesize = 48
       }
       return {
         activeIndex: '2',
@@ -376,8 +378,9 @@ import Navigation from './Navigation';
     background: var(--card-bg);
     cursor: pointer;
     .icon-base-view-left{
-      width: 64px;
+      max-width: 64px;
       height: 64px;
+      padding: 0 10px;
       line-height: 64px;
       text-align: center;
       flex: none;
