@@ -258,7 +258,8 @@ export default {
             immediate:true,
             handler:function(data){
                 if(data){
-                   this.getProjectParticipantsList() 
+                   this.getProjectParticipantsList()
+                   this.loading = false
                 }
             }
         }
