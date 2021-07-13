@@ -773,7 +773,7 @@ export default {
     .u-icon-svg{
         display: flex;
         justify-content: center;
-        padding-top: 18px;
+        padding: 18px 5px 0;
         text-align: center;
     }
     
