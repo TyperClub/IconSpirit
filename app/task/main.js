@@ -5,6 +5,9 @@ const rp  = require('request-promise');
 const MD5  = require('./md5');
 
 let iconsAddUrl = 'http://127.0.0.1:7001/api/v1/iconfont/add'
+if(process.argv[2] === 'fat'){
+    iconsAddUrl = 'http://10.111.247.210:8080/api/v1/iconfont/add'
+}
 
 async function getIconName(name){
     name = name.replace(/[-|_|0-9]+/g, '')

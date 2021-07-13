@@ -10,6 +10,7 @@
     "egg:uat": "EGG_SERVER_ENV=fat egg-bin dev",
     "egg:pro": "EGG_SERVER_ENV=fat egg-bin dev",
     "task": "node app/task/main.js",
+    "task:fat": "node app/task/main.js fat",
     "serve": "vue-cli-service serve",
     "FAT": "cross-env EGG_SERVER_ENV=fat pm2-runtime start ecosystem.config.js",
     "fat": "vue-cli-service build --mode fat",
