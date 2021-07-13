@@ -4,15 +4,17 @@ const request = require('request')
 const rp  = require('request-promise');
 const MD5  = require('./md5');
 
+let iconsAddUrl = 'http://127.0.0.1:7001/api/v1/iconfont/add'
+
 async function getIconName(name){
-    if(/^[a-zA-Z]+$/.test(name.replace(/[-|_|0-9]+/g, ''))){
+    name = name.replace(/[-|_|0-9]+/g, '')
+    if(/^[a-zA-Z]+$/.test(name)){
         return name.replace(/\s+/g, '').toLowerCase().replace(/(-+|\(|\))$/g,"")
     }
     let nameArr = name.split('-')
     if(nameArr.length > 1){
         nameArr.shift()
     }
-    name = nameArr.join('-')
     let appid = '20210618000866226';
     let key = 'yGxXuSKiDxaasPC06Wy7';
     let salt = (new Date).getTime();
@@ -53,7 +55,7 @@ async function getIconName(name){
 function requestData(data, url){
     console.log(`add ${data.length} icon..., url ${url}`)
     request({
-        url: "http://127.0.0.1:7001/api/v1/iconfont/add",
+        url: iconsAddUrl,
         method:'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -118,18 +120,26 @@ const open = async (browser, url, itemIndex) =>{
     }
 }
 
-(async () => {
-  const browser = await puppeteer.launch();
+async function RunTask(num){
+    const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.setUserAgent(
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36'
  );
-  await page.goto('https://www.iconfont.cn/collections/index?page=1');
-  await page.waitForTimeout(3000);
+ if(num === 1){
+    await page.goto(`https://www.iconfont.cn/collections/index?page=1`);
+    await page.waitForTimeout(3000);
+ }
+ 
   try {
     const pages = await page.$eval('#J_collections_lists .total', (e) => e.textContent.replace(/[^0-9]/ig,""));
+    let pageIndex = pages - num + 1
+    await page.goto(`https://www.iconfont.cn/collections/index?page=${pageIndex}`);
+    await page.waitForTimeout(3000);
+
+    console.log('pages', pages, "pageIndex", pageIndex)
+
     const aList = await page.$$eval('.page-collections-wrap a',  eles => eles.map(ele => ele.href))
-    console.log('pages', pages)
     console.log('aList', aList)
     
     aList.forEach((url,index) => {
@@ -152,6 +162,9 @@ const open = async (browser, url, itemIndex) =>{
       console.log('Closing empty browser');
       await browser.close();
       console.log('Browser closed');
+      RunTask(++num)
     }
   });
-})();
+}
+
+RunTask(1)
