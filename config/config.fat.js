@@ -19,5 +19,10 @@ module.exports = {
             password: 'bC2kNyRH6f8kzEqpM2EV',
             db: 5
         }
-    }
+    },
+    logger: {
+        dir: '/opt/logs/13654/applog',
+        appLogName: 'info.log',
+        errorLogName: 'error.log',
+    },
 };
