@@ -123,6 +123,7 @@ const open = async (browser, url, itemIndex) =>{
     }
 }
 
+let pages = 0
 async function RunTask(num){
     const browser = await puppeteer.launch();
   const page = await browser.newPage();
@@ -132,10 +133,10 @@ async function RunTask(num){
  if(num === 1){
     await page.goto(`https://www.iconfont.cn/collections/index?page=1`);
     await page.waitForTimeout(3000);
+    pages = await page.$eval('#J_collections_lists .total', (e) => e.textContent.replace(/[^0-9]/ig,""));
  }
  
   try {
-    const pages = await page.$eval('#J_collections_lists .total', (e) => e.textContent.replace(/[^0-9]/ig,""));
     let pageIndex = pages - num + 1
     await page.goto(`https://www.iconfont.cn/collections/index?page=${pageIndex}`);
     await page.waitForTimeout(3000);
