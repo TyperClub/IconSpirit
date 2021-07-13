@@ -192,10 +192,6 @@ import Navigation from './Navigation';
   padding: 0;
 }
 
-.icon {
-  font-size: 36px;
-  color: #666;
-}
 </style>
 <style lang="less" scoped>
 .f-fr{

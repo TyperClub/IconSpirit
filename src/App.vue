@@ -68,4 +68,13 @@ html, body {
     top: 0;
     right: 0;
   }
+.icon {
+  font-size: 36px;
+  color: #666;
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  fill: currentColor;
+  overflow: hidden;
+}
 </style>

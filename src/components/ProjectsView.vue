@@ -605,10 +605,6 @@ export default {
 </script>
 
 <style lang="less">
-.icon {
-  font-size: 36px;
-  color: #666;
-}
 .m-invitation{
     .el-dialog__body{
         padding-top: 0px;

@@ -102,6 +102,7 @@ const open = async (browser, url, itemIndex) =>{
                 let classNameId = $(obj).attr('class')
                 let ENG_Name = await getIconName($(obj).text())
                 console.log(index, authors[1], $(obj).text(), ENG_Name)
+                $(obj).find('.icon-twrap svg').removeAttr('style')
                 data.push({
                     id: classNameId.replace(/\s+/g,''),
                     type: "alibaba",

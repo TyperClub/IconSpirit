@@ -453,10 +453,6 @@ export default {
 
 
 <style lang="less">
-.icon {
-  font-size: 36px;
-  color: #666;
-}
 .el-tabs__content{
     overflow: auto;
 }
