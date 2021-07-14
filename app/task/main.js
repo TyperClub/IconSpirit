@@ -48,7 +48,9 @@ async function getIconName(name){
         let body = JSON.parse(rpbody)
         Eg_name = body.trans_result[0].dst.replace(/\s+/g, '-').toLowerCase()
         Eg_name = Eg_name.replace(/-+/g, '-').replace(/(-+|\(|\))$/g,"")
-        Eg_name = Eg_name.replace(/['|\.|\&]+/g, '')
+        Eg_name = Eg_name.replace(/['|\.|\&|\[|\]|\(|\)|_]+/g, '')
+        Eg_name = /^-/.test(Eg_name) ? Eg_name.substr(1,Eg_name.length-1) : Eg_name
+
     } catch (error){
         console.log(`Get Icon name is error: ${error}，rpbody: ${rpbody}，name: ${name}`)
     }
@@ -125,16 +127,20 @@ const open = async (browser, url, itemIndex) =>{
 }
 
 let pages = 0
-async function RunTask(num){
+async function RunTask(num, pageCount){
     const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
   const page = await browser.newPage();
   await page.setUserAgent(
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36'
  );
  if(num === 1){
-    await page.goto(`https://www.iconfont.cn/collections/index?page=1`);
-    await page.waitForTimeout(3000);
-    pages = await page.$eval('#J_collections_lists .total', (e) => e.textContent.replace(/[^0-9]/ig,""));
+    if(pageCount){//指定页数
+        pages = pageCount 
+    }else{
+        await page.goto(`https://www.iconfont.cn/collections/index?page=1`);
+        await page.waitForTimeout(3000);
+        pages = await page.$eval('#J_collections_lists .total', (e) => e.textContent.replace(/[^0-9]/ig,""));
+    }
  }
  
   try {
@@ -172,4 +178,4 @@ async function RunTask(num){
   });
 }
 
-RunTask(1)
+RunTask(1, 823)
