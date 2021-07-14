@@ -54,6 +54,11 @@ async function getIconName(name){
         Eg_name = Eg_name.replace(/['|\.|\&|\[|\]|\(|\)|_]+/g, '')
         Eg_name = /^-/.test(Eg_name) ? Eg_name.substr(1,Eg_name.length-1) : Eg_name
 
+        let Eg_names = Eg_name.split('-')
+        while(Eg_names.length > 3){
+            Eg_names.shift()
+        }
+        Eg_name = Eg_names.join('-')
     } catch (error){
         logger.error(`Get Icon name is error: ${error}，rpbody: ${rpbody}，name: ${name}`)
     }
@@ -183,4 +188,4 @@ async function RunTask(num, pageCount){
   });
 }
 
-RunTask(0, 820)
+RunTask(1, 819)
