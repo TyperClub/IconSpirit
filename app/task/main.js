@@ -91,7 +91,9 @@ function requestData(data, url){
 
 const open = async (browser, url, itemIndex) =>{
     let page = await browser.newPage();
-    await page.goto(url);
+    await page.goto(url, {
+        waitUntil: 'networkidle0'
+    })
     await page.waitForTimeout(3000*itemIndex);
 
     try{
@@ -154,7 +156,7 @@ async function RunTask(num, pageCount){
     logger.info(`pages：${pages}，pageIndex：${pageIndex}`)
 
     const aList = await page.$$eval('.page-collections-wrap a',  eles => eles.map(ele => ele.href))
-    logger.info(`aList：${aList}`)
+    logger.info('aList：', aList)
     
     aList.forEach((url,index) => {
         if(/collections\/detail/.test(url)){
@@ -181,4 +183,4 @@ async function RunTask(num, pageCount){
   });
 }
 
-RunTask(0)
+RunTask(0, 820)
