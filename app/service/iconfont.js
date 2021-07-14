@@ -83,12 +83,12 @@ class IconfontSevice extends Service {
                         } 
                     },
                 },
-                {$sort:{"createTime": -1}},
+                // {$sort:{"createTime": -1}},
                 { $skip : data.pageSize * (data.pageNum - 1) },
                 { $limit: parseInt(data.pageSize)}
             ])
         }else{
-            res.data = await ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort({createTime: -1});
+            res.data = await ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize));
             res.code = 1;
             res.msg = '查询成功';
             res.total = await ctx.model.Iconfont.find(query).count()
