@@ -139,6 +139,7 @@ const open = async (browser, url, itemIndex) =>{
 let pages = 0
 async function RunTask(num, pageCount){
     const browser = await puppeteer.launch({
+        // headless: false,
         args: [
             '--proxy-server=http://101.89.158.216:28100',
             '--ignore-certificate-errors',
@@ -180,6 +181,12 @@ async function RunTask(num, pageCount){
             open(browser, url, index+1)
         }
     })
+
+    if(aList.length === 0){
+        await browser.close();
+        logger.info('继续查询');
+        RunTask(num)
+    }
   } catch (error) {
     logger.error(`page goto is error: ${error}`)
     await page.close()
@@ -200,4 +207,4 @@ async function RunTask(num, pageCount){
   });
 }
 
-RunTask(1, 794)
+RunTask(1, 793)
