@@ -51,7 +51,7 @@ async function getIconName(name){
         let body = JSON.parse(rpbody)
         Eg_name = body.trans_result[0].dst.replace(/\s+/g, '-').toLowerCase()
         Eg_name = Eg_name.replace(/-+/g, '-').replace(/(-+|\(|\))$/g,"")
-        Eg_name = Eg_name.replace(/['|\.|\&|\[|\]|\(|\)|_]+/g, '')
+        Eg_name = Eg_name.replace(/['|\.|\&|\[|\]|\(|\)|_|,]+/g, '')
         Eg_name = /^-/.test(Eg_name) ? Eg_name.substr(1,Eg_name.length-1) : Eg_name
 
         let Eg_names = Eg_name.split('-')
