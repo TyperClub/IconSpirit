@@ -13,7 +13,7 @@ if(process.argv[2] === 'fat'){
 }
 
 async function getIconName(name){
-    if(/^[a-zA-Z]+$/.test(name.replace(/[-|_|0-9]+/g, ''))){
+    if(/^[a-zA-Z]+$/.test(name.replace(/[-|_|0-9|\s]+/g, ''))){
         return name.replace(/\s+/g, '').toLowerCase().replace(/(-+|\(|\))$/g,"")
     }
     let nameArr = name.split('-')
