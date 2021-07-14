@@ -4,13 +4,13 @@ const request = require('request')
 const rp  = require('request-promise');
 const { insertStr, hex2int } = require('./tool')
 
-const InitCssStyle = (fontFamily, fontFamilyPath, fontFormat) =>{
+const InitCssStyle = (fontFamily, fontFamilyPath, fontFormat, env) =>{
     let fontsStyls = []
     let fonts = {
-        woff2: `url('${config.website}${fontFamilyPath}.woff') format('woff2')`,
-        eot: `    url('${config.website}${fontFamilyPath}.eot'), /* IE9 */\nurl('${config.website}${fontFamilyPath}.eot?#iefix') format('embedded-opentype')`,
-        woff: `    url('${config.website}${fontFamilyPath}.woff') format('woff')`,
-        ttf: `    url('${config.website}${fontFamilyPath}.ttf') format('truetype')`
+        woff2: `url('${config[env].website}${fontFamilyPath}.woff') format('woff2')`,
+        eot: `    url('${config[env].website}${fontFamilyPath}.eot'), /* IE9 */\nurl('${config[env].website}${fontFamilyPath}.eot?#iefix') format('embedded-opentype')`,
+        woff: `    url('${config[env].website}${fontFamilyPath}.woff') format('woff')`,
+        ttf: `    url('${config[env].website}${fontFamilyPath}.ttf') format('truetype')`
     }
     for(let index in fontFormat){
         let attr = fontFormat[index].toLowerCase()

@@ -9,9 +9,8 @@ if(process.argv[2] === 'fat'){
     iconsAddUrl = 'http://10.111.247.210:8080/api/v1/iconfont/add'
 }
 
-async function getIconName(name){
-    name = name.replace(/[-|_|\.|0-9]+/g, '')
-    if(/^[a-zA-Z]+$/.test(name)){
+async function getIconName(name){// 只有数字
+    if(/^[a-zA-Z]+$/.test(name.replace(/[-|_|0-9]+/g, ''))){
         return name.replace(/\s+/g, '').toLowerCase().replace(/(-+|\(|\))$/g,"")
     }
     let nameArr = name.split('-')

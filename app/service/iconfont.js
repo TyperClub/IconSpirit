@@ -2,6 +2,7 @@
 const Service = require('egg').Service
 const FontCarrier = require('font-carrier')
 const Oss = require('../util/oss')
+const configOss = require('../config/oss_config');
 const { InitCssStyle, addItemStyle, transfer } = require('../util/cssStyle')
 const fs = require('fs')
 const path = require('path')
@@ -113,9 +114,9 @@ class IconfontSevice extends Service {
             await this.app.redis.set(`icons_project_${res._id}`, 0)
         }
         projectNum = await this.app.redis.incr(`icons_project_${res._id}`);
-        let path = `/test/font/font_${res._id}_${projectNum}`
+        let path = `${configOss[this.app.env].path}/font_${res._id}_${projectNum}`
 
-        let cssStyle = InitCssStyle(res.fontFamily, path, res.fontFormat)
+        let cssStyle = InitCssStyle(res.fontFamily, path, res.fontFormat, this.app.env)
         for(let index in icons){
             let item = icons[index]
             let unicode = item.unicode
@@ -132,12 +133,12 @@ class IconfontSevice extends Service {
         // })
 
         try {
-            
+            const oss = Oss(this.app.env)
             let buffers = font.output()
-            let putFile = [Oss.put(`${path}.css`, new Buffer.from(cssStyle.join('')))]
+            let putFile = [oss.put(`${path}.css`, new Buffer.from(cssStyle.join('')))]
             for(let index in res.fontFormat){
                 let attr = res.fontFormat[index].toLowerCase()
-                putFile.push(Oss.put(`${path}.${attr}`, buffers[attr]))
+                putFile.push(oss.put(`${path}.${attr}`, buffers[attr]))
             }
             const [result] = await Promise.all(putFile)
 

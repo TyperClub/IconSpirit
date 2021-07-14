@@ -5,7 +5,7 @@ const config = require('../config/oss_config');
 module.exports = app => {
   const mongoose = app.mongoose;
   const Schema = mongoose.Schema;
-
+  
   const ProjectSchema = new Schema({
     name: {
         type: String,
@@ -18,7 +18,7 @@ module.exports = app => {
     font: {
       website: {
         type: String,
-        default: config.website
+        default: config[app.env].website
       },
       cssFile: {
         type: String,
