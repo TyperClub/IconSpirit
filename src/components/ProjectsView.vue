@@ -941,6 +941,7 @@ export default {
             border-radius: 3px;
             cursor: pointer;
             color: #333;
+            user-select: none;
             &:hover{
                 color: #409EFF;
             }
@@ -965,6 +966,7 @@ export default {
     font-size: 36px;
     margin-right: 30px;
     color: #999;
+    user-select: none;
     &:hover{
         color: #409EFF;
     }
