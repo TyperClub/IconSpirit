@@ -9,7 +9,7 @@ if(process.argv[2] === 'fat'){
     iconsAddUrl = 'http://10.111.247.210:8080/api/v1/iconfont/add'
 }
 
-async function getIconName(name){// 只有数字
+async function getIconName(name){
     if(/^[a-zA-Z]+$/.test(name.replace(/[-|_|0-9]+/g, ''))){
         return name.replace(/\s+/g, '').toLowerCase().replace(/(-+|\(|\))$/g,"")
     }
@@ -48,9 +48,9 @@ async function getIconName(name){// 只有数字
         let body = JSON.parse(rpbody)
         Eg_name = body.trans_result[0].dst.replace(/\s+/g, '-').toLowerCase()
         Eg_name = Eg_name.replace(/-+/g, '-').replace(/(-+|\(|\))$/g,"")
-        Eg_name = Eg_name.replace(/['|\.]+/g, '')
+        Eg_name = Eg_name.replace(/['|\.|\&]+/g, '')
     } catch (error){
-        console.log("Get Icon name is error:", error, rpbody)
+        console.log(`Get Icon name is error: ${error}，rpbody: ${rpbody}，name: ${name}`)
     }
     return Eg_name
 }
