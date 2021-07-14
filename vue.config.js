@@ -24,7 +24,7 @@ module.exports = {
   },
   configureWebpack: {
       externals: {
-        jquery: 'jquery',
+        jquery: '$',
         moment: 'moment'
       },
       performance: {
