@@ -139,12 +139,20 @@ const open = async (browser, url, itemIndex) =>{
 let pages = 0
 async function RunTask(num, pageCount){
     const browser = await puppeteer.launch({
+        headless: false,
         args: [
+            '--proxy-server=http://101.89.158.216:28100',
+            '--ignore-certificate-errors',
+            '--ignore-certificate-errors-spki-list',
             '--no-sandbox', 
             '--disable-setuid-sandbox'
         ]
     });
   const page = await browser.newPage();
+  await page.authenticate({
+    username: "p307",
+    password: "p3071",
+  });
   await page.setUserAgent(
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36'
  );
