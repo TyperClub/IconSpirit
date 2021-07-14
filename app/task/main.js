@@ -3,6 +3,9 @@ const cheerio = require("cheerio");
 const request = require('request')
 const rp  = require('request-promise');
 const MD5  = require('./md5');
+const log4js = require('./log');
+
+const logger = log4js.getLogger();
 
 let iconsAddUrl = 'http://127.0.0.1:7001/api/v1/iconfont/add'
 if(process.argv[2] === 'fat'){
@@ -52,13 +55,13 @@ async function getIconName(name){
         Eg_name = /^-/.test(Eg_name) ? Eg_name.substr(1,Eg_name.length-1) : Eg_name
 
     } catch (error){
-        console.log(`Get Icon name is error: ${error}，rpbody: ${rpbody}，name: ${name}`)
+        logger.error(`Get Icon name is error: ${error}，rpbody: ${rpbody}，name: ${name}`)
     }
     return Eg_name
 }
 
 function requestData(data, url){
-    console.log(`add ${data.length} icon..., url ${url}`)
+    logger.info(`add ${data.length} icon..., url ${url}`)
     request({
         url: iconsAddUrl,
         method:'POST',
@@ -73,15 +76,15 @@ function requestData(data, url){
            try {
                 let d = JSON.parse(body)
                 if(d.code == 1){
-                    console.log(`add ${data.length} icon of data successfully, url ${url}`, d.msg)
+                    logger.info(`add ${data.length} icon of data successfully, url ${url}，返回：${d.msg}`)
                 }else{
-                    console.log('添加失败：', d, `url ${url}`)
+                    logger.error(`添加失败，返回参数：${d} url：${url}`)
                 }
            } catch (error) {
-               console.log(`添加失败：url ${url}`)
+                logger.error(`添加失败：${error} url： ${url}`)
            }
         }else{
-            console.log('添加失败', err)
+            logger.error(`添加失败：${err}`)
         }
     })
 }
@@ -102,7 +105,7 @@ const open = async (browser, url, itemIndex) =>{
             setTimeout(async ()=>{
                 let classNameId = $(obj).attr('class')
                 let ENG_Name = await getIconName($(obj).text())
-                console.log(index, authors[1], $(obj).text(), ENG_Name)
+                logger.info(index, authors[1], $(obj).text(), ENG_Name)
                 $(obj).find('.icon-twrap svg').removeAttr('style')
                 data.push({
                     id: classNameId.replace(/\s+/g,''),
@@ -121,7 +124,7 @@ const open = async (browser, url, itemIndex) =>{
             }, 200 * index * itemIndex)
         })
     }catch (error) { 
-        console.log('open url is error：', error, url)
+        logger.error(`open url is error：${error}，url： ${url}`)
         await page.close()
     }
 }
@@ -148,10 +151,10 @@ async function RunTask(num, pageCount){
     await page.goto(`https://www.iconfont.cn/collections/index?page=${pageIndex}`);
     await page.waitForTimeout(3000);
 
-    console.log('pages', pages, "pageIndex", pageIndex)
+    logger.info(`pages：${pages}，pageIndex：${pageIndex}`)
 
     const aList = await page.$$eval('.page-collections-wrap a',  eles => eles.map(ele => ele.href))
-    console.log('aList', aList)
+    logger.info(`aList：${aList}`)
     
     aList.forEach((url,index) => {
         if(/collections\/detail/.test(url)){
@@ -159,7 +162,7 @@ async function RunTask(num, pageCount){
         }
     })
   } catch (error) {
-    console.log('page goto is error: ', error)
+    logger.error(`page goto is error: ${error}`)
     await page.close()
     await browser.close();
   }
@@ -168,14 +171,14 @@ async function RunTask(num, pageCount){
   // handle a page being closed
   browser.on('targetdestroyed', async target => {
     const openPages = await browser.pages();
-    console.log('Open pages:', openPages.length);
+    logger.info('Open pages:', openPages.length);
     if (openPages.length == 1) {
-      console.log('Closing empty browser');
+      logger.info('Closing empty browser');
       await browser.close();
-      console.log('Browser closed');
+      logger.info('Browser closed');
       RunTask(++num)
     }
   });
 }
 
-RunTask(1, 823)
+RunTask(0)

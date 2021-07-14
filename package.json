@@ -39,6 +39,7 @@
     "jquery": "^3.6.0",
     "jsonwebtoken": "^8.5.1",
     "ldap-authentication": "^2.2.7",
+    "log4js": "^6.3.0",
     "moment": "^2.29.1",
     "puppeteer": "^10.0.0",
     "request": "^2.88.2",
