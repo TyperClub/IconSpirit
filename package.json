@@ -5,7 +5,7 @@
   "scripts": {
     "egg:start": "EGG_SERVER_ENV=fat egg-scripts start --daemon --title=egg-server-tester",
     "egg:stop": "egg-scripts stop --title=egg-server-tester",
-    "egg:restart": "npm run egg:stop && egg:start",
+    "egg:restart": "npm run egg:stop && npm run egg:start",
     "egg:dev": "egg-bin dev",
     "egg:fat": "EGG_SERVER_ENV=fat egg-bin dev",
     "egg:uat": "EGG_SERVER_ENV=fat egg-bin dev",
