@@ -1,8 +1,9 @@
 const webpack = require("webpack");
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
-const config = require("./app/config");
 const Timestamp = new Date().getTime();
 const productionGzipExtensions = ['js', 'css']
+const TerserPlugin = require('terser-webpack-plugin')
+
 
 module.exports = {
   productionSourceMap: false,
@@ -31,6 +32,18 @@ module.exports = {
         hints: false,
         maxEntrypointSize: 512000,
         maxAssetSize: 512000
+      },
+      optimization: {
+        minimizer: [
+            new TerserPlugin({
+                sourceMap: false,
+                terserOptions: {
+                    compress: {
+                        drop_console: true
+                    }
+                }
+            })
+        ]
       },
       plugins: [
           new webpack.ProvidePlugin({
