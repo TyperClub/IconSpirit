@@ -16,8 +16,22 @@ module.exports = {
       }
     }
   },
+  chainWebpack: config => {
+    config.plugin('html').tap(args => {
+      args[0].title = '掌门 ICONS'
+      return args
+    })
+  },
   configureWebpack: {
-      //支持jquery
+      externals: {
+        jquery: 'jquery',
+        moment: 'moment'
+      },
+      performance: {
+        hints: false,
+        maxEntrypointSize: 512000,
+        maxAssetSize: 512000
+      },
       plugins: [
           new webpack.ProvidePlugin({
               $:"jquery",
