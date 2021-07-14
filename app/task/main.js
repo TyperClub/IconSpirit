@@ -139,11 +139,10 @@ const open = async (browser, url, itemIndex) =>{
 let pages = 0
 async function RunTask(num, pageCount){
     const browser = await puppeteer.launch({
-        headless: false,
         args: [
             '--proxy-server=http://101.89.158.216:28100',
-            // '--ignore-certificate-errors',
-            // '--ignore-certificate-errors-spki-list',
+            '--ignore-certificate-errors',
+            '--ignore-certificate-errors-spki-list',
             '--no-sandbox', 
             '--disable-setuid-sandbox'
         ]
