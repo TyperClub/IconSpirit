@@ -82,7 +82,9 @@ function requestData(data, url){
                 let d = JSON.parse(body)
                 if(d.code == 1){
                     if(d.msg === "重复添加"){
-                        logger.info(`add ${data.length} icon of data successfully, url ${url}，返回：${d.msg}，data: ${data}`)
+                        logger.info(`add ${data.length} icon of data successfully, url ${url}，返回：${d.msg}，data: ${JSON.stringify({
+                            data: data
+                        })}`)
                     }else{
                         logger.info(`add ${data.length} icon of data successfully, url ${url}，返回：${d.msg}`)
                     }
