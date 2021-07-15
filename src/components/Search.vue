@@ -21,7 +21,7 @@
         </div>
     </el-header>
     <el-main class="home">
-      <div>
+      <div v-loading="loading">
         <el-row v-if="tableData.length > 0" class="u-row" :gutter="20">
           <el-col :xs="8" :sm="6" :md="6" :lg="4" v-for="(item,index) in tableData" :key="index" class="u-item">
               <el-card :shadow="item.status ? 'never' : 'hover'"  v-bind:class=" item.status ? 'selected' : '' "  @click="selectUI($event, item, index)">
@@ -88,6 +88,7 @@ import Navigation from './Navigation';
         pagesize = 48
       }
       return {
+        loading: false,
         activeIndex: '2',
         searchName: this.$route.query.search,
         tableData: [],
@@ -181,6 +182,8 @@ import Navigation from './Navigation';
           "pageSize": this.pageInfo.pagesize
         }
         if (name) parames.name = name
+
+        this.loading = true
         iconList(parames).then(res => {
           let data = res.data
           let icons = window.sessionStorage.getItem('ops-icons')
@@ -196,8 +199,10 @@ import Navigation from './Navigation';
           this.tableData = data
           this.pageInfo.current = res.pageNum
           this.pageInfo.total = res.total
+          this.loading = false
         }).catch(err => {
           console.log('错误', err)
+          this.loading = false
         })
       },
       querySearch(e){
