@@ -166,7 +166,9 @@ async function RunTask(num, pageCount){
     if(pageCount){//指定页数
         pages = pageCount 
     }else{
-        await page.goto(`https://www.iconfont.cn/collections/index?page=1`);
+        await page.goto(`https://www.iconfont.cn/collections/index?page=1`, {
+            waitUntil: 'networkidle0'
+        });
         await page.waitForTimeout(3000);
         pages = await page.$eval('#J_collections_lists .total', (e) => e.textContent.replace(/[^0-9]/ig,""));
     }
