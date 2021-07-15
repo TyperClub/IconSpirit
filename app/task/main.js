@@ -118,6 +118,7 @@ function requestData(data, url){
 
 const open = async (browser, url, itemIndex) =>{
     let page = await browser.newPage();
+    await page.setDefaultNavigationTimeout(0);//将浏览器响应时间改为无限长,默认为30秒
     await page.goto(url, {
         waitUntil: 'networkidle0'
     })
@@ -176,6 +177,7 @@ async function RunTask(num, pageCount){
         ]
     });
   const page = await browser.newPage();
+  await page.setDefaultNavigationTimeout(0);//将浏览器响应时间改为无限长,默认为30秒
   await page.authenticate({
     username: "p307",
     password: "p3071",
