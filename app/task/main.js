@@ -190,10 +190,12 @@ async function RunTask(num, pageCount){
         }
     })
 
+    await page.close()
     if(aList.length === 0){
         await browser.close();
         logger.info(`继续查询：https://www.iconfont.cn/collections/index?page=${pageIndex}`);
         RunTask(num,pages)
+        return
     }
   } catch (error) {
     logger.error(`page goto is error: ${error}`)
@@ -201,8 +203,6 @@ async function RunTask(num, pageCount){
     await browser.close();
   }
   
-  await page.close()
-  // handle a page being closed
   browser.on('targetdestroyed', async target => {
     const openPages = await browser.pages();
     logger.info('Open pages:', openPages.length);
