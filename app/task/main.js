@@ -83,7 +83,11 @@ function requestData(data, url){
                 if(d.code == 1){
                     if(d.msg === "重复添加"){
                         logger.info(`add ${data.length} icon of data successfully, url ${url}，返回：${d.msg}，data: ${JSON.stringify({
-                            data: data
+                            data: {
+                                id: data[0].id,
+                                gurop: data[0].gurop,
+                                CH_Name: data[0].CH_Name
+                            }
                         })}`)
                     }else{
                         logger.info(`add ${data.length} icon of data successfully, url ${url}，返回：${d.msg}`)
@@ -205,7 +209,11 @@ async function RunTask(num, pageCount){
   
   browser.on('targetdestroyed', async target => {
     const openPages = await browser.pages();
-    logger.info('Open pages:', openPages.length);
+    let pageList = []
+    openPages.forEach(item => {
+        pageList.push(item.url())
+    })
+    logger.info('targetdestroyed event，Open pages:', openPages.length, pageList);
     if (openPages.length == 1) {
       logger.info('Closing empty browser');
       await browser.close();
