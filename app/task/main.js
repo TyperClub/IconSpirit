@@ -169,8 +169,10 @@ async function RunTask(num, pageCount){
             '--proxy-server=http://101.89.158.216:28100',
             '--ignore-certificate-errors',
             '--ignore-certificate-errors-spki-list',
-            '--no-sandbox', 
-            '--disable-setuid-sandbox'
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-gpu',
+            '--disable-dev-shm-usage'
         ]
     });
   const page = await browser.newPage();
