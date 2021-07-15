@@ -81,7 +81,11 @@ function requestData(data, url){
            try {
                 let d = JSON.parse(body)
                 if(d.code == 1){
-                    logger.info(`add ${data.length} icon of data successfully, url ${url}，返回：${d.msg}`)
+                    if(d.msg === "重复添加"){
+                        logger.info(`add ${data.length} icon of data successfully, url ${url}，返回：${d.msg}，data: ${data}`)
+                    }else{
+                        logger.info(`add ${data.length} icon of data successfully, url ${url}，返回：${d.msg}`)
+                    }
                 }else{
                     logger.error(`添加失败，返回参数：${d} url：${url}`)
                 }
@@ -207,4 +211,4 @@ async function RunTask(num, pageCount){
   });
 }
 
-RunTask(1, 790)
+RunTask(1, 751)
