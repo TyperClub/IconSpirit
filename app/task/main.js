@@ -12,7 +12,7 @@ if(process.argv[2] === 'fat'){
     iconsAddUrl = 'http://10.111.247.210:8080/api/v1/iconfont/add'
 }
 
-async function getIconName(name){
+function getBeforeValidationName(name){
     if(/^[a-zA-Z]+$/.test(name.replace(/[-|_|0-9|\s]+/g, ''))){
         return name.replace(/\s+/g, '').toLowerCase().replace(/(-+|\(|\))$/g,"")
     }
@@ -20,10 +20,28 @@ async function getIconName(name){
     if(nameArr.length > 1){
         nameArr.shift()
     }
+    return name.split(',')[0]
+}
+
+function getAfterVerification(Eg_name){
+    Eg_name = Eg_name.replace(/(^\s*)|(\s*$)/g, '') //去掉前后空格
+    Eg_name = Eg_name.replace(/\s+/g, '-').toLowerCase()         //转小写，转 - 拼接
+    Eg_name = Eg_name.replace(/-+/g, '-').replace(/(-+|\(|\))$/g,"")
+    Eg_name = Eg_name.replace(/['|\.|\&|\[|\]|\(|\)|_|,]+/g, '')
+    Eg_name = /^-/.test(Eg_name) ? Eg_name.substr(1,Eg_name.length-1) : Eg_name
+
+    let Eg_names = Eg_name.split('-')
+    while(Eg_names.length > 3){
+        Eg_names.shift()
+    }
+    Eg_name = Eg_names.join('-')
+    return Eg_name
+}
+
+async function getIconName(name){
     let appid = '20210618000866226';
     let key = 'yGxXuSKiDxaasPC06Wy7';
     let salt = (new Date).getTime();
-    name = name.split(',')[0]
     let query = name;
     // 多个query可以用\n连接  如 query='apple\norange\nbanana\npear'
     let from = 'zh';
@@ -46,23 +64,17 @@ async function getIconName(name){
             sign: sign
         }
     });
-    let Eg_name = ""
+    let Eg_names = []
     try {
         let body = JSON.parse(rpbody)
-        Eg_name = body.trans_result[0].dst.replace(/\s+/g, '-').toLowerCase()
-        Eg_name = Eg_name.replace(/-+/g, '-').replace(/(-+|\(|\))$/g,"")
-        Eg_name = Eg_name.replace(/['|\.|\&|\[|\]|\(|\)|_|,]+/g, '')
-        Eg_name = /^-/.test(Eg_name) ? Eg_name.substr(1,Eg_name.length-1) : Eg_name
-
-        let Eg_names = Eg_name.split('-')
-        while(Eg_names.length > 3){
-            Eg_names.shift()
-        }
-        Eg_name = Eg_names.join('-')
+        let nameArr = body.trans_result[0].dst.split("/")
+        nameArr.forEach(obj => {
+            Eg_names.push(getAfterVerification(obj))
+        });
     } catch (error){
         logger.error(`Get Icon name is error: ${error}，rpbody: ${rpbody}，name: ${name}`)
     }
-    return Eg_name
+    return Eg_names
 }
 
 function requestData(data, url){
@@ -118,28 +130,31 @@ const open = async (browser, url, itemIndex) =>{
         let $ = cheerio.load(pageHtml);
         let data = []
 
+        let CH_Names = []
         $('li').each(async (index,obj) => {
-            setTimeout(async ()=>{
-                let classNameId = $(obj).attr('class')
-                let ENG_Name = await getIconName($(obj).text())
-                logger.info(index, authors[1], $(obj).text(), ENG_Name)
-                $(obj).find('.icon-twrap svg').removeAttr('style')
-                data.push({
-                    id: classNameId.replace(/\s+/g,''),
-                    type: "alibaba",
-                    gurop: groupText,
-                    author: authors[1],
-                    CH_Name: $(obj).text(),
-                    ENG_Name: ENG_Name || '',
-                    createTime: new Date(),
-                    content: $(obj).find('.icon-twrap').html()
-                })
-                if(index == $('li').length - 1){
-                    requestData(data, url)
-                    await page.close()
-                }
-            }, 200 * index * itemIndex)
+            let CH_Name = getBeforeValidationName($(obj).text())
+            CH_Names.push(CH_Name)
         })
+        let ENG_Names = await getIconName(CH_Names.join("\/"))
+        $('li').each(async (index,obj) => {
+            let classNameId = $(obj).attr('class')
+            let ENG_Name = ENG_Names[index]
+            logger.info(index, authors[1], $(obj).text(), ENG_Name)
+            $(obj).find('.icon-twrap svg').removeAttr('style')
+            data.push({
+                id: classNameId.replace(/\s+/g,''),
+                type: "alibaba",
+                gurop: groupText,
+                author: authors[1],
+                CH_Name: $(obj).text(),
+                ENG_Name: ENG_Name || '',
+                createTime: new Date(),
+                content: $(obj).find('.icon-twrap').html()
+            })
+        })
+        requestData(data, url)
+        await page.waitForTimeout(1000);
+        await page.close()
     }catch (error) { 
         logger.error(`open url is error：${error}，url： ${url}`)
         await page.close()
@@ -149,7 +164,7 @@ const open = async (browser, url, itemIndex) =>{
 let pages = 0
 async function RunTask(num, pageCount){
     const browser = await puppeteer.launch({
-        // headless: false,
+        headless: process.argv[2] === 'fat'? true: false,
         args: [
             '--proxy-server=http://101.89.158.216:28100',
             '--ignore-certificate-errors',
@@ -180,7 +195,9 @@ async function RunTask(num, pageCount){
  
   try {
     let pageIndex = pages - num + 1
-    await page.goto(`https://www.iconfont.cn/collections/index?page=${pageIndex}`);
+    await page.goto(`https://www.iconfont.cn/collections/index?page=${pageIndex}`, {
+        waitUntil: 'networkidle0'
+    });
     await page.waitForTimeout(3000);
 
     logger.info(`pages：${pages}，pageIndex：${pageIndex}`)
