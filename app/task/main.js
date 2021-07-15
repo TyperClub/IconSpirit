@@ -192,8 +192,8 @@ async function RunTask(num, pageCount){
 
     if(aList.length === 0){
         await browser.close();
-        logger.info('继续查询');
-        RunTask(num)
+        logger.info(`继续查询：https://www.iconfont.cn/collections/index?page=${pageIndex}`);
+        RunTask(num,pages)
     }
   } catch (error) {
     logger.error(`page goto is error: ${error}`)
