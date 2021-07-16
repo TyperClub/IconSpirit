@@ -41,7 +41,7 @@ module.exports = app => {
     prefix: {
         type: String,
         required: true,
-        default: "prefix"
+        default: "icon-"
     },
     description: {
         type: String

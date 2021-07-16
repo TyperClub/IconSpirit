@@ -20,7 +20,7 @@ class ProjectIconsSevice extends Service {
                     projectIconsId: data.id
                 })
 
-                if(!icon){
+                if(!icon){//不存在添加入库
                     await ctx.model.ProjectIcons.create({
                         id: item.id,
                         projectIconsId: res._id,
@@ -50,7 +50,7 @@ class ProjectIconsSevice extends Service {
                         applicationType: "图标",
                         content: item.CH_Name
                     })
-                }else{
+                }else{// 存在
                     if(icon.isDeleted === true){// 已删除后再添加，直接从删除中恢复？这种方式有问题
                         await ctx.model.ProjectIcons.updateOne({
                             iconsId: item._id
