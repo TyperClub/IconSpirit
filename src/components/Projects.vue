@@ -28,13 +28,13 @@
                             <div class="u-project" v-if="ownList.length">
                                 <div><i class="el-icon-menu menu"></i><span class="project-title">我发起的项目</span></div>
                                 <div class="project-list">
-                                    <div class="item" @click="rowItem(ownList[ownCurrent], index, 'own')" :class="ownCurrent === index && activeType === 'own' ? 'current' : ''"  v-for="(item, index) in ownList" :key="index"><span>{{item.name}}</span></div>
+                                    <div class="item" @click="rowItem(index, 'own')" :class="ownCurrent === index && activeType === 'own' ? 'current' : ''"  v-for="(item, index) in ownList" :key="index"><span>{{item.name}}</span></div>
                                 </div>
                             </div>
                             <div class="u-project" v-if="corpList.length">
                                 <div><i class="el-icon-menu menu"></i><span class="project-title">我参入的项目</span></div>
                                 <div class="project-list">
-                                    <div class="item" @click="rowItem(corpList[corpCurrent], index, 'corp')" :class="corpCurrent === index && activeType === 'corp' ? 'current' : ''"  v-for="(item, index) in corpList" :key="index"><span>{{item.name}}</span></div>
+                                    <div class="item" @click="rowItem(index, 'corp')" :class="corpCurrent === index && activeType === 'corp' ? 'current' : ''"  v-for="(item, index) in corpList" :key="index"><span>{{item.name}}</span></div>
                                 </div>
                             </div>
                         </div>
@@ -362,14 +362,16 @@ export default {
                 }
             })
         },
-        rowItem(item, index, type){
+        rowItem(index, type){
+            let item = {}
             if(type === 'own'){
                 this.ownCurrent = index
+                item = this.ownList[index]
             }else{
                 this.corpCurrent = index
+                item = this.corpList[index]
             }
             this.activeType = type
-            
             this.$router.push({
                 path: '/projects',
                 query: {
