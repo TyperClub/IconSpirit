@@ -15,6 +15,18 @@ module.exports = app => {
       type: Number,
       required: true,
     },
+    unicodeAlibaba: {
+      type: String
+    },
+    description: {
+      type: String
+    },
+    collectionId: {
+      type: Number
+    },
+    likes_count: {  // 4：单色 2 多色 1：官方 0 所有
+      type: Number
+    },
     type: {
       type: String,
       required: true,

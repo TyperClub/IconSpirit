@@ -119,47 +119,97 @@ function requestData(data, url){
 const open = async (browser, url, itemIndex) =>{
     let page = await browser.newPage();
     await page.setDefaultNavigationTimeout(0);//将浏览器响应时间改为无限长,默认为30秒
+
+    let results = {} // collects all results
+
+    let paused = false;
+    let pausedRequests = [];
+
+    const nextRequest = () => { // continue the next request or "unpause"
+        if (pausedRequests.length === 0) {
+            paused = false;
+        } else {
+            // continue first request in "queue"
+            (pausedRequests.shift())(); // calls the request.continue function
+        }
+    };
+
+    await page.setRequestInterception(true);
+    page.on('request', request => {
+        if (paused) {
+            pausedRequests.push(() => request.continue());
+        } else {
+            paused = true; // pause, as we are processing a request now
+            request.continue();
+        }
+    });
+
+    page.on('requestfinished', async (request) => {
+        if(/https:\/\/www.iconfont.cn\/api\/collection\/detail\.json/.test(request.url())){
+            const response = await request.response();
+            let responseBody;
+            if (request.redirectChain().length === 0) {
+                // body can only be access for non-redirect responses
+                responseBody = await response.json();
+            }
+            results = {
+                url: request.url(),
+                responseBody,
+            };
+        }
+        nextRequest(); // continue with next request
+    });
+    page.on('requestfailed', (request) => {
+        // handle failed request
+        nextRequest();
+    });
+
+
     await page.goto(url, {
         waitUntil: 'networkidle0'
     })
     await page.waitForTimeout(3000*itemIndex);
-
-    try{
-        const pageHtml = await page.$eval('.page-collection-detail-wrap .block-icon-list', (e) => e.outerHTML);
-        const groupText = await page.$eval('.block-sub-banner .right-content .title', (e) => e.outerText);
-        const authors = await page.$$eval('.block-sub-banner .right-content .content', eles => eles.map(ele => ele.outerText));
-        let $ = cheerio.load(pageHtml);
+    if(results.responseBody.code == 200){
+        let res = results.responseBody.data
         let data = []
-
         let CH_Names = []
-        $('li').each(async (index,obj) => {
-            let CH_Name = getBeforeValidationName($(obj).text())
+        for(let index in res.icons){
+            let obj = res.icons[index]
+            let CH_Name = getBeforeValidationName(obj.name)
             CH_Names.push(CH_Name)
-        })
+        }
         let ENG_Names = await getIconName(CH_Names.join("\/"))
-        $('li').each(async (index,obj) => {
-            let classNameId = $(obj).attr('class')
+        if(!ENG_Names.length){
+            logger.error("获取 ENG_Names 获取失败，第二次进行重试")
+            ENG_Names = await getIconName(CH_Names.join("\/"))
+        }
+        for(let index in res.icons){
+            let obj = res.icons[index]
+            let $ = cheerio.load(obj.show_svg);
+            let content = $("svg").removeAttr('style').prop("outerHTML");
             let ENG_Name = ENG_Names[index]
-            logger.info(index, authors[1], $(obj).text(), ENG_Name)
-            $(obj).find('.icon-twrap svg').removeAttr('style')
-            data.push({
-                id: classNameId.replace(/\s+/g,''),
+            logger.info(index, res.creator.nickname, obj.name, ENG_Name)
+            let item = {
+                id: `J_icon_id_${obj.id}`,
                 type: "alibaba",
-                gurop: groupText,
-                author: authors[1],
-                CH_Name: $(obj).text(),
+                gurop: res.collection.name,
+                author: res.creator.nickname,
+                CH_Name: obj.name,
                 ENG_Name: ENG_Name || 'other',
+                unicodeAlibaba: obj.unicode,
+                description: res.collection.description,
+                likes_count: res.collection.likes_count,
+                collectionId: res.collection.id,
                 createTime: new Date(),
-                content: $(obj).find('.icon-twrap').html()
-            })
-        })
+                content: content
+            }
+            data.push(item)
+        }
         requestData(data, url)
-        await page.waitForTimeout(1000);
-        await page.close()
-    }catch (error) { 
-        logger.error(`open url is error：${error}，url： ${url}`)
-        await page.close()
     }
+    
+    await page.waitForTimeout(1000);
+    await page.close()
 }
 
 let pages = 0

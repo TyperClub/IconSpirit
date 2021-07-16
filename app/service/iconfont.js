@@ -38,14 +38,25 @@ class IconfontSevice extends Service {
 
         let d = []
         for(let index in data){
+            let item = data[index]
             let iconRes = await ctx.model.Iconfont.find({
-                id: data[index].id
+                id: item.id
             })
             if(!iconRes.length){
                 let iconId = await this.app.redis.incr("icon_id");
                 d.push({
-                    ...data[index],
+                    ...item,
                     unicode: iconId
+                })
+            }else{// 修改数据
+                let ENG_Name = item.ENG_Name
+                if(item.ENG_Name === "other"){
+                    ENG_Name = iconRes.ENG_Name ? iconRes.ENG_Name: "other"
+                }
+
+                await ctx.model.Iconfont.updateOne({id: item.id}, {
+                    ...item,
+                    ENG_Name
                 })
             }
         }
@@ -53,7 +64,7 @@ class IconfontSevice extends Service {
             res.data = await ctx.model.Iconfont.create(d);
             res.msg = '添加成功';
         }else{
-            res.msg = '重复添加';
+            res.msg = '该数据重复，修改旧数据成功！';
         }
         res.code = 1;
         return res
