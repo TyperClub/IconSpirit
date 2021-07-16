@@ -537,6 +537,7 @@ export default {
         },
         downFont(item){
             let filename = item.font.cssFile.split("font/")[1]
+            filename = filename ? filename : item.font.cssFile.split("f/")[1]
             downloadCssFile({id: item._id}).then(res => {
                 const buf = Buffer.from(res.data.content, 'binary')
                 let blob = new Blob([buf], {type: 'text/css'});
