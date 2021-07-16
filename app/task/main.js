@@ -294,4 +294,4 @@ async function RunTask(num, pageCount){
   });
 }
 
-RunTask(1, 582)
+RunTask(1)
