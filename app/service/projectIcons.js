@@ -19,14 +19,23 @@ class ProjectIconsSevice extends Service {
                     iconsId: item._id,
                     projectIconsId: data.id
                 })
-
                 if(!icon){//不存在添加入库
+                    let ENG_Name = item.ENG_Name === "" ? "other" : item.ENG_Name 
+                    let icon2 = await ctx.model.ProjectIcons.findOne({
+                        ENG_Name: ENG_Name,
+                        projectIconsId: res._id
+                    })
+                    if(icon2){// class 重复
+                        let unicode = item.unicode
+                        let unicode16 = unicode.toString(16)
+                        ENG_Name = ENG_Name + unicode16
+                    }
                     await ctx.model.ProjectIcons.create({
                         id: item.id,
                         projectIconsId: res._id,
                         iconsId: item._id,
                         CH_Name: item.CH_Name,
-                        ENG_Name: item.ENG_Name,
+                        ENG_Name: ENG_Name,
                         author: item.author,
                         content: item.content,
                         gurop: item.gurop,
@@ -50,7 +59,7 @@ class ProjectIconsSevice extends Service {
                         applicationType: "图标",
                         content: item.CH_Name
                     })
-                }else{// 存在
+                }else{
                     if(icon.isDeleted === true){// 已删除后再添加，直接从删除中恢复？这种方式有问题
                         await ctx.model.ProjectIcons.updateOne({
                             iconsId: item._id

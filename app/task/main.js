@@ -148,7 +148,7 @@ const open = async (browser, url, itemIndex) =>{
                 gurop: groupText,
                 author: authors[1],
                 CH_Name: $(obj).text(),
-                ENG_Name: ENG_Name || '',
+                ENG_Name: ENG_Name || 'other',
                 createTime: new Date(),
                 content: $(obj).find('.icon-twrap').html()
             })
