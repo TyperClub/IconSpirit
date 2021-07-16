@@ -798,14 +798,17 @@ export default {
             display: inline-block;
             cursor: pointer;
             &:hover{
-                background: #40b0ff;
+                background: #0084e2;
+                font-weight: bold;
+                box-shadow: inset -5px 5px 5px #4575cc;
                 font-weight: bold;
             }
         }
         .cover-copy{
             font-size: 12px;
             &:hover{
-                background: #40b0ff;
+                background: #0084e2;
+                box-shadow: inset -5px 5px 5px #4575cc;
                 font-weight: bold;
             }
         }
