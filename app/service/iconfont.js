@@ -71,6 +71,15 @@ class IconfontSevice extends Service {
             list = await ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
             if(list.length < data.pageSize){
                 list = await ctx.model.Iconfont.find( {CH_Name: {$regex: `${data.name}`, $options:'i'}}).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
+                let a = [],b = []
+                list.forEach(item => {
+                    if(item.CH_Name === data.name){
+                        a.push(item)
+                    }else{
+                        b.push(item)
+                    }
+                });
+                list = [...a, ...b]
             }
 
             res.data = list
