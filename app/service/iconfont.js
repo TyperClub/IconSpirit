@@ -63,8 +63,10 @@ class IconfontSevice extends Service {
         const { ctx } = this;
         const res = {...data};
         let query = {}
+        let sort = {_id: -1}
         if(data.name){
-            query = {CH_Name: {$regex: data.name, $options:'i'}}
+            query = {CH_Name: {$regex: `^${data.name}`, $options:'i'}}
+            sort = {CH_Name: 1}
         }
         if(data.type == 1){
             res.data = await ctx.model.Iconfont.aggregate([
@@ -89,7 +91,7 @@ class IconfontSevice extends Service {
                 { $limit: parseInt(data.pageSize)}
             ])
         }else{
-            res.data = await ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort({_id: -1});
+            res.data = await ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
             res.code = 1;
             res.msg = '查询成功';
             res.total = await ctx.model.Iconfont.find(query).count()

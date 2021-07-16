@@ -38,7 +38,7 @@ module.exports = app => {
     },
     content: {
       type: String,
-    }
+    },
   });
 
   return mongoose.model('Iconfont', IconfontSchema);
