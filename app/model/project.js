@@ -23,6 +23,9 @@ module.exports = app => {
       cssFile: {
         type: String,
       },
+      unicodeStyle:{
+        type: String
+      },
       fontIsOld: {
         type: Boolean,
         default: true

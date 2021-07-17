@@ -17,16 +17,17 @@ const InitCssStyle = (fontFamily, fontFamilyPath, fontFormat, env) =>{
         fontsStyls.push(fonts[attr])
     }
 
-return [`@font-face {
+return [
+`@font-face {
     font-family: '${fontFamily}';
     src: ${fontsStyls.join(',\n')};
-}
-.${fontFamily} {
+}`,
+`.${fontFamily} {
     font-family: "${fontFamily}";
     font-size: 16px;
     font-style: normal;
-}
-`]
+}`]
+
 }
 
 const addItemStyle = (className, unicode16) =>{

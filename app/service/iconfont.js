@@ -178,6 +178,7 @@ class IconfontSevice extends Service {
                 await ctx.model.Project.updateOne({ _id: data.id }, {
                     font: {
                         cssFile: `${path}.css`,
+                        unicodeStyle: cssStyle[0],
                         fontIsOld: false
                     }
                 })

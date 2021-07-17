@@ -18,18 +18,31 @@
         v-loading="loading"
         element-loading-text="正在努力生成代码中..."
         >
-            <div class="help">
-                <span @click="help"><i class="opsfont ops-bangzhushouce"></i> 使用帮助</span>
+            <div class="code-type">
+                <el-radio-group size="mini" v-model="tabPosition">
+                    <el-radio-button label="1">Unicode</el-radio-button>
+                    <el-radio-button label="2">Font class</el-radio-button>
+                    <el-radio-button label="3">Webpack</el-radio-button>
+                </el-radio-group>
+                <div class="help">
+                    <span @click="help"><i class="opsfont ops-bangzhushouce"></i> 使用帮助</span>
+                </div>
             </div>
             <div class="project-code-warp">
                 <div class="css-path" :class="projectList?.font.fontIsOld && 'font-old'" v-if="projectList?.font.cssFile">
-                    <a target="_blank" id="cssPath" :href="projectList?.font.website + projectList?.font.cssFile">{{projectList?.font.website + projectList?.font.cssFile}}</a>
+                    <div v-if="tabPosition == 1">
+                        <pre><code v-html="projectList.font.unicodeStyle" id="cssPath"></code></pre>
+                    </div>
+                    <a v-if="tabPosition == 2" target="_blank" id="cssPath" :href="projectList?.font.website + projectList?.font.cssFile">{{projectList?.font.website + projectList?.font.cssFile}}</a>
+                    <div v-if="tabPosition == 3" id="cssPath">
+                        {{`new webpack.ZmIconsCssFilePathPlugin("${projectList._id}")`}} 
+                    </div>
                 </div>
                 <div class="css-path" v-else> <span class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 暂无代码，点此生成</span></div>
                 <div class="copy" v-if="projectList && projectList.font && projectList.font.cssFile">
                     <span v-if="projectList && projectList.font.fontIsOld" class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 更新代码</span>
                     <span class="copy-code" data-clipboard-target="#cssPath" @click="copyCode"><i class="opsfont ops-fuzhi"></i> 复制代码</span>
-                    <span class="copy-code" @click="downFont(projectList)"><i class="opsfont ops-xiazai"></i> 下载文件</span> 
+                    <span class="copy-code" v-if="tabPosition == 2" @click="downFont(projectList)"><i class="opsfont ops-xiazai"></i> 下载文件</span> 
                 </div>
             </div>
         </div>
@@ -38,7 +51,8 @@
                 <div class="icon-base-view" :class="item.status ? 'icon-base-selected' : '' ">
                     <div class="u-icon-svg" v-html="item.content"></div>
                     <p class="icon-name">{{item.CH_Name}}</p>
-                    <p class="icon-code">{{projectList.prefix + item.ENG_Name}}</p>
+                    <p class="icon-code" v-if="tabPosition === '1'">{{`&\#x${item.unicode.toString(16)};`}}</p>
+                    <p class="icon-code" v-else>{{projectList.prefix + item.ENG_Name}}</p>
                     <div class="icon-cover">
                         <i title="添加入库" @click="addToCart($event, item)" :class="item.status ? 'ops-03f': 'ops-03'"  class="opsfont cover-item"></i>
                         <i title="编辑" @click="editIcon(item)" class="el-icon-edit cover-item"></i>
@@ -226,6 +240,7 @@ export default {
             dialogVisible3: false,
             drawer: false,
             svgCodeIndex: 0, //撤销次数
+            tabPosition: "2",
             svgCode: "",
             history: [],
             projectParticipants: [],
@@ -650,6 +665,12 @@ export default {
         border: 1px solid #f8f9fa;
     }
 }
+.code-type{
+    .el-radio-button__orig-radio:checked+.el-radio-button__inner{
+        color: #000;
+        background-color: #fff;
+    }
+}
 </style>
 
 <style lang="less" scoped>
@@ -694,7 +715,12 @@ export default {
 }
 
 .project-code{
+    .code-type{
+        margin-bottom: 10px;
+    }
     .help{
+        float: right;
+        padding-right: 5px;
         span{
             cursor: pointer;
             font-size: 14px;
@@ -716,8 +742,8 @@ export default {
     margin-top: 8px;
     color: #032f62;
     .css-path{
-        height: 20px;
-        line-height: 20px;
+        min-height: 20px;
+        // line-height: 20px;
         a{
             color: #333;
             text-decoration: none;
