@@ -178,16 +178,17 @@ const open = async (browser, url, itemIndex) =>{
             let CH_Name = getBeforeValidationName(obj.name)
             CH_Names.push(CH_Name)
         }
-        let ENG_Names = await getIconName(CH_Names.join("\/"))
-        if(!ENG_Names.length){
-            logger.error("获取 ENG_Names 获取失败，第二次进行重试")
-            ENG_Names = await getIconName(CH_Names.join("\/"))
-        }
+        // let ENG_Names = await getIconName(CH_Names.join("\/"))
+        // if(!ENG_Names.length){
+        //     logger.error("获取 ENG_Names 获取失败，第二次进行重试")
+        //     ENG_Names = await getIconName(CH_Names.join("\/"))
+        // }
         for(let index in res.icons){
             let obj = res.icons[index]
             let $ = cheerio.load(obj.show_svg);
             let content = $("svg").removeAttr('style').prop("outerHTML");
-            let ENG_Name = ENG_Names[index]
+            // let ENG_Name = ENG_Names[index]
+            let ENG_Name = "other"
             logger.info(index, res.creator.nickname, obj.name, ENG_Name)
             let item = {
                 id: `J_icon_id_${obj.id}`,
