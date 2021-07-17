@@ -7,15 +7,18 @@ const { insertStr, hex2int } = require('./tool')
 const InitCssStyle = (fontFamily, fontFamilyPath, fontFormat, env) =>{
     let fontsStyls = []
     let fonts = {
-        woff2: `url('${config[env].website}${fontFamilyPath}.woff') format('woff2')`,
-        eot: `    url('${config[env].website}${fontFamilyPath}.eot'), /* IE9 */\nurl('${config[env].website}${fontFamilyPath}.eot?#iefix') format('embedded-opentype')`,
-        woff: `    url('${config[env].website}${fontFamilyPath}.woff') format('woff')`,
-        ttf: `    url('${config[env].website}${fontFamilyPath}.ttf') format('truetype')`
+        woff2: `url('${config[env].website}${fontFamilyPath}.woff?t=${new Date().getTime()}') format('woff2')`,
+        eot: `    url('${config[env].website}${fontFamilyPath}.eot?t=${new Date().getTime()}'), /* IE9 */\nurl('${config[env].website}${fontFamilyPath}.eot?#iefix&?t=${new Date().getTime()}') format('embedded-opentype')`,
+        woff: `    url('${config[env].website}${fontFamilyPath}.woff?t=${new Date().getTime()}') format('woff')`,
+        ttf: `    url('${config[env].website}${fontFamilyPath}.ttf?t=${new Date().getTime()}') format('truetype')`
     }
     for(let index in fontFormat){
         let attr = fontFormat[index].toLowerCase()
-        fontsStyls.push(fonts[attr])
+        if(fonts[attr]){
+            fontsStyls.push(fonts[attr])
+        }
     }
+    console.log(111, fontsStyls)
 
 return [
 `@font-face {
