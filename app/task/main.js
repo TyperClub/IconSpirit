@@ -162,10 +162,10 @@ class RunTask {
         });
         await page.waitForTimeout(3000);
     
-        logger.info(`pages：${this.pages}，pageIndex：${pageIndex}`)
+        logger.info(`pages：${this.pages}，pageIndex：${pageIndex}，iconColorType：${iconColorType}`)
     
         const aList = await page.$$eval('.page-collections-wrap a',  eles => eles.map(ele => ele.href))
-        logger.info('aList：', aList)
+        logger.info('aList：', aList, `iconColorType：${iconColorType}`)
         
         aList.forEach((url,index) => {
             if(/collections\/detail/.test(url)){
@@ -275,7 +275,7 @@ class RunTask {
                 let content = $("svg").removeAttr('style').prop("outerHTML");
                 // let ENG_Name = ENG_Names[index]
                 let ENG_Name = "other"
-                logger.info(index, res.creator.nickname, obj.name, ENG_Name)
+                logger.info(index, `iconColorType：${this.iconColorType}`, res.creator.nickname, obj.name, ENG_Name)
                 let item = {
                     id: `J_icon_id_${obj.id}`,
                     type: "alibaba",
@@ -303,3 +303,4 @@ class RunTask {
 }
 
 new RunTask().main(1,2)
+new RunTask().main(1,4)
