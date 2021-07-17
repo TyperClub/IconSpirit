@@ -275,7 +275,6 @@ export default {
                 if(data){
                    this.getProjectParticipantsList()
                    this.loading = false
-                   this.tabPosition = "2"
                 }
             }
         }
@@ -287,6 +286,9 @@ export default {
             }).then(res =>{
                 this.projectParticipants = res.data
             })
+        },
+        changeRowItem(){
+            this.tabPosition = "2"
         },
         deleteProjects(item){
             this.$confirm('确定要删除此项目吗？', '提示', {

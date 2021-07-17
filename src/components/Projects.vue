@@ -388,6 +388,7 @@ export default {
             })
             this.deleteProjectStatus = false
             this.getSessionStorageIcons()
+            this.$refs.projectsView.changeRowItem()
         },
         transfer(){
             this.dialogVisible2 = true
