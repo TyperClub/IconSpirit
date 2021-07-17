@@ -51,7 +51,7 @@ class IconfontSevice extends Service {
             }else{// 修改数据
                 let ENG_Name = item.ENG_Name
                 if(item.ENG_Name === "other"){
-                    ENG_Name = iconRes.ENG_Name ? iconRes.ENG_Name: "other"
+                    ENG_Name = iconRes[0].ENG_Name ? iconRes[0].ENG_Name: "other"
                 }
 
                 await ctx.model.Iconfont.updateOne({id: item.id}, {
