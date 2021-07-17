@@ -51,10 +51,11 @@ export default {
                     username: this.ruleForm.account,
                     password: this.ruleForm.password
                 }).then(res => {
-                    console.log(111, res)
+                    if(res.code === 200){
+                        this.$message.success("登录成功!")
+                        location.reload()
+                    }
                     this.loading = false
-                    this.$message.success("登录成功!")
-                    location.reload()
                 }).catch(()=>{
                     this.loading = false
                     this.$message.error("登录失败，请检查域账号是否正确!")

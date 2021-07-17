@@ -18,7 +18,6 @@ const InitCssStyle = (fontFamily, fontFamilyPath, fontFormat, env) =>{
             fontsStyls.push(fonts[attr])
         }
     }
-    console.log(111, fontsStyls)
 
 return [
 `@font-face {

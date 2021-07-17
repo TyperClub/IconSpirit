@@ -218,6 +218,7 @@ class IconfontSevice extends Service {
             
             for(let index in iconListSvg){
                 let item = iconListSvg[index]
+                let content = Array.isArray(item.content) ? item.content.join("") : item.content
                 await ctx.model.ProjectIcons.create({
                     id: `transfer-${item.unicode}`,
                     projectIconsId: res._id,
@@ -225,7 +226,7 @@ class IconfontSevice extends Service {
                     CH_Name: item.CH_Name,
                     ENG_Name: item.ENG_Name,
                     author: user.userName,
-                    content: item.content,
+                    content,
                     gurop: user.department,
                     type: "transfer",
                     unicode: item.unicode,

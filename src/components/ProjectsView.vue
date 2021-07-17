@@ -508,9 +508,10 @@ export default {
                 generateFont({
                 id: this.projectList._id
                 }).then(res =>{
-                    this.$emit('newGetProjects')
+                    if(res.code === 200){
+                         this.$emit('newGetProjects')
+                    }
                     this.loading = false
-                    console.log(111, res)
                 }).catch(()=> {
                     this.loading = false
                 })
