@@ -53,7 +53,6 @@ class IconfontSevice extends Service {
                 if(item.ENG_Name === "other"){
                     ENG_Name = iconRes[0].ENG_Name ? iconRes[0].ENG_Name: "other"
                 }
-
                 await ctx.model.Iconfont.updateOne({id: item.id}, {
                     ...item,
                     ENG_Name

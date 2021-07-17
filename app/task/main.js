@@ -116,183 +116,190 @@ function requestData(data, url){
     })
 }
 
-const open = async (browser, url, itemIndex) =>{
-    let page = await browser.newPage();
-    await page.setDefaultNavigationTimeout(0);//将浏览器响应时间改为无限长,默认为30秒
-
-    let results = {} // collects all results
-
-    let paused = false;
-    let pausedRequests = [];
-
-    const nextRequest = () => { // continue the next request or "unpause"
-        if (pausedRequests.length === 0) {
-            paused = false;
-        } else {
-            // continue first request in "queue"
-            (pausedRequests.shift())(); // calls the request.continue function
+class RunTask {
+    pages = 0
+    iconColorType = 3
+    async main(num, iconColorType, pageCount){
+        const browser = await puppeteer.launch({
+            headless: process.argv[2] === 'fat'? true: false,
+            args: [
+                '--proxy-server=http://101.89.158.216:28100',
+                '--ignore-certificate-errors',
+                '--ignore-certificate-errors-spki-list',
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-gpu',
+                '--disable-dev-shm-usage'
+            ]
+        });
+      const page = await browser.newPage();
+      await page.setDefaultNavigationTimeout(0);//将浏览器响应时间改为无限长,默认为30秒
+      await page.authenticate({
+        username: "p307",
+        password: "p3071",
+      });
+      await page.setUserAgent(
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36'
+     );
+     this.iconColorType = iconColorType
+     if(num === 1){
+        if(pageCount){//指定页数
+            this.pages = pageCount 
+        }else{
+            await page.goto(`https://www.iconfont.cn/collections/index?page=1&type=${iconColorType}`, {
+                waitUntil: 'networkidle0'
+            });
+            await page.waitForTimeout(3000);
+            this.pages = await page.$eval('#J_collections_lists .total', (e) => e.textContent.replace(/[^0-9]/ig,""));
         }
-    };
-
-    await page.setRequestInterception(true);
-    page.on('request', request => {
-        if (paused) {
-            pausedRequests.push(() => request.continue());
-        } else {
-            paused = true; // pause, as we are processing a request now
-            request.continue();
-        }
-    });
-
-    page.on('requestfinished', async (request) => {
-        if(/https:\/\/www.iconfont.cn\/api\/collection\/detail\.json/.test(request.url())){
-            const response = await request.response();
-            let responseBody;
-            if (request.redirectChain().length === 0) {
-                // body can only be access for non-redirect responses
-                responseBody = await response.json();
-            }
-            results = {
-                url: request.url(),
-                responseBody,
-            };
-        }
-        nextRequest(); // continue with next request
-    });
-    page.on('requestfailed', (request) => {
-        // handle failed request
-        nextRequest();
-    });
-
-
-    await page.goto(url, {
-        waitUntil: 'networkidle0'
-    })
-    await page.waitForTimeout(3000*itemIndex);
-    if(results.responseBody.code == 200){
-        let res = results.responseBody.data
-        let data = []
-        let CH_Names = []
-        for(let index in res.icons){
-            let obj = res.icons[index]
-            let CH_Name = getBeforeValidationName(obj.name)
-            CH_Names.push(CH_Name)
-        }
-        // let ENG_Names = await getIconName(CH_Names.join("\/"))
-        // if(!ENG_Names.length){
-        //     logger.error("获取 ENG_Names 获取失败，第二次进行重试")
-        //     ENG_Names = await getIconName(CH_Names.join("\/"))
-        // }
-        for(let index in res.icons){
-            let obj = res.icons[index]
-            let $ = cheerio.load(obj.show_svg);
-            let content = $("svg").removeAttr('style').prop("outerHTML");
-            // let ENG_Name = ENG_Names[index]
-            let ENG_Name = "other"
-            logger.info(index, res.creator.nickname, obj.name, ENG_Name)
-            let item = {
-                id: `J_icon_id_${obj.id}`,
-                type: "alibaba",
-                gurop: res.collection.name,
-                author: res.creator.nickname,
-                CH_Name: obj.name,
-                ENG_Name: ENG_Name || 'other',
-                unicodeAlibaba: obj.unicode,
-                description: res.collection.description,
-                likes_count: res.collection.likes_count,
-                collectionId: res.collection.id,
-                createTime: new Date(),
-                content: content
-            }
-            data.push(item)
-        }
-        requestData(data, url)
-    }
-    
-    await page.waitForTimeout(1000);
-    await page.close()
-}
-
-let pages = 0
-async function RunTask(num, pageCount){
-    const browser = await puppeteer.launch({
-        headless: process.argv[2] === 'fat'? true: false,
-        args: [
-            '--proxy-server=http://101.89.158.216:28100',
-            '--ignore-certificate-errors',
-            '--ignore-certificate-errors-spki-list',
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-gpu',
-            '--disable-dev-shm-usage'
-        ]
-    });
-  const page = await browser.newPage();
-  await page.setDefaultNavigationTimeout(0);//将浏览器响应时间改为无限长,默认为30秒
-  await page.authenticate({
-    username: "p307",
-    password: "p3071",
-  });
-  await page.setUserAgent(
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36'
- );
- if(num === 1){
-    if(pageCount){//指定页数
-        pages = pageCount 
-    }else{
-        await page.goto(`https://www.iconfont.cn/collections/index?page=1`, {
+     }
+     
+      try {
+        if(pageCount) this.pages = pageCount
+        let pageIndex = this.pages - num + 1
+        await page.goto(`https://www.iconfont.cn/collections/index?page=${pageIndex}&type=${iconColorType}`, {
             waitUntil: 'networkidle0'
         });
         await page.waitForTimeout(3000);
-        pages = await page.$eval('#J_collections_lists .total', (e) => e.textContent.replace(/[^0-9]/ig,""));
-    }
- }
- 
-  try {
-    let pageIndex = pages - num + 1
-    await page.goto(`https://www.iconfont.cn/collections/index?page=${pageIndex}`, {
-        waitUntil: 'networkidle0'
-    });
-    await page.waitForTimeout(3000);
-
-    logger.info(`pages：${pages}，pageIndex：${pageIndex}`)
-
-    const aList = await page.$$eval('.page-collections-wrap a',  eles => eles.map(ele => ele.href))
-    logger.info('aList：', aList)
     
-    aList.forEach((url,index) => {
-        if(/collections\/detail/.test(url)){
-            open(browser, url, index+1)
+        logger.info(`pages：${this.pages}，pageIndex：${pageIndex}`)
+    
+        const aList = await page.$$eval('.page-collections-wrap a',  eles => eles.map(ele => ele.href))
+        logger.info('aList：', aList)
+        
+        aList.forEach((url,index) => {
+            if(/collections\/detail/.test(url)){
+                this.open(browser, url, index + 1)
+            }
+        })
+    
+        await page.close()
+        if(aList.length === 0 && pageIndex > 0){
+            await browser.close();
+            logger.info(`继续查询：https://www.iconfont.cn/collections/index?page=${pageIndex}&type=${iconColorType}`);
+            new RunTask().main(num, iconColorType, this.pages)
+            return
         }
-    })
-
-    await page.close()
-    if(aList.length === 0 && pageIndex > 0){
+      } catch (error) {
+        logger.error(`page goto is error: ${error}`)
+        await page.close()
         await browser.close();
-        logger.info(`继续查询：https://www.iconfont.cn/collections/index?page=${pageIndex}`);
-        RunTask(num,pages)
-        return
+      }
+      
+      browser.on('targetdestroyed', async target => {
+        const openPages = await browser.pages();
+        let pageList = []
+        openPages.forEach(item => {
+            pageList.push(item.url())
+        })
+        logger.info('targetdestroyed event，Open pages:', openPages.length, pageList);
+        if (openPages.length == 1) {
+          logger.info('Closing empty browser');
+          await browser.close();
+          logger.info('Browser closed');
+          new RunTask().main(++num, iconColorType, this.pages)
+        }
+      });
     }
-  } catch (error) {
-    logger.error(`page goto is error: ${error}`)
-    await page.close()
-    await browser.close();
-  }
-  
-  browser.on('targetdestroyed', async target => {
-    const openPages = await browser.pages();
-    let pageList = []
-    openPages.forEach(item => {
-        pageList.push(item.url())
-    })
-    logger.info('targetdestroyed event，Open pages:', openPages.length, pageList);
-    if (openPages.length == 1) {
-      logger.info('Closing empty browser');
-      await browser.close();
-      logger.info('Browser closed');
-      RunTask(++num)
+
+    async open (browser, url, itemIndex){
+        let page = await browser.newPage();
+        await page.setDefaultNavigationTimeout(0);//将浏览器响应时间改为无限长,默认为30秒
+
+        let results = {} // collects all results
+
+        let paused = false;
+        let pausedRequests = [];
+
+        const nextRequest = () => { // continue the next request or "unpause"
+            if (pausedRequests.length === 0) {
+                paused = false;
+            } else {
+                // continue first request in "queue"
+                (pausedRequests.shift())(); // calls the request.continue function
+            }
+        };
+
+        await page.setRequestInterception(true);
+        page.on('request', request => {
+            if (paused) {
+                pausedRequests.push(() => request.continue());
+            } else {
+                paused = true; // pause, as we are processing a request now
+                request.continue();
+            }
+        });
+
+        page.on('requestfinished', async (request) => {
+            if(/https:\/\/www.iconfont.cn\/api\/collection\/detail\.json/.test(request.url())){
+                const response = await request.response();
+                let responseBody;
+                if (request.redirectChain().length === 0) {
+                    // body can only be access for non-redirect responses
+                    responseBody = await response.json();
+                }
+                results = {
+                    url: request.url(),
+                    responseBody,
+                };
+            }
+            nextRequest(); // continue with next request
+        });
+        page.on('requestfailed', (request) => {
+            // handle failed request
+            nextRequest();
+        });
+
+
+        await page.goto(url, {
+            waitUntil: 'networkidle0'
+        })
+        await page.waitForTimeout(3000*itemIndex);
+        if(results.responseBody.code == 200){
+            let res = results.responseBody.data
+            let data = []
+            let CH_Names = []
+            for(let index in res.icons){
+                let obj = res.icons[index]
+                let CH_Name = getBeforeValidationName(obj.name)
+                CH_Names.push(CH_Name)
+            }
+            // let ENG_Names = await getIconName(CH_Names.join("\/"))
+            // if(!ENG_Names.length){
+            //     logger.error("获取 ENG_Names 获取失败，第二次进行重试")
+            //     ENG_Names = await getIconName(CH_Names.join("\/"))
+            // }
+            for(let index in res.icons){
+                let obj = res.icons[index]
+                let $ = cheerio.load(obj.show_svg);
+                let content = $("svg").removeAttr('style').prop("outerHTML");
+                // let ENG_Name = ENG_Names[index]
+                let ENG_Name = "other"
+                logger.info(index, res.creator.nickname, obj.name, ENG_Name)
+                let item = {
+                    id: `J_icon_id_${obj.id}`,
+                    type: "alibaba",
+                    gurop: res.collection.name,
+                    author: res.creator.nickname,
+                    CH_Name: obj.name,
+                    ENG_Name: ENG_Name || 'other',
+                    unicodeAlibaba: obj.unicode,
+                    description: res.collection.description,
+                    slug: res.collection.slug,
+                    collectionId: res.collection.id,
+                    tag_ids: res.collection.tag_ids,
+                    iconColorType: this.iconColorType,
+                    createTime: new Date(),
+                    content: content
+                }
+                data.push(item)
+            }
+            requestData(data, url)
+        }
+        
+        await page.waitForTimeout(1000);
+        await page.close()
     }
-  });
 }
 
-RunTask(1)
+new RunTask().main(1,2)

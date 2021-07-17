@@ -24,12 +24,18 @@ module.exports = app => {
     collectionId: {
       type: Number
     },
-    likes_count: {  // 4：单色 2 多色 1：官方 0 所有
-      type: Number
+    slug: {
+      type: String
+    },
+    tag_ids: {
+      type: String
     },
     type: {
       type: String,
       required: true,
+    },
+    iconColorType: { // 单色，多色
+      type: String,
     },
     gurop: {
       type: String,
