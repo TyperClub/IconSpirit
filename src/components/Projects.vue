@@ -246,6 +246,13 @@ export default {
             this.dialogType = "create"
             this.dialogId = ""
             this.$nextTick(()=>{
+                this.form = {
+                    name: "",
+                    description: "",
+                    fontFormat: ["WOFF2","WOFF","TTF"],
+                    fontFamily: "iconfont",
+                    prefix: "icon-"
+                }
                 this.$refs.form.resetFields();
             })
         },
@@ -256,15 +263,15 @@ export default {
             this.dialogVisible = true
             this.dialogType = "edit"
             this.dialogId = data._id
-            this.form = {
-                name: data.name,
-                description: data.description,
-                fontFormat: data.fontFormat,
-                fontFamily: data.fontFamily,
-                prefix: data.prefix,
-                creater: data.creater
-            }
             this.$nextTick(()=>{
+                this.form = {
+                    name: data.name,
+                    description: data.description,
+                    fontFormat: data.fontFormat,
+                    fontFamily: data.fontFamily,
+                    prefix: data.prefix,
+                    creater: data.creater
+                }
                 this.$refs.form.resetFields();
             })
         },

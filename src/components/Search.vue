@@ -80,7 +80,7 @@ import $ from 'jquery'
 
   export default {
     data() {
-      let pagesize = 60
+      let pagesize = 42
       if(document.body.clientHeight >= 1000){
         pagesize = 60
       }else if(document.body.clientHeight >= 900){
