@@ -98,6 +98,9 @@ class ProjectIconsSevice extends Service {
                 ENG_Name: data.ENG_Name,
                 content: data.content
             })
+            await ctx.model.Project.updateOne({ _id: data.projectIconsId }, {
+                "font.fontIsOld": true
+            })
             const user = await ctx.model.User.findOne({
                 telephone: ctx.session.cas.user,
             });

@@ -9,6 +9,7 @@
                 <span @click="openLog" class="tool-1"><i class="opsfont ops-log"></i> 操作日志</span>
                 <span @click="deleteProjects(projectList)" class="tool-1"><i class="el-icon-delete"></i> 删除项目</span>
                 <span class="tool-1"><i class="opsfont ops-huishouzhan"></i> 回收站</span>
+                <!-- <span class="tool-1"><i class="opsfont ops-api-interface"></i> API 接口</span> -->
             </div>
             <div class="tool-right">
                 <span class="u-invitation" @click="invitation(projectList)"><i class="opsfont ops-chengyuan"></i> 成员：<i class="el-icon-user user"></i> x {{ projectParticipants.length + 1 }} <i class="el-icon-arrow-down"></i></span>
