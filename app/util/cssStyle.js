@@ -22,7 +22,8 @@ return [
     font-family: '${fontFamily}';
     src: ${fontsStyls.join(',\n')};
 }`,
-`.${fontFamily} {
+`
+.${fontFamily} {
     font-family: "${fontFamily}";
     font-size: 16px;
     font-style: normal;

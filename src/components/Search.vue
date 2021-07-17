@@ -201,6 +201,7 @@ import $ from 'jquery'
           this.pageInfo.current = res.pageNum
           this.pageInfo.total = res.total
           this.loading = false
+          $(".el-main").scrollTop(0)
         }).catch(err => {
           console.log('错误', err)
           this.loading = false
@@ -219,7 +220,6 @@ import $ from 'jquery'
       },
       handleCurrentChange(val){
         this.pageInfo.current = val
-        $(".el-main").scrollTop(0)
         this.getIconsList(this.searchName)
       }
     },

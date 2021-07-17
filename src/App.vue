@@ -62,7 +62,7 @@ html, body {
     left: 0;
     background-color: #fff;
     box-sizing: border-box;
-    z-index: 20;
+    z-index: 9999;
     top: 0;
     right: 0;
   }
