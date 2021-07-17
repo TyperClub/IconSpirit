@@ -60,7 +60,7 @@
                         <i title="删除" @click="deleteIcon(item)" class="el-icon-delete cover-item"></i>
                         <i title="下载" @click="downIcon(item)" class="opsfont ops-xiazai cover-item"></i>
                         <div class="cover-code cover-copy">
-                            <span class="copy-code2" :aria-label="projectList.prefix + item.ENG_Name" @click="copyCode2"><i class="opsfont ops-fuzhi"></i> 复制代码</span>
+                            <span class="copy-code2" :aria-label="tabPosition === '2' ? projectList.prefix + item.ENG_Name : `&\#x${item.unicode.toString(16)};`" @click="copyCode2"><i class="opsfont ops-fuzhi"></i> 复制代码</span>
                         </div>
                     </div>
                 </div>
