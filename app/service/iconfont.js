@@ -198,12 +198,21 @@ class IconfontSevice extends Service {
             const user = await ctx.model.User.findOne({
                 telephone: ctx.session.cas.user,
             });
-            let parameter = {"name": data.name,"description":"","fontFormat":["WOFF2","WOFF","TTF"],"fontFamily": fontFamily,"prefix": prefix}
+            
+            let parameter = {
+                "name": data.name,
+                "description":"",
+                "fontFormat":["WOFF2","WOFF","TTF"],
+                "fontFamily": fontFamily,
+                "prefix": prefix
+            }
             
             let res = await ctx.model.Project.create({
                 creater: user.userName,
                 userEmail: user.userEmail,
                 department: user.department,
+                "font.type":  "迁移",
+                "font.transferUrl": data.url,
                 ...parameter
             });
             

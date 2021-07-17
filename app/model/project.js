@@ -16,6 +16,13 @@ module.exports = app => {
         required: true
     },
     font: {
+      type: {
+        type: String, // 自建、迁移
+        default: "自建"
+      },
+      transferUrl: {
+        type: String
+      },
       website: {
         type: String,
         default: config[app.env].website

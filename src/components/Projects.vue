@@ -169,6 +169,9 @@
                 <el-checkbox label="EOT" name="eot"></el-checkbox>
                 </el-checkbox-group>
             </el-form-item>
+            <el-form-item label="项目类型" v-if="dialogType !== 'create'">
+                <el-input disabled class="u-input-text-1" size="medium" v-model="form.type"></el-input>
+            </el-form-item>
             <el-form-item label="创建人" v-if="dialogType !== 'create'">
               {{form.creater}}
             </el-form-item>
@@ -264,13 +267,16 @@ export default {
             this.dialogType = "edit"
             this.dialogId = data._id
             this.$nextTick(()=>{
+                let type = data.font.type || '自建'
+                type = type == "迁移" ? `${type}：${data.font.transferUrl}`: type
                 this.form = {
                     name: data.name,
                     description: data.description,
                     fontFormat: data.fontFormat,
                     fontFamily: data.fontFamily,
                     prefix: data.prefix,
-                    creater: data.creater
+                    creater: data.creater,
+                    type
                 }
                 this.$refs.form.resetFields();
             })
