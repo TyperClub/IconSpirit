@@ -1,5 +1,4 @@
 <template>
-<el-container style="height: 100%; border: 1px solid #eee">
   <el-container>
     <el-header style="text-align: right; font-size: 12px">
         <navigation ref="navigation" @searchIcons="searchIcons" @deleteSelectIcon="deleteSelectIcon"></navigation>
@@ -21,7 +20,7 @@
         </div>
     </el-header>
     <el-main class="home">
-      <div v-loading="loading">
+      <div v-loading="loading" class="m-home-box">
         <el-row v-if="tableData.length > 0" class="u-row" :gutter="20">
           <el-col :xs="8" :sm="6" :md="6" :lg="4" v-for="(item,index) in tableData" :key="index" class="u-item">
               <el-card :shadow="item.status ? 'never' : 'hover'"  v-bind:class=" item.status ? 'selected' : '' "  @click="selectUI($event, item, index)">
@@ -49,14 +48,14 @@
           </div>
         </div>
         <el-pagination
-        class="m-page"
-        @current-change="handleCurrentChange"
-        layout="total, prev, pager, next, jumper"
-        :page-sizes="[10, 30, 50,100]"
-        :page-size="pageInfo.pagesize"
-        :current-page="pageInfo.current"
-        :total="pageInfo.total">
-      </el-pagination>
+          class="m-page"
+          @current-change="handleCurrentChange"
+          layout="total, prev, pager, next, jumper"
+          :page-sizes="[10, 30, 50,100]"
+          :page-size="pageInfo.pagesize"
+          :current-page="pageInfo.current"
+          :total="pageInfo.total">
+        </el-pagination>
       </div>
        <!-- 小球 -->
         <transition appear
@@ -65,23 +64,23 @@
             @after-appear='afterEnter'
             v-for="(item,index) in showMoveDot"
             :key="index.id">
-        <div class="move_dot"
-              ref="ball"
-              v-if="item" :style="{top:elTop+'px',left:elLeft+'px'}" v-html="imgUrl">
-        </div>
+            <div class="move_dot"
+                  ref="ball"
+                  v-if="item" :style="{top:elTop+'px',left:elLeft+'px'}" v-html="imgUrl">
+            </div>
         </transition>
     </el-main>
   </el-container>
-</el-container>
 </template>
 
 <script>
 import {iconList} from '../services/index';
 import Navigation from './Navigation';
+import $ from 'jquery'
 
   export default {
     data() {
-      let pagesize = 42
+      let pagesize = 60
       if(document.body.clientHeight >= 1000){
         pagesize = 60
       }else if(document.body.clientHeight >= 900){
@@ -218,6 +217,7 @@ import Navigation from './Navigation';
       },
       handleCurrentChange(val){
         this.pageInfo.current = val
+        $(".el-main").scrollTop(0)
         this.getIconsList(this.searchName)
       }
     },
