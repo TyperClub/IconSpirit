@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header style="text-align: right; font-size: 12px">
+    <el-header class="m-header-search" style="text-align: right; font-size: 12px">
         <navigation ref="navigation" @searchIcons="searchIcons" @deleteSelectIcon="deleteSelectIcon"></navigation>
         <div class="m-search center-search">
           <div class="item">
@@ -251,6 +251,9 @@ import $ from 'jquery'
 <style lang="less" scoped>
 .f-fr{
   float: right;
+}
+.m-header-search{
+  z-index: 99999;
 }
 .u-icons{
   margin-left: 20px;
