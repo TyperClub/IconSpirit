@@ -32,6 +32,7 @@ class ProjectSevice extends Service {
         const { ctx } = this;
         try{
             await ctx.model.Project.updateOne({_id: data.id}, {
+                "font.fontIsOld": true,
                 ...data.data
             });
             const user = await ctx.model.User.findOne({

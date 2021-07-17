@@ -275,6 +275,7 @@ export default {
                 if(data){
                    this.getProjectParticipantsList()
                    this.loading = false
+                   this.tabPosition = "2"
                 }
             }
         }
