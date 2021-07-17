@@ -198,7 +198,11 @@ class RunTask {
           await browser.close();
           logger.info('Browser closed');
           if(this.pages === 0 && iconColorType == 2){
-            new RunTask().main(1,4)
+              if(this.pages === 0 && iconColorType == 4){
+                await browser.close();
+              }else{
+                new RunTask().main(1,4)
+              }
           }else{
             new RunTask().main(++num, iconColorType, this.pages)
           }
