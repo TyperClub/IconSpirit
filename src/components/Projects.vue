@@ -167,6 +167,7 @@
                 <el-checkbox label="WOFF" name="woff"></el-checkbox>
                 <el-checkbox label="TTF" name="ttf"></el-checkbox>
                 <el-checkbox label="EOT" name="eot"></el-checkbox>
+                <!-- <el-checkbox label="SVG" name="svg"></el-checkbox> -->
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="项目类型" v-if="dialogType !== 'create'">

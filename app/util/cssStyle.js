@@ -1,5 +1,5 @@
 const config = require('../config/oss_config');
-const FontCarrier = require('font-carrier')
+const FontCarrier = require('@icons/font-carrier')
 const request = require('request')
 const rp  = require('request-promise');
 const { insertStr, hex2int } = require('./tool')
@@ -10,7 +10,8 @@ const InitCssStyle = (fontFamily, fontFamilyPath, fontFormat, env) =>{
         woff2: `url('${config[env].website}${fontFamilyPath}.woff?t=${new Date().getTime()}') format('woff2')`,
         eot: `    url('${config[env].website}${fontFamilyPath}.eot?t=${new Date().getTime()}'), /* IE9 */\nurl('${config[env].website}${fontFamilyPath}.eot?#iefix&?t=${new Date().getTime()}') format('embedded-opentype')`,
         woff: `    url('${config[env].website}${fontFamilyPath}.woff?t=${new Date().getTime()}') format('woff')`,
-        ttf: `    url('${config[env].website}${fontFamilyPath}.ttf?t=${new Date().getTime()}') format('truetype')`
+        ttf: `    url('${config[env].website}${fontFamilyPath}.ttf?t=${new Date().getTime()}') format('truetype')`,
+        svg:`     url('${config[env].website}${fontFamilyPath}.svg?t=${new Date().getTime()}') format('svg')`,
     }
     for(let index in fontFormat){
         let attr = fontFormat[index].toLowerCase()
