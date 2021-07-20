@@ -212,6 +212,10 @@ class RunTask {
 
     async open (browser, url, itemIndex){
         let page = await browser.newPage();
+        await page._client.send('Network.enable', {
+            maxResourceBufferSize: 1024 * 1024 * 150, // 150Mb
+            maxTotalBufferSize: 1024 * 1024 * 300, // 300mb
+        })
         await page.setDefaultNavigationTimeout(0);//将浏览器响应时间改为无限长,默认为30秒
 
         let results = {} // collects all results
