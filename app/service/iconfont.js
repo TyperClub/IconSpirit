@@ -76,9 +76,11 @@ class IconfontSevice extends Service {
         let sort = {_id: -1}
         if(data.name){
             query = {CH_Name: {$regex: `^${data.name}`, $options:'i'}}
+            let query2 = {CH_Name: {$regex: `${data.name}`, $options:'i'}}
             sort = {CH_Name: 1}
+            let countTyle = 1
             let l1 = ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
-            let l2 = ctx.model.Iconfont.find( {CH_Name: {$regex: `${data.name}`, $options:'i'}}).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
+            let l2 = ctx.model.Iconfont.find(query2).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
             let [list, list2] = await Promise.all([l1, l2])
             if(list.length < data.pageSize){
                 let a = [],b = []
@@ -90,12 +92,13 @@ class IconfontSevice extends Service {
                     }
                 });
                 list = [...a, ...b]
+                countTyle = 2
             }
 
             res.data = list
             res.code = 1;
             res.msg = '查询成功';
-            res.total = await ctx.model.Iconfont.find(query).count()
+            res.total = countTyle === 1 ? await ctx.model.Iconfont.find(query).count() : await ctx.model.Iconfont.find(query2).count()
             return res
         }
         if(data.type == 1){
