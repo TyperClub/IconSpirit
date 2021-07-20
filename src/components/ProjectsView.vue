@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="project-code-warp">
-                <div class="css-path" :class="projectList?.font.fontIsOld && 'font-old'" v-if="projectList?.font.cssFile">
+                <div class="css-path" :class="projectList?.font.fontIsOld && tabPosition != '3' && 'font-old'" v-if="projectList?.font.cssFile">
                     <div v-if="tabPosition == 1">
                         <pre><code v-html="projectList.font.unicodeStyle" id="cssPath"></code></pre>
                     </div>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="css-path" v-else> <span class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 暂无代码，点此生成</span></div>
                 <div class="copy" v-if="projectList && projectList.font && projectList.font.cssFile">
-                    <span v-if="projectList && projectList.font.fontIsOld" class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 更新代码</span>
+                    <span v-if="projectList && projectList.font.fontIsOld && tabPosition != 3" class="operation-generate" @click="generateFont"> <i class="opsfont ops-gengxin"></i> 更新代码</span>
                     <span class="copy-code" data-clipboard-target="#cssPath" @click="copyCode"><i class="opsfont ops-fuzhi"></i> 复制代码</span>
                     <span class="copy-code" v-if="tabPosition == 2" @click="downFont(projectList)"><i class="opsfont ops-xiazai"></i> 下载文件</span> 
                 </div>
@@ -60,7 +60,7 @@
                         <i title="删除" @click="deleteIcon(item)" class="el-icon-delete cover-item"></i>
                         <i title="下载" @click="downIcon(item)" class="opsfont ops-xiazai cover-item"></i>
                         <div class="cover-code cover-copy">
-                            <span class="copy-code2" :aria-label="tabPosition === '2' ? projectList.prefix + item.ENG_Name : `&\#x${item.unicode.toString(16)};`" @click="copyCode2"><i class="opsfont ops-fuzhi"></i> 复制代码</span>
+                            <span class="copy-code2" :aria-label="tabPosition === '1' ? `&\#x${item.unicode.toString(16)};` :  projectList.prefix + item.ENG_Name " @click="copyCode2"><i class="opsfont ops-fuzhi"></i> 复制代码</span>
                         </div>
                     </div>
                 </div>
@@ -289,7 +289,7 @@ export default {
             })
         },
         changeRowItem(){
-            this.tabPosition = "2"
+            // this.tabPosition = "2"
         },
         deleteProjects(item){
             this.$confirm('确定要删除此项目吗？', '提示', {
