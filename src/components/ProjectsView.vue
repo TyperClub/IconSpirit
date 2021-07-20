@@ -59,8 +59,8 @@
                         <i title="编辑" @click="editIcon(item)" class="el-icon-edit cover-item"></i>
                         <i title="删除" @click="deleteIcon(item)" class="el-icon-delete cover-item"></i>
                         <i title="下载" @click="downIcon(item)" class="opsfont ops-xiazai cover-item"></i>
-                        <div class="cover-code cover-copy">
-                            <span class="copy-code2" :aria-label="tabPosition === '1' ? `&\#x${item.unicode.toString(16)};` :  projectList.prefix + item.ENG_Name " @click="copyCode2"><i class="opsfont ops-fuzhi"></i> 复制代码</span>
+                        <div class="cover-code cover-copy copy-code2" :aria-label="tabPosition === '1' ? `&\#x${item.unicode.toString(16)};` :  projectList.prefix + item.ENG_Name " @click="copyCode2">
+                            <span><i class="opsfont ops-fuzhi"></i> 复制代码</span>
                         </div>
                     </div>
                 </div>
