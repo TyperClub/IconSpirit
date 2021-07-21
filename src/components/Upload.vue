@@ -14,7 +14,13 @@
                 <div class="uploader-box-pack">
                     <div class="uploader-left f-fl">
                         <ul class="uploader-content"> 
-                                <li class="icon-element" :class="index === iconsIndex ? 'active' : ''" v-for="(item, index) in fileList" :key="index" @click="rowIcon(index)">
+                                <li 
+                                    class="icon-element" 
+                                    :class="index === iconsIndex ? 'active' : ''" 
+                                    v-for="(item, index) in fileList" :key="index" 
+                                    @click="rowIcon(index)"
+                                >
+                                    <span class="icon-close" @click.stop="deleteIcon(index)"><i class="el-icon-close"></i></span>
                                     <div>
                                         <img style="width: 32px; height: 32px;" :src="item.imageUrl" alt="">
                                     </div>
@@ -116,6 +122,9 @@ export default {
                 ENG_Name: "other"
             }
         },
+        deleteIcon(index){
+            this.fileList.splice(index,1)
+        },
         close(){
             this.$router.go(-1);
         }
@@ -183,6 +192,7 @@ export default {
 .uploader-content{
     overflow: hidden;
     .icon-element{
+        position: relative;
         width: 96px;
         height: 80px;
         padding-top: 14px;
@@ -191,9 +201,19 @@ export default {
         border: 1px solid #eaeaea;
         border-radius: 5px;
         cursor: pointer;
+        .icon-close{
+            position: absolute;
+            display: none;
+            top: 5px;
+            right: 7px;
+        }
         &.active{
             border: 1px solid #4f9ff9;
         }
+        &:hover .icon-close{
+            display: block;
+        }
+        
     }
     .add-icons{
         width: 96px;
