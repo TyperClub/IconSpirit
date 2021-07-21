@@ -455,7 +455,7 @@ import $ from 'jquery'
         /*border-radius: 50%;*/
         /*background-color: #00b38a;*/
         position: fixed;
-        z-index: 99;
+        z-index: 999999;
         img {
             animation: 0.8s move ease-in-out;
             width: 50px;
