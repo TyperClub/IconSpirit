@@ -19,16 +19,9 @@
             <!-- <i id="appCart" class="opsfont ops-03"></i> -->
             <i @click="uploadIcons" class="el-icon-upload icon-upload"></i>
             <el-button v-if="!username" class="login" @click="login" type="primary" size="mini" round>登录</el-button>
-            <el-dropdown trigger="click" v-else>
-                <span class="userName">欢迎，{{username}} <i class="el-icon-arrow-down"></i></span>
-                <template #dropdown>
-                    <el-dropdown-menu>
-                        <el-dropdown-item @click="logout">
-                            <span><i class="opsfont ops-dengchu_o"></i>退出</span>
-                        </el-dropdown-item>
-                    </el-dropdown-menu>
-                </template>
-            </el-dropdown>
+            <!-- <el-dropdown trigger="click" v-else> -->
+            <span v-if="username" class="userName">欢迎，{{username}}</span>
+            <span v-if="username" class="logout"  @click="logout"><i class="opsfont ops-exit-5"></i> 退出</span>
         </div>
          <div class="m-nav-search f-fr">
             <el-input size="mini" class="search" v-model="searchName"  placeholder="输入图标关键词" suffix-icon="el-icon-search"  @keyup.enter.prevent="querySearch($event)">
@@ -409,8 +402,15 @@ export default {
     }
     .userName{
         padding-left: 5px;
-        cursor: pointer;
         font-size: 14px;
+    }
+    .logout{
+        padding-left: 10px;
+        font-size: 14px;
+        &:hover{
+            cursor: pointer;
+            color: #409EFF;
+        }
     }
 }
 .m-nav-search{
