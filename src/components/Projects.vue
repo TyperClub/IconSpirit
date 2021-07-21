@@ -132,19 +132,7 @@
                     <template #label>
                         <span class="menu-title"><i class="opsfont ops-list-bar"></i> 我的资源</span>
                     </template>
-                    <div class="m-project-box">
-                         <div class="m-project">
-                            <div class="u-project">
-                                <div><i class="opsfont ops-document-box"></i><span class="project-title">我的上传</span></div>
-                            </div>
-                            <div class="u-project">
-                                <div><i class="opsfont ops-shoucang"></i><span class="project-title">我的收藏</span></div>
-                            </div>
-                        </div>
-                        <div class="m-project-tool">
-                            我的上传
-                        </div>
-                    </div>
+                    <resources></resources>
                 </el-tab-pane>
                 <el-tab-pane name="3">我的部门
                     <template #label>
@@ -212,6 +200,7 @@ import { createProjects, getProjects, recoveryProjects, editProjects } from '../
 import Navigation from './Navigation';
 import Transfer from './Transfer'
 import ProjectsView from './ProjectsView'
+import Resources from './Resources'
 import Moment from 'moment'
 
 export default {
@@ -475,7 +464,8 @@ export default {
     components: {
       Navigation,
       Transfer,
-      ProjectsView
+      ProjectsView,
+      Resources
     }
   };
 </script>

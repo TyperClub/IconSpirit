@@ -289,7 +289,7 @@ export default {
             })
         },
         changeRowItem(){
-            // this.tabPosition = "2"
+            this.tabPosition = "2"
         },
         deleteProjects(item){
             this.$confirm('确定要删除此项目吗？', '提示', {
