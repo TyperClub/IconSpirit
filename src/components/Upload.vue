@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="uploader-box">
-            <div class="title">文件上传【图标资源】 <span class="size-limit">单文件限制：10MB </span>  <el-tag size="small">上传文件只支持 SVG ，尺寸限制为 1:1</el-tag></div>
+            <div class="title">文件上传【图标资源】 <span class="size-limit">单文件限制：10MB </span> <el-tag size="small">上传文件只支持 SVG ，尺寸限制为 1:1</el-tag></div>
             <div class="projects">
                 <el-form class="m-form1" ref="form" :model="form" :rules="rules" label-position="left" label-width="80px" size="mini">
                     <el-form-item label="添加至" prop="CH_Name">
@@ -22,7 +22,7 @@
                                         ops-asdf
                                     </div>
                                 </li> -->
-                                <li class="icon-element" v-for="(item, index) in fileList" :key="index">
+                                <li class="icon-element" v-for="(item, index) in fileList" :key="index" @click="rowIcon">
                                     <div>
                                         <img style="width: 32px; height: 32px;" :src="item.imageUrl" alt="">
                                     </div>
@@ -32,10 +32,12 @@
                                 </li>
                                 <li>
                                     <el-upload
-                                        action="https://jsonplaceholder.typicode.com/posts/"
+                                        :action="uploadUrl"
+                                        :auto-upload="false"
                                         name="file"
                                         :show-file-list="false"
                                         :file-list="fileList"
+                                        :on-change="addUploadFile"
                                         :before-upload="beforeUploadFile"
                                         :on-progress="uploadFileProcess"
                                         :on-success="handleFileSuccess"
@@ -53,15 +55,15 @@
                             <el-form-item label="图标中文名称" prop="CH_Name">
                                 <el-input class="u-input-text" size="small" v-model="form.CH_Name" clearable></el-input>
                             </el-form-item>
-                            <el-form-item class="u-form-item" label="图标分组" prop="ENG_Name">
-                                <el-input class="u-input-text" disabled size="small" v-model="form.ENG_Name" clearable></el-input>
+                            <el-form-item class="u-form-item" label="图标英文名称" prop="ENG_Name">
+                                <el-input class="u-input-text" size="small" v-model="form.ENG_Name" clearable></el-input>
                             </el-form-item>
                         </el-form>
                     </div>
                 </div>
             </div>
             <div class="btn-uploader-group">
-                <el-button type="primary">上传</el-button>
+                <el-button type="primary" @click="submitUpload">上传</el-button>
                 <el-button @click="close">关闭</el-button>
             </div>
         </div>
@@ -72,28 +74,46 @@
 export default {
     data(){
         return {
+            uploadUrl: "",
             radio2: "1",
             fileList: [],
             form: {
                 CH_Name: "",
-                ENG_Name: "默认",
-                gurop: ""
+                ENG_Name: ""
             }
         }
     },
     methods: {
-        beforeUploadFile(file, fileList) {
-            console.log(file, fileList);
+        addUploadFile(file) {
+            const isJPG = file.raw.type === 'image/svg+xml';
+            const isLt2M = file.raw.size / 1024 / 1024 < 10;
+
+            if (!isJPG) {
+                this.$message.error('上传图标只能是 SVG 格式!');
+                return
+            }
+            if (!isLt2M) {
+                this.$message.error('上传图标大小不能超过 10MB!');
+                return
+            }
+            file.imageUrl = URL.createObjectURL(file.raw)
+            this.fileList.push(file)
+            if(this.fileList.length == 1){
+                console.log(1111, file)   
+            }
         },
-        uploadFileProcess(file) {
-             console.log(file);
+        uploadFileProcess() {
+            //  console.log(file);
         },
-        handleFileSuccess(res, file,fileList){
-            console.log(1111, res, file,fileList)
-            this.fileList = fileList
-            this.fileList.forEach(item =>{
-                item.imageUrl = URL.createObjectURL(file.raw)
-            })
+        handleFileSuccess(){
+            // console.log(1111, res, file,fileList)
+            // this.fileList = fileList
+            // this.fileList.forEach(item =>{
+            //     item.imageUrl = URL.createObjectURL(file.raw)
+            // })
+        },
+        rowIcon(){
+            console.log(111)
         },
         close(){
             this.$router.go(-1);
@@ -160,6 +180,7 @@ export default {
 }
 
 .uploader-content{
+    overflow: hidden;
     .icon-element{
         width: 96px;
         height: 80px;
@@ -208,7 +229,7 @@ export default {
 
 
 .pack-layer{
-    padding: 20px;
+    padding: 20px 20px 10px 20px;
     border-radius: 5px;
     border: 1px solid #e6e6e6;
     box-shadow: 0 2px 4px #e3e9f3;
