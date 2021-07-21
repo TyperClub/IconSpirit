@@ -2,15 +2,18 @@
     <div>
         <div class="m-project-box">
                 <div class="m-project">
-                <div class="u-project active">
+                <div class="u-project" :class="active == 1 ? 'active' : ''" @click="active = 1">
                     <div><i class="opsfont ops-document-box"></i><span class="project-title"> 我的上传</span></div>
                 </div>
-                <div class="u-project">
+                <div class="u-project" :class="active == 2 ? 'active' : ''" @click="active = 2">
                     <div><i class="opsfont ops-shoucang"></i><span class="project-title"> 我的收藏</span></div>
                 </div>
             </div>
-            <div class="m-project-tool">
+            <div class="m-project-tool" v-if="active == 1">
                 我的上传
+            </div>
+            <div class="m-project-tool" v-if="active == 2">
+                我的收藏
             </div>
         </div> 
     </div>
@@ -18,7 +21,13 @@
 
 <script>
 export default {
-    
+    data(){
+        return {
+            active: 1
+        }
+    },
+    methods: {
+    }
 }
 </script>
 
