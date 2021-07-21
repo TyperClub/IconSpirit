@@ -598,7 +598,7 @@ export default {
         }
         .current{
             position: relative;
-            color: #333;
+            color: #409EFF;
             &:before{
                 content: '';
                 position: absolute;
