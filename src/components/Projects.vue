@@ -130,9 +130,21 @@
                 </el-tab-pane>
                 <el-tab-pane name="2">
                     <template #label>
-                        <span class="menu-title"><i class="opsfont ops-shoucang"></i> 我的收藏</span>
+                        <span class="menu-title"><i class="opsfont ops-list-bar"></i> 我的资源</span>
                     </template>
-                    我的收藏
+                    <div class="m-project-box">
+                         <div class="m-project">
+                            <div class="u-project">
+                                <div><i class="opsfont ops-document-box"></i><span class="project-title">我的上传</span></div>
+                            </div>
+                            <div class="u-project">
+                                <div><i class="opsfont ops-shoucang"></i><span class="project-title">我的收藏</span></div>
+                            </div>
+                        </div>
+                        <div class="m-project-tool">
+                            我的上传
+                        </div>
+                    </div>
                 </el-tab-pane>
                 <el-tab-pane name="3">我的部门
                     <template #label>
