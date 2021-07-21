@@ -43,6 +43,14 @@ const router = createRouter({
         index: 1
       }
     },
+    {
+      path: '/upload',
+      name: 'upload',
+      component: () => import('../components/Upload'),
+      meta: {
+        index: 1
+      }
+    },
   ]
 })
 

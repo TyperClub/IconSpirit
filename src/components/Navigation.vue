@@ -17,7 +17,7 @@
                 </el-badge>
             </span>
             <!-- <i id="appCart" class="opsfont ops-03"></i> -->
-            <i class="el-icon-upload icon-upload"></i>
+            <i @click="uploadIcons" class="el-icon-upload icon-upload"></i>
             <el-button v-if="!username" class="login" @click="login" type="primary" size="mini" round>登录</el-button>
             <el-dropdown trigger="click" v-else>
                 <span class="userName">欢迎，{{username}} <i class="el-icon-arrow-down"></i></span>
@@ -306,6 +306,9 @@ export default {
         },
         rowItem(index){
             this.current = index
+        },
+        uploadIcons(){
+            this.$router.push("upload")
         },
         login(){
             this.dialogVisible = true

@@ -267,7 +267,7 @@ class RunTask {
             waitUntil: 'networkidle0'
         })
         await page.waitForTimeout(3000*itemIndex);
-        if(results.responseBody.code == 200){
+        if(results.responseBody && results.responseBody.code == 200){
             let res = results.responseBody.data
             let data = []
             let CH_Names = []
@@ -307,6 +307,8 @@ class RunTask {
                 data.push(item)
             }
             requestData(data, url)
+        }else{
+            logger.error(`获取失败 results： ${results} url：${url}`)
         }
         
         await page.waitForTimeout(1000);
