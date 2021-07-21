@@ -25,7 +25,7 @@
                                         <img style="width: 32px; height: 32px;" :src="item.imageUrl" alt="">
                                     </div>
                                     <div class="icon-name">
-                                        {{item.name}}
+                                        {{item.CH_Name}}
                                     </div>
                                 </li>
                                 <li>
@@ -82,6 +82,18 @@ export default {
             }
         }
     },
+    watch: {
+        form:{
+            immediate:true,
+            deep: true,
+            handler:function(data){
+                if(this.fileList.length){
+                    this.fileList[this.iconsIndex].CH_Name = data.CH_Name
+                    this.fileList[this.iconsIndex].ENG_Name = data.ENG_Name
+                }
+            }
+        }
+    },
     methods: {
         addUploadFile(file) {
             const isJPG = file.raw.type === 'image/svg+xml';
@@ -96,14 +108,17 @@ export default {
                 return
             }
             file.imageUrl = URL.createObjectURL(file.raw)
-            this.fileList.push(file)
-            if(this.fileList.length == 1){
+            let fileName = file.name.split(".svg")[0]
+            if(!this.fileList.length){
                 this.form = {
-                    CH_Name: file.name.split(".svg")[0],
-                    ENG_Name: "other"
+                    CH_Name: fileName,
+                    ENG_Name: fileName
                 }
                 this.iconsIndex = 0
             }
+            file.CH_Name = fileName
+            file.ENG_Name = fileName
+            this.fileList.push(file)
         },
         uploadFileProcess() {
             //  console.log(file);
@@ -118,8 +133,8 @@ export default {
         rowIcon(index){
             this.iconsIndex = index
             this.form = {
-                CH_Name: this.fileList[index].name.split(".svg")[0],
-                ENG_Name: "other"
+                CH_Name: this.fileList[index].CH_Name,
+                ENG_Name: this.fileList[index].ENG_Name
             }
         },
         deleteIcon(index){
