@@ -46,8 +46,11 @@ class IconfontController extends Controller {
     const { ctx } = this;
     const files = ctx.request.files
     const body = ctx.request.body
-    console.log(JSON.parse(body.data), files)
-    ctx.body = {};
+    const result = await ctx.service.iconfont.upload(body.data, files);
+    ctx.helper.success({
+        ctx,
+        res: result
+    })
   }
 
   async downloadCssFile(){

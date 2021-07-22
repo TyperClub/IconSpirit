@@ -37,6 +37,10 @@ module.exports = app => {
     iconColorType: { // 单色，多色
       type: String,
     },
+    guropType: {    //1 我的上传 2 图标库
+      type: String,
+      required: true,
+    },
     gurop: {
       type: String,
       required: true,
@@ -50,6 +54,9 @@ module.exports = app => {
     },
     author: {
         type: String,
+    },
+    authorEmail: {
+      type: String
     },
     createTime: {
       type: String,

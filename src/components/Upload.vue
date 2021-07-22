@@ -143,20 +143,23 @@ export default {
             }else{
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        let data = []
+                        let data = {}
                         let formData = new FormData();
                         this.fileList.forEach(file => {
                             let id = guid()
-                            data.push({
+                            data[id] = {
                                 id,
                                 CH_Name: file.CH_Name,
                                 ENG_Name: file.ENG_Name
-                            })
+                            }
                             formData.append('file', file.raw, `${id}.svg`);
                         })
                         formData.append('data', JSON.stringify(data));
                         uploadIcon(formData).then(res => {
-                            console.log(res)
+                            if(res.code === 200){
+                                this.$message.success("图标上传成功！")
+                                this.$router.push("projects")
+                            }
                         })
                     }else{
                         return false;

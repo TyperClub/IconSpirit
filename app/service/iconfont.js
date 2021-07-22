@@ -27,6 +27,7 @@ class IconfontSevice extends Service {
             this.ctx.throw(500, e);
         }
     }
+
     async add(data) {
         const { ctx } = this;
         const res = {};
@@ -67,6 +68,38 @@ class IconfontSevice extends Service {
         }
         res.code = 1;
         return res
+    }
+
+    async upload(data, files){
+        const { ctx } = this;
+        try {
+            const user = await ctx.model.User.findOne({
+                telephone: ctx.session.cas.user,
+            });
+            
+            data = JSON.parse(data)
+            for(let index in files){
+                let item = files[index]
+                let content = fs.readFileSync(item.filepath, "utf-8");
+                let iconId = await this.app.redis.incr("icon_id");
+                let itemData = {
+                    id: `zmc-${iconId}`,
+                    type: "zhangmen",
+                    guropType: "1",
+                    gurop : "自建",
+                    author : user.userName,
+                    authorEmail: user.userEmail,
+                    CH_Name : data[item.filename.split(".svg")[0]].CH_Name,
+                    ENG_Name : data[item.filename.split(".svg")[0]].ENG_Name,
+                    content,
+                    unicode : iconId
+                }
+                await ctx.model.Iconfont.create(itemData);
+            }
+            return null
+        } catch (e) {
+            this.ctx.throw(500, e);
+        }
     }
 
     async list(data){
