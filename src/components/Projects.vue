@@ -205,13 +205,19 @@ import Moment from 'moment'
 
 export default {
     data() {
+        let activeName = "1"
+        if(this.$route.query.manage_type === "myresources"){
+            activeName = "2"
+        }else if(this.$route.query.manage_type === "mydepartment"){
+            activeName = "3"
+        }
       return {
         circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
         dialogType: "create",
         dialogId: "",
         dialogVisible: false,
         dialogVisible2: false,
-        activeName: "1",
+        activeName,
         activeType: "own",
         ownList: [],
         corpList: [],
@@ -243,11 +249,6 @@ export default {
         })
     },
     mounted(){
-        if(this.$route.query.manage_type === "myresources"){
-            this.activeName = "2"
-        }else if(this.$route.query.manage_type === "mydepartment"){
-            this.activeName = "3"
-        }
         this.getProjects()
     },
     methods: {
