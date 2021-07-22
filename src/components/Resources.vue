@@ -35,13 +35,22 @@
 </template>
 
 <script>
+import { myUploadIcons } from '../services/index'
 export default {
     data(){
         return {
             active: 1
         }
     },
+    mounted(){
+        this.getMyUploadIcons()
+    },
     methods: {
+        getMyUploadIcons(){
+            myUploadIcons().then(res => {
+                console.log(1111, res)
+            })
+        }
     }
 }
 </script>

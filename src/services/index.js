@@ -2,6 +2,7 @@ import http from '../utils/index'
 
 const iconList = params => http.get(`/api/v1/iconfont/list?_t=${Date.now()}`, params)
 const uploadIcon = query => http.post('/api/v1/iconfont/upload', query)
+const myUploadIcons = query => http.post(`/api/v1/iconfont/myupload`, query)
 const generateFont = query => http.post('/api/v1/iconfont/generate', query)
 const fontTransfer = query => http.post('/api/v1/iconfont/fontTransfer', query)
 const createProjects = params => http.post('/api/v1/project/create', params)
@@ -28,6 +29,7 @@ const getLatelyHistory =  params => http.get(`/api/v1/history/lately?_t=${Date.n
 export {
     downloadCssFile,
     iconList,
+    myUploadIcons,
     uploadIcon,
     getUser,
     queryUser,
