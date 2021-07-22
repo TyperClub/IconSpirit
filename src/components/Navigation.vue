@@ -301,7 +301,11 @@ export default {
             this.current = index
         },
         uploadIcons(){
-            this.$router.push("upload")
+            if(!this.username){
+                this.dialogVisible = true
+            }else{
+                this.$router.push("upload")
+            }
         },
         login(){
             this.dialogVisible = true

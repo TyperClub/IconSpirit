@@ -3,7 +3,7 @@
         <div class="uploader-box">
             <div class="title">文件上传【图标资源】 <span class="size-limit">单文件限制：10MB </span> <el-tag size="small">上传文件只支持 SVG ，尺寸限制为 1:1</el-tag></div>
             <div class="projects">
-                <el-form class="m-form1" ref="form" :model="form" :rules="rules" label-position="left" label-width="80px" size="mini">
+                <el-form class="m-form1" ref="form1" label-position="left" label-width="80px" size="mini">
                     <el-form-item label="添加至" prop="CH_Name">
                         <el-radio v-model="radio2" label="1" border size="mini">我的上传</el-radio>
                         <el-radio v-model="radio2" label="2" border size="mini" disabled>图标库</el-radio>
@@ -79,6 +79,10 @@ export default {
             form: {
                 CH_Name: "",
                 ENG_Name: ""
+            },
+            rules: {
+                CH_Name:  [{ required: true, message: '请输入图标中文名称', trigger: 'blur' }],
+                ENG_Name:  [{ required: true, message: '请输入图标英文名称', trigger: 'blur' }],
             }
         }
     },
