@@ -51,17 +51,17 @@
                     <div class="uploader-right f-fl" v-if="fileList.length">
                         <el-form class="m-form2" ref="form" :model="form" :rules="rules" label-width="140px">
                             <el-form-item label="图标中文名称" prop="CH_Name">
-                                <el-input class="u-input-text" size="small" v-model="form.CH_Name" clearable></el-input>
+                                <el-input class="u-input-text" placeholder="请输入图标中文名称" size="small" v-model="form.CH_Name" clearable></el-input>
                             </el-form-item>
                             <el-form-item class="u-form-item" label="图标英文名称" prop="ENG_Name">
-                                <el-input class="u-input-text" size="small" v-model="form.ENG_Name" clearable></el-input>
+                                <el-input class="u-input-text" placeholder="请输入图标英文名称" size="small" v-model="form.ENG_Name" clearable></el-input>
                             </el-form-item>
                         </el-form>
                     </div>
                 </div>
             </div>
             <div class="btn-uploader-group">
-                <el-button type="primary" @click="submitUpload">上传</el-button>
+                <el-button type="primary" @click="submitUpload('form')">上传</el-button>
                 <el-button @click="close">关闭</el-button>
             </div>
         </div>
@@ -69,6 +69,9 @@
 </template>
 
 <script>
+import { uploadIcon } from '../services/index';
+import { guid } from '../utils/tools'
+
 export default {
     data(){
         return {
@@ -134,6 +137,33 @@ export default {
             //     item.imageUrl = URL.createObjectURL(file.raw)
             // })
         },
+        submitUpload(formName){
+            if(!this.fileList.length){
+                this.$message.error("请添加需要上传的图标！")
+            }else{
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        let data = []
+                        let formData = new FormData();
+                        this.fileList.forEach(file => {
+                            let id = guid()
+                            data.push({
+                                id,
+                                CH_Name: file.CH_Name,
+                                ENG_Name: file.ENG_Name
+                            })
+                            formData.append('file', file.raw, `${id}.svg`);
+                        })
+                        formData.append('data', JSON.stringify(data));
+                        uploadIcon(formData).then(res => {
+                            console.log(res)
+                        })
+                    }else{
+                        return false;
+                    }
+                })
+            }
+        },
         rowIcon(index){
             this.iconsIndex = index
             this.form = {
@@ -167,6 +197,9 @@ export default {
 }
 .u-form-item{
      margin-bottom: 0px;
+    .el-form-item__error{
+        padding-top: 0px;
+    }
 }
 </style>
 
@@ -269,7 +302,6 @@ export default {
 
 
 .pack-layer{
-    padding: 20px 20px 10px 20px;
     border-radius: 5px;
     border: 1px solid #e6e6e6;
     box-shadow: 0 2px 4px #e3e9f3;
@@ -277,6 +309,7 @@ export default {
 }
 
 .uploader-box-pack{
+    padding: 20px 20px 10px 20px;
     overflow: hidden;
     .uploader-left{
         width: 480px;

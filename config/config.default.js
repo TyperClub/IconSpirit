@@ -2,6 +2,8 @@
 
 'use strict';
 
+const path = require("path")
+
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -64,6 +66,16 @@ module.exports = appInfo => {
 	  jsonLimit: '30mb',
 	  textLimit: '30mb'
 	}
+
+  config.multipart = {
+    mode: 'file',
+    fileSize: '10mb',
+    tmpdir: path.join("tmp", 'egg-multipart-tmp', appInfo.name),
+    cleanSchedule: {
+      cron: '0 30 4 * * *',
+    },
+    fileExtensions: [ '.svg'],
+  }
 
   // add your user config here
   const userConfig = {
