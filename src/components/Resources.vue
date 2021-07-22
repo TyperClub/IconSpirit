@@ -8,11 +8,17 @@
                 <div class="u-project" :class="active == 2 ? 'active' : ''" @click="active = 2">
                     <div><i class="opsfont ops-shoucang"></i><span class="project-title"> 我的收藏</span></div>
                 </div>
+                <!-- <div class="u-project" :class="active == 3 ? 'active' : ''" @click="active = 3">
+                    <div><i class="opsfont ops-document-box"></i><span class="project-title"> 我的图标库</span></div>
+                </div> -->
             </div>
             <div class="m-project-tool" v-if="active == 1">
                 我的上传
             </div>
             <div class="m-project-tool" v-if="active == 2">
+                我的收藏
+            </div>
+            <div class="m-project-tool" v-if="active == 3">
                 我的收藏
             </div>
         </div> 

@@ -243,6 +243,11 @@ export default {
         })
     },
     mounted(){
+        if(this.$route.query.manage_type === "myresources"){
+            this.activeName = "2"
+        }else if(this.$route.query.manage_type === "mydepartment"){
+            this.activeName = "3"
+        }
         this.getProjects()
     },
     methods: {
@@ -365,6 +370,20 @@ export default {
             });
         },
         handleClick(){
+            let manage_type = ""
+            if(this.activeName == 1){
+                manage_type = "myprojects"
+            }else if(this.activeName == 2){
+                manage_type = "myresources"
+            }else if(this.activeName == 3){
+                manage_type = "mydepartment"
+            }
+            this.$router.push({
+                name: 'projects',
+                query: {
+                    manage_type: manage_type
+                }
+            })
             this.deleteProjectStatus = false
         },
         recoveryProject(item){

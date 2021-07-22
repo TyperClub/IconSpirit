@@ -158,7 +158,12 @@ export default {
                         uploadIcon(formData).then(res => {
                             if(res.code === 200){
                                 this.$message.success("图标上传成功！")
-                                this.$router.push("projects")
+                                this.$router.push({
+                                    name: 'projects',
+                                    query: {
+                                        manage_type: "myresources"
+                                    }
+                                })
                             }
                         })
                     }else{
