@@ -16,6 +16,10 @@
                 <div class="tool">
                     <b>我上传的 icon</b>
                     <span>{{myUpload.icons.length}} 个图标</span>
+                    <span class="u-public" v-if="myUpload.icons.length">
+                        <el-radio class="u-public-radio" v-model="radio" label="1">图标开放</el-radio>
+                        <el-radio v-model="radio" label="2">图标私有</el-radio>
+                    </span>
                 </div>
                 <icons v-show="myUpload && myUpload.icons" :projectList="myUpload" :tabPosition="tabPosition" type="myUploadIcons" @newGetProjects="getMyUploadIcons" @addIcons="addIcons"></icons>
                 <div class="m-icons-default"  v-if="myUpload && myUpload.icons.length === 0">
@@ -42,6 +46,7 @@ import Icons from "./Icons"
 export default {
     data(){
         return {
+            radio: "1", 
             active: 1,
             myUpload: {
                 prefix: "",
@@ -62,6 +67,17 @@ export default {
         },
         addIcons(type, item){
             this.$emit('addIcons', type, item)
+        },
+        deleteSelectIcon(type, item){
+            this.myUpload.icons.forEach(obj =>{
+                if(type == "all"){
+                    obj.status = false
+                }else{
+                    if(obj.id == item.id){
+                        obj.status = false
+                    }
+                }
+            })
         }
     },
     components: {
@@ -69,6 +85,15 @@ export default {
     }
 }
 </script>
+
+<style lang="less">
+.u-public span{
+    color: #999;
+}
+.u-public-radio{
+    margin-right: 20px;
+}
+</style>
 
 <style lang="less" scoped>
 .m-project-box{
@@ -113,5 +138,8 @@ export default {
     p{
         padding-top: 15px;
     }
+}
+.u-public{
+    padding-left: 10px;
 }
 </style>

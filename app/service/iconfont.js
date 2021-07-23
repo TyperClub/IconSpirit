@@ -70,6 +70,26 @@ class IconfontSevice extends Service {
         return res
     }
 
+    async edit(data){
+        const { ctx } = this;
+        try {
+            const user = await ctx.model.User.findOne({
+                telephone: ctx.session.cas.user,
+            });
+            await ctx.model.Iconfont.updateOne({ 
+                _id: data._id,
+                authorEmail: user.userEmail
+            },{
+                CH_Name: data.CH_Name,
+                ENG_Name: data.ENG_Name,
+                content: data.content
+            })
+            return null
+        } catch (e) {
+            this.ctx.throw(500, e);
+        }
+    }
+
     async upload(data, files){
         const { ctx } = this;
         try {

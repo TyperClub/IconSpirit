@@ -35,6 +35,7 @@ module.exports = app => {
   router.post('/api/v1/iconfont/upload', controller.iconfont.upload)
   router.post('/api/v1/iconfont/myupload', controller.iconfont.myUpload)
   router.post('/api/v1/iconfont/delete', controller.iconfont.delete);
+  router.post('/api/v1/iconfont/edit', controller.iconfont.edit);
   router.get('/api/v1/iconfont/fontCss/download', controller.iconfont.downloadCssFile)
 
   router.get('/api/v1/history/list', controller.history.list)

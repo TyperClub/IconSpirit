@@ -87,7 +87,8 @@ import $ from 'jquery'
 import { 
     deleteProjectIcons,
     editProjectIcons,
-    deleteIcons
+    deleteIcons,
+    editIcons
 } from '../services/index';
 
 export default {
@@ -290,16 +291,29 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     let content = $(".icon-container-svg path").removeClass('selected').parents('.icon-container-svg').html()
-                    editProjectIcons({
-                        ...this.form,
-                        content
-                    }).then(res=>{
-                        if(res.code === 200){
-                            this.dialogVisible = false
-                            this.$emit('newGetProjects')
-                            this.$message.success("图标修改成功！")
-                        }
-                    })
+                    if(this.type === "myProjects"){
+                        editProjectIcons({
+                            ...this.form,
+                            content
+                        }).then(res=>{
+                            if(res.code === 200){
+                                this.dialogVisible = false
+                                this.$emit('newGetProjects')
+                                this.$message.success("图标修改成功！")
+                            }
+                        })
+                    }else{
+                        editIcons({
+                            ...this.form,
+                            content
+                        }).then(res => {
+                            if(res.code === 200){
+                                this.dialogVisible = false
+                                this.$emit('newGetProjects')
+                                this.$message.success("图标修改成功！")
+                            }
+                        })
+                    }
                 }else{
                     return false;
                 }

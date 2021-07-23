@@ -42,6 +42,16 @@ class IconfontController extends Controller {
     ctx.body = result;
   }
 
+  async edit(){
+    const { ctx } = this;
+    const body = ctx.request.body
+    const result = await ctx.service.iconfont.edit(body);
+    ctx.helper.success({
+        ctx,
+        res: result
+    })
+  }
+
   async upload(){
     const { ctx } = this;
     const files = ctx.request.files

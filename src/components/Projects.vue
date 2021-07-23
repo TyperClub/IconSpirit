@@ -132,7 +132,7 @@
                     <template #label>
                         <span class="menu-title"><i class="opsfont ops-list-bar"></i> 我的资源</span>
                     </template>
-                    <resources @addIcons="addIcons"></resources>
+                    <resources ref="resources" @addIcons="addIcons"></resources>
                 </el-tab-pane>
                 <el-tab-pane name="3">我的部门
                     <template #label>
@@ -446,6 +446,7 @@ export default {
             }else{
                 this.corpList[this.corpCurrent].icons = icons
             }
+            this.$refs.resources && this.$refs.resources.deleteSelectIcon(type, item)
         },
         getSessionStorageIcons(){
             try{
