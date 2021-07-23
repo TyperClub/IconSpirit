@@ -190,7 +190,9 @@ class IconfontSevice extends Service {
             let countTyle = 1
             let l1 = ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
             let l2 = ctx.model.Iconfont.find(query2).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
-            let [list, list2] = await Promise.all([l1, l2])
+            let p1 = ctx.model.Iconfont.find(query).count()
+            let p2 = ctx.model.Iconfont.find(query2).count()
+            let [list, list2, list3, list4] = await Promise.all([l1, l2, p1, p2])
             if(list.length < data.pageSize){
                 let a = [],b = []
                 list2.forEach(item => {
@@ -207,7 +209,7 @@ class IconfontSevice extends Service {
             res.data = list
             res.code = 1;
             res.msg = '查询成功';
-            res.total = countTyle === 1 ? await ctx.model.Iconfont.find(query).count() : await ctx.model.Iconfont.find(query2).count()
+            res.total = countTyle === 1 ? list3 : list4
             return res
         }
         if(data.type == 1){
