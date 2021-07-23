@@ -157,7 +157,10 @@ class IconfontSevice extends Service {
     async list(data){
         const { ctx } = this;
         const res = {...data};
-        let query = {isDeleted: { $ne : true }}
+        let query = {
+            public: true,
+            isDeleted: { $ne : true }
+        }
         let sort = {_id: -1}
         if(data.name){
             query = {CH_Name: {$regex: `^${data.name}`, $options:'i'}, isDeleted: { $ne : true }}

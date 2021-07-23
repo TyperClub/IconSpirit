@@ -34,6 +34,11 @@ module.exports = app => {
       type: String,
       required: true,
     },
+    public: { // 图标开放，图标私有
+      type: Boolean,
+      required: true,
+      default: true,
+    },
     iconColorType: { // 单色，多色
       type: String,
     },

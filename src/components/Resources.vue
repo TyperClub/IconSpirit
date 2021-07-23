@@ -16,17 +16,20 @@
                 <div class="tool">
                     <b>我上传的 icon</b>
                     <span>{{myUpload.icons.length}} 个图标</span>
-                    <span class="u-public" v-if="myUpload.icons.length">
+                    <span @click="upload" class="tool-1"><i class="opsfont ops-document-box"></i> 上传图标</span>
+                    <span>
                         <el-radio class="u-public-radio" v-model="radio" label="1">图标开放</el-radio>
                         <el-radio v-model="radio" label="2">图标私有</el-radio>
                     </span>
                 </div>
-                <icons v-show="myUpload && myUpload.icons" :projectList="myUpload" :tabPosition="tabPosition" type="myUploadIcons" @newGetProjects="getMyUploadIcons" @addIcons="addIcons"></icons>
-                <div class="m-icons-default"  v-if="myUpload && myUpload.icons.length === 0">
-                    <div>
-                        <img src="https://img.alicdn.com/tfs/TB1PhV7uoY1gK0jSZFMXXaWcVXa-164-142.svg">
+                <div v-loading="loading">
+                    <icons v-show="myUpload && myUpload.icons" :projectList="myUpload" :tabPosition="tabPosition" type="myUploadIcons" @newGetProjects="getMyUploadIcons" @addIcons="addIcons"></icons>
+                    <div class="m-icons-default"  v-if="myUpload && myUpload.icons.length === 0">
+                        <div>
+                            <img src="https://img.alicdn.com/tfs/TB1PhV7uoY1gK0jSZFMXXaWcVXa-164-142.svg">
+                        </div>
+                        <p>暂时木有内容呀～～</p>
                     </div>
-                    <p>暂时木有内容呀～～</p>
                 </div>
             </div>
             <div class="m-project-tool" v-if="active == 2">
@@ -46,7 +49,8 @@ import Icons from "./Icons"
 export default {
     data(){
         return {
-            radio: "1", 
+            radio: "1",
+            loading: false,
             active: 1,
             myUpload: {
                 prefix: "",
@@ -59,10 +63,15 @@ export default {
     },
     methods: {
         getMyUploadIcons(){
+            this.loading = true
             myUploadIcons().then(res => {
                 if(res.code === 200){
                     this.myUpload.icons = res.data
                 }
+                this.loading = false
+            }).catch(e => {
+                this.loading = false
+                console.log(e)
             })
         },
         addIcons(type, item){
@@ -78,6 +87,9 @@ export default {
                     }
                 }
             })
+        },
+        upload(){
+            this.$router.push("upload")
         }
     },
     components: {
@@ -128,6 +140,12 @@ export default {
             font-size: 14px;
             color: #999;
             margin-left: 20px;
+        }
+        .tool-1{
+            cursor: pointer;
+            &:hover{
+                color: #409EFF;
+            }
         }
     }
 }
