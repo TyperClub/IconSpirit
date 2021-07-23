@@ -174,6 +174,6 @@ export default {
     }
 }
 .u-public{
-    padding-left: 30px;
+    padding-left: 20px;
 }
 </style>
