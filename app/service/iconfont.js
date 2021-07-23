@@ -130,7 +130,7 @@ class IconfontSevice extends Service {
             });
             let result = await ctx.model.Iconfont.find({
                 authorEmail: user.userEmail,
-                isDeleted: { $ne : true }
+                isDeleted: false
             })
             return result
         } catch (e) {
@@ -180,12 +180,12 @@ class IconfontSevice extends Service {
         const res = {...data};
         let query = {
             public: true,
-            isDeleted: { $ne : true }
+            isDeleted: false
         }
         let sort = {_id: -1}
         if(data.name){
-            query = {CH_Name: {$regex: `^${data.name}`, $options:'i'}, isDeleted: { $ne : true }}
-            let query2 = {CH_Name: {$regex: `${data.name}`, $options:'i'}, isDeleted: { $ne : true }}
+            query = {CH_Name: {$regex: `^${data.name}`, $options:'i'}, isDeleted: false}
+            let query2 = {CH_Name: {$regex: `${data.name}`, $options:'i'}, isDeleted: false}
             sort = {CH_Name: 1}
             let countTyle = 1
             let l1 = ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
@@ -233,10 +233,13 @@ class IconfontSevice extends Service {
                 { $limit: parseInt(data.pageSize)}
             ])
         }else{
-            res.data = await ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
+            let l1 = await ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
+            let l2 = await ctx.model.Iconfont.find(query).count()
+            let [result, total] = await Promise.all([l1, l2])
+            res.data = result
             res.code = 1;
             res.msg = '查询成功';
-            res.total = await ctx.model.Iconfont.find(query).count()
+            res.total = total
         }
         return res
     }
