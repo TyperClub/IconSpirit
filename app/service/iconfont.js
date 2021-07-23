@@ -233,9 +233,10 @@ class IconfontSevice extends Service {
                 { $limit: parseInt(data.pageSize)}
             ])
         }else{
-            let l1 = await ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
-            let l2 = await ctx.model.Iconfont.find(query).count()
+            let l1 = ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
+            let l2 = ctx.model.Iconfont.find(query).count()
             let [result, total] = await Promise.all([l1, l2])
+
             res.data = result
             res.code = 1;
             res.msg = '查询成功';
