@@ -17,10 +17,10 @@
                     <b>我上传的 icon</b>
                     <span>{{myUpload.icons.length}} 个图标</span>
                     <span @click="upload" class="tool-1"><i class="opsfont ops-document-box"></i> 上传图标</span>
-                    <span>
-                        <el-radio class="u-public-radio" v-model="radio" label="1">图标开放</el-radio>
-                        <el-radio v-model="radio" label="2">图标私有</el-radio>
-                    </span>
+                    <el-radio-group class="u-public" v-model="radio" @change="changePublic">
+                        <el-radio class="u-public-radio" label="1">开放图标</el-radio>
+                        <el-radio label="2">私有图标</el-radio>
+                    </el-radio-group>
                 </div>
                 <div v-loading="loading">
                     <icons v-show="myUpload && myUpload.icons" :projectList="myUpload" :tabPosition="tabPosition" type="myUploadIcons" @newGetProjects="getMyUploadIcons" @addIcons="addIcons"></icons>
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { myUploadIcons } from '../services/index'
+import { myUploadIcons, publicIcons } from '../services/index'
 import Icons from "./Icons"
 
 export default {
@@ -66,6 +66,9 @@ export default {
             this.loading = true
             myUploadIcons().then(res => {
                 if(res.code === 200){
+                    if(res.data.length){
+                        this.radio = res.data[0].public === true ? "1" : "2"
+                    }
                     this.myUpload.icons = res.data
                 }
                 this.loading = false
@@ -84,6 +87,19 @@ export default {
                 }else{
                     if(obj.id == item.id){
                         obj.status = false
+                    }
+                }
+            })
+        },
+        changePublic(){
+            publicIcons({
+                status: this.radio === "1" ? true : false
+            }).then(res => {
+                if(res.code === 200){
+                    if(this.radio === "1"){
+                        this.$message.success("图标已开放成功！将会被搜索到！")
+                    }else{
+                        this.$message.success("图标已私有成功！将不会被搜索到！")
                     }
                 }
             })
@@ -158,6 +174,6 @@ export default {
     }
 }
 .u-public{
-    padding-left: 10px;
+    padding-left: 30px;
 }
 </style>

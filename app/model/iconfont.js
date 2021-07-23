@@ -30,7 +30,7 @@ module.exports = app => {
     tag_ids: {
       type: String
     },
-    type: {
+    type: {         //来源类型，alibaba、zhangmen
       type: String,
       required: true,
     },

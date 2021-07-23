@@ -154,6 +154,27 @@ class IconfontSevice extends Service {
         }
     }
 
+    async public(data){
+        try {
+            const { ctx } = this;
+            const user = await ctx.model.User.findOne({
+                telephone: ctx.session.cas.user,
+            });
+            await ctx.model.Iconfont.update({
+                authorEmail: user.userEmail,
+                guropType: "1"
+            }, {
+                $set: {
+                    public: data.status
+                }
+                
+            },{multi:true})
+            return null
+        } catch (e) {
+            this.ctx.throw(500, e);
+        }
+    }
+
     async list(data){
         const { ctx } = this;
         const res = {...data};

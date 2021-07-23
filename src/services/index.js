@@ -8,6 +8,7 @@ const fontTransfer = query => http.post('/api/v1/iconfont/fontTransfer', query)
 const downloadCssFile = params => http.get(`/api/v1/iconfont/fontCss/download?_t=${Date.now()}`, params)
 const deleteIcons = query => http.post(`/api/v1/iconfont/delete`, query)
 const editIcons = query => http.post("/api/v1/iconfont/edit", query)
+const publicIcons = query => http.post("/api/v1/iconfont/public", query)
 
 const createProjects = params => http.post('/api/v1/project/create', params)
 const editProjects = params => http.post('/api/v1/project/edit', params)
@@ -39,6 +40,7 @@ export {
     myUploadIcons,
     deleteIcons,
     editIcons,
+    publicIcons,
     uploadIcon,
     getUser,
     queryUser,
