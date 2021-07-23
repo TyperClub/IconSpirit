@@ -86,7 +86,8 @@ import Clipboard from 'clipboard'
 import $ from 'jquery'
 import { 
     deleteProjectIcons,
-    editProjectIcons
+    editProjectIcons,
+    deleteIcons
 } from '../services/index';
 
 export default {
@@ -95,6 +96,10 @@ export default {
         tabPosition: {
             type: String,
             default: "2"
+        },
+        type: {
+            type: String,
+            default: "myProjects"
         }
     },
     data(){
@@ -124,18 +129,33 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                deleteProjectIcons({
-                    projectId: this.projectList._id,
-                    icon: item
-                }).then(res=>{
-                    if(res.code === 200){
-                        this.$message({
-                            type: 'success',
-                            message: '删除成功!'
-                        });
-                        this.$emit('newGetProjects')
-                    }
-                })
+                if(this.type === "myProjects"){
+                    deleteProjectIcons({
+                        projectId: this.projectList._id,
+                        icon: item
+                    }).then(res=>{
+                        if(res.code === 200){
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            });
+                            this.$emit('newGetProjects')
+                        }
+                    })
+                }else{
+                    deleteIcons({
+                        icon: item
+                    }).then(res=>{
+                        if(res.code === 200){
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            });
+                            this.$emit('newGetProjects')
+                        }
+                    })
+                }
+                
             })
         },
         downIcon(item){

@@ -15,9 +15,10 @@
             <div class="m-project-tool" v-if="active == 1">
                 <div class="tool">
                     <b>我上传的 icon</b>
-                    <span>0 个图标</span>
+                    <span>{{myUpload.icons.length}} 个图标</span>
                 </div>
-                <div class="m-icons-default">
+                <icons v-show="myUpload && myUpload.icons" :projectList="myUpload" :tabPosition="tabPosition" type="myUploadIcons" @newGetProjects="getMyUploadIcons" @addIcons="addIcons"></icons>
+                <div class="m-icons-default"  v-if="myUpload && myUpload.icons.length === 0">
                     <div>
                         <img src="https://img.alicdn.com/tfs/TB1PhV7uoY1gK0jSZFMXXaWcVXa-164-142.svg">
                     </div>
@@ -36,10 +37,16 @@
 
 <script>
 import { myUploadIcons } from '../services/index'
+import Icons from "./Icons"
+
 export default {
     data(){
         return {
-            active: 1
+            active: 1,
+            myUpload: {
+                prefix: "",
+                icons: []
+            }
         }
     },
     mounted(){
@@ -48,9 +55,17 @@ export default {
     methods: {
         getMyUploadIcons(){
             myUploadIcons().then(res => {
-                console.log(1111, res)
+                if(res.code === 200){
+                    this.myUpload.icons = res.data
+                }
             })
+        },
+        addIcons(type, item){
+            this.$emit('addIcons', type, item)
         }
+    },
+    components: {
+        Icons
     }
 }
 </script>

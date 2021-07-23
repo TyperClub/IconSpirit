@@ -109,9 +109,26 @@ class IconfontSevice extends Service {
                 telephone: ctx.session.cas.user,
             });
             let result = await ctx.model.Iconfont.find({
-                authorEmail: user.userEmail
+                authorEmail: user.userEmail,
+                isDeleted: { $ne : true }
             })
             return result
+        } catch (e) {
+            this.ctx.throw(500, e);
+        }
+    }
+
+    async delete(data){
+        try {
+            const { ctx } = this;
+            const user = await ctx.model.User.findOne({
+                telephone: ctx.session.cas.user,
+            });
+            await ctx.model.Iconfont.updateOne({ _id: data.icon._id, authorEmail: user.userEmail }, {
+                isDeleted: true,
+                deleted_at: new Date()
+            })
+            return null
         } catch (e) {
             this.ctx.throw(500, e);
         }
@@ -120,11 +137,11 @@ class IconfontSevice extends Service {
     async list(data){
         const { ctx } = this;
         const res = {...data};
-        let query = {}
+        let query = {isDeleted: { $ne : true }}
         let sort = {_id: -1}
         if(data.name){
-            query = {CH_Name: {$regex: `^${data.name}`, $options:'i'}}
-            let query2 = {CH_Name: {$regex: `${data.name}`, $options:'i'}}
+            query = {CH_Name: {$regex: `^${data.name}`, $options:'i'}, isDeleted: { $ne : true }}
+            let query2 = {CH_Name: {$regex: `${data.name}`, $options:'i'}, isDeleted: { $ne : true }}
             sort = {CH_Name: 1}
             let countTyle = 1
             let l1 = ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);

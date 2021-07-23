@@ -132,7 +132,7 @@
                     <template #label>
                         <span class="menu-title"><i class="opsfont ops-list-bar"></i> 我的资源</span>
                     </template>
-                    <resources></resources>
+                    <resources @addIcons="addIcons"></resources>
                 </el-tab-pane>
                 <el-tab-pane name="3">我的部门
                     <template #label>

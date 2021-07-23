@@ -62,6 +62,16 @@ class IconfontController extends Controller {
     })
   }
 
+  async delete(){
+    const { ctx } = this;
+    const body = ctx.request.body;
+    const result = await ctx.service.iconfont.delete(body);
+    ctx.helper.success({
+        ctx,
+        res: result
+    })
+  }
+
   async downloadCssFile(){
     const { ctx } = this;
     const body = ctx.query;

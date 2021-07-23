@@ -64,6 +64,13 @@ module.exports = app => {
     content: {
       type: String,
     },
+    isDeleted: {      // 是否已删除
+      type: Boolean,
+      default: false
+    },
+    deleted_at: {   // 删除时间
+      type: Date
+    }
   });
 
   return mongoose.model('Iconfont', IconfontSchema);
