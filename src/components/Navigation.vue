@@ -35,6 +35,7 @@
                 <el-menu-item v-if="!username" @click="projects('/projects')">项目管理</el-menu-item>
                 <el-menu-item v-else @click="projects('/projects')"  index="/projects">项目管理</el-menu-item>
                 <el-menu-item @click="projects('/help')" index="/help">使用指南</el-menu-item>
+                <el-menu-item @click="gitlab"><span class="u-gitlab"><i class="opsfont ops-other67b7b"></i> <b>GitLab</b></span></el-menu-item>
             </el-menu>
         </div>
     </el-col>
@@ -286,6 +287,9 @@ export default {
             }else{
                 this.$router.push(name)
             }
+        },
+        gitlab(){
+            window.open('https://gitlab.zmaxis.com/zmdevops/ops-iconfont','target','');
         },
         createProject(){
             this.isCreateProject = !this.isCreateProject
@@ -645,6 +649,17 @@ export default {
     text-align: center;
     .icon-item{
         width: 200px;
+    }
+}
+.u-gitlab{
+    &:hover .ops-other67b7b{
+        color: #303133;
+    }
+    i{
+        font-size: 16px;
+    }
+    *{
+        vertical-align: bottom;
     }
 }
 </style>
