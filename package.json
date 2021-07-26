@@ -27,6 +27,7 @@
     "bignumber.js": "^9.0.1",
     "cheerio": "^1.0.0-rc.10",
     "clipboard": "^2.0.8",
+    "consul-kv": "^0.1.6",
     "core-js": "^3.6.5",
     "egg": "^2.15.1",
     "egg-mongoose": "^3.3.1",
