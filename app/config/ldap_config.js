@@ -1,13 +1,14 @@
 'use strict';
+const { consulConfig } = require("./consulConfig")
 
 const DEFAULT_CONFIG = {
   ldapOpts: {
     url: '',
   },
-  adminDn: 'CN=ldaposs,OU=掌门集团,DC=zmdesk,DC=com',
-  adminPassword: 'Aa123456',
-  userSearchBase: 'DC=zmdesk,DC=com',
-  usernameAttribute: 'SamAccountName',
+  adminDn: consulConfig.ldap.adminDn,
+  adminPassword: consulConfig.ldap.adminPassword,
+  userSearchBase: consulConfig.ldap.userSearchBase,
+  usernameAttribute: consulConfig.ldap.usernameAttribute,
   username: '',
   userPassword: '',
 };
