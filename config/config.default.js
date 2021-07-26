@@ -47,15 +47,6 @@ module.exports = appInfo => {
     httpOnly: true,
     encrypt: true,
   };
- 
-  config.redis = {
-    client: {
-      port: 6379,          // Redis port
-      host: '127.0.0.1',   // Redis host
-      password: 'cc',
-      db: 0
-    }
-  }
 
   config.cors = {
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
