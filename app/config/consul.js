@@ -7,7 +7,7 @@ const consul = new Consul({
   strictSSL: true,
 });
 
-module.exports.consulConfig = async ()=>{
+(async ()=>{
     const result = await consul.get('icons', { recurse: true })
-    return JSON.parse(result.value)
-}
+    console.log(result.value)
+})()
