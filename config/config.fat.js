@@ -11,6 +11,7 @@ module.exports = {
             url: 'mongodb://ops_iconfont_rw:pmoKstulRzgTsj0r@dds-bp1964edfcdd60741.mongodb.rds.aliyuncs.com:3717,dds-bp1964edfcdd60742.mongodb.rds.aliyuncs.com:3717/ops_iconfont?replicaSet=mgset-35904809',
             options: {
                 useNewUrlParser: true,
+                useUnifiedTopology: true,
                 autoReconnect: true,
                 reconnectTries: Number.MAX_VALUE,
                 bufferMaxEntries: 0,
