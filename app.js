@@ -12,8 +12,9 @@ class AppBootHook {
     async configWillLoad() {
         if(this.app.env === "fat"){
             const baseConfig = await consulConfig()
-            this.app.config.mongoose.client.url = baseConfig.mongoose.url
-            this.app.redis.client = baseConfig.redis
+            console.log(111, baseConfig)
+            // this.app.config.mongoose.client.url = baseConfig.mongoose.url
+            // this.app.redis.client = baseConfig.redis
         }
     }
   }
