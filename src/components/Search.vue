@@ -19,8 +19,8 @@
           </div>
         </div>
     </el-header>
-    <el-main class="home">
-      <div v-loading="loading" class="m-home-box">
+    <el-main class="home" v-loading="loading">
+      <div class="m-home-box">
         <el-row v-if="tableData.length > 0" class="u-row" :gutter="20">
           <el-col :xs="8" :sm="6" :md="6" :lg="4" v-for="(item,index) in tableData" :key="index" class="u-item">
               <el-card :shadow="item.status ? 'never' : 'hover'"  v-bind:class=" item.status ? 'selected' : '' "  @click="selectUI($event, item, index)">
@@ -254,9 +254,9 @@ import $ from 'jquery'
 .f-fr{
   float: right;
 }
-.m-header-search{
-  z-index: 99999;
-}
+// .m-header-search{
+//   z-index: 99999;
+// }
 .u-icons{
   margin-left: 20px;
   font-size: 18px;
@@ -264,7 +264,7 @@ import $ from 'jquery'
   font-weight: bold;
 }
   .home{
-      padding-top: 134px;
+      margin-top: 134px;
   }
   .m-search{
     display: flex;
