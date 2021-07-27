@@ -19,8 +19,14 @@
             <!-- <i id="appCart" class="opsfont ops-03"></i> -->
             <i @click="uploadIcons" class="el-icon-upload icon-upload"></i>
             <el-button v-if="!username" class="login" @click="login" type="primary" size="mini" round>登录</el-button>
-            <!-- <el-dropdown trigger="click" v-else> -->
-            <span v-if="username" class="userName">欢迎，{{username}}</span>
+            <el-dropdown  v-if="username" trigger="click">
+                <span class="userName">欢迎，{{username}} <i class="el-icon-arrow-down el-icon--right"></i></span>
+                <template #dropdown>
+                    <el-dropdown-menu>
+                        <el-dropdown-item @click="feedback"> 意见反馈 </el-dropdown-item>
+                    </el-dropdown-menu>
+                </template>
+            </el-dropdown>
             <span v-if="username" class="logout"  @click="logout"><i class="opsfont ops-exit-5"></i> 退出</span>
         </div>
          <div class="m-nav-search f-fr">
@@ -180,6 +186,9 @@ export default {
                     }
                 }
             }
+        },
+        feedback(){
+            window.open('https://gitlab.zmaxis.com/zmdevops/ops-iconfont/issues','target','');
         },
         clearIcons(){
             window.sessionStorage.setItem('ops-icons', '')
