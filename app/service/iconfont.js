@@ -244,7 +244,7 @@ class IconfontSevice extends Service {
             ])
         }else{
             let l1 = ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
-            let l2 = data.iconColorType ? ctx.model.Iconfont.find(query).count() : ctx.model.Iconfont.count()
+            let l2 =  data.iconColorType ? ctx.model.Iconfont.find({iconColorType: data.iconColorType}).count() : ctx.model.Iconfont.count()
             let [result, total] = await Promise.all([l1, l2])
 
             res.data = result
