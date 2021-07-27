@@ -8,13 +8,6 @@
               <template #append><el-button size="medium" icon="el-icon-search" @click="querySearch('click')"></el-button></template>
             </el-input>
             <span class="u-icons">{{(pageInfo.total+'').replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g,'$1,')}} free icons</span>
-            <div class="m-color-type">
-              <el-radio-group size="mini" v-model="colorType" @change="changeColorType">
-                    <el-radio-button label="1">所有</el-radio-button>
-                    <el-radio-button label="2">单色</el-radio-button>
-                    <el-radio-button label="3">多色</el-radio-button>
-              </el-radio-group>
-            </div>
             <div class="m-tab">
               <span>
               <i class="el-icon-s-grid grid"></i>
@@ -22,6 +15,14 @@
               <span>
                 <i class="el-icon-menu menu"></i>
               </span>
+              <div class="m-color-type">
+              <el-radio-group size="mini" v-model="colorType" @change="changeColorType">
+                    <el-radio-button label="1">所有</el-radio-button>
+                    <el-radio-button label="4">掌门图标</el-radio-button>
+                    <el-radio-button label="2">单色图标</el-radio-button>
+                    <el-radio-button label="3">多色图标</el-radio-button>
+              </el-radio-group>
+            </div>
             </div>
           </div>
         </div>
@@ -207,6 +208,8 @@ import $ from 'jquery'
           parames.iconColorType = "4"
         }else if(this.colorType === "3"){
           parames.iconColorType = "2"
+        }else if(this.colorType === "4"){
+          parames.type = "zhangmen"
         }
         this.loading = true
         iconList(parames).then(res => {
@@ -300,7 +303,7 @@ import $ from 'jquery'
   font-weight: bold;
 }
   .home{
-      margin-top: 134px;
+      margin-top: 114px;
   }
   .m-search{
     display: flex;
