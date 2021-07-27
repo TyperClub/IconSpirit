@@ -8,6 +8,13 @@
               <template #append><el-button size="medium" icon="el-icon-search" @click="querySearch('click')"></el-button></template>
             </el-input>
             <span class="u-icons">{{(pageInfo.total+'').replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g,'$1,')}} free icons</span>
+            <div class="m-color-type">
+              <el-radio-group size="mini" v-model="colorType" @change="changeColorType">
+                    <el-radio-button label="1">所有</el-radio-button>
+                    <el-radio-button label="2">单色</el-radio-button>
+                    <el-radio-button label="3">多色</el-radio-button>
+              </el-radio-group>
+            </div>
             <div class="m-tab">
               <span>
               <i class="el-icon-s-grid grid"></i>
@@ -94,6 +101,7 @@ import $ from 'jquery'
       return {
         loading: false,
         activeIndex: '2',
+        colorType: "1",
         searchName: this.$route.query.search,
         tableData: [],
         showMoveDot: [],
@@ -185,13 +193,21 @@ import $ from 'jquery'
           }
         })
       },
+      changeColorType(){
+        this.pageInfo.current = 1
+        this.getIconsList(this.searchName)
+      },
       getIconsList(name){
         let parames = {
           "pageNum": this.pageInfo.current,
           "pageSize": this.pageInfo.pagesize
         }
         if (name) parames.name = name
-
+        if(this.colorType === "2"){
+          parames.iconColorType = "4"
+        }else if(this.colorType === "3"){
+          parames.iconColorType = "2"
+        }
         this.loading = true
         iconList(parames).then(res => {
           let data = res.data
@@ -262,6 +278,13 @@ import $ from 'jquery'
     }
   }
 }
+
+.m-color-type{
+    .el-radio-button__orig-radio:checked+.el-radio-button__inner{
+        color: #000;
+        background-color: #fff;
+    }
+}
 </style>
 <style lang="less" scoped>
 .f-fr{
@@ -325,7 +348,12 @@ import $ from 'jquery'
       }
     }
   }
-
+.m-color-type{
+  position: absolute;
+  display: inline-block;
+  right: 20px;
+  top: 20px;
+}
   .el-aside {
     color: #333;
   }
