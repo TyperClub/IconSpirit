@@ -44,7 +44,7 @@
             <img src="https://sf3-dycdn-tos.pstatp.com/obj/eden-cn/bqaeh7vhobd/feedback.svg">
           </div>
           <div class="tips">
-              <span>图标太少？点击上传图标</span> <i class="el-icon-upload upload"></i>
+              <span>图标太少？点击上传图标</span> <i class="el-icon-upload upload" @click="upload"></i>
           </div>
         </div>
         <el-pagination
@@ -76,6 +76,7 @@
 <script>
 import {iconList} from '../services/index';
 import Navigation from './Navigation';
+import { mapState } from 'vuex'
 import $ from 'jquery'
 
   export default {
@@ -106,6 +107,11 @@ import $ from 'jquery'
           total: 0
         }
       }
+    },
+    computed: {
+        ...mapState({
+            username: state => state.userInfo.userName
+        })
     },
     mounted(){
       this.getIconsList(this.searchName)
@@ -223,6 +229,13 @@ import $ from 'jquery'
       handleCurrentChange(val){
         this.pageInfo.current = val
         this.getIconsList(this.searchName)
+      },
+      upload(){
+        if(!this.username){
+            this.$refs.navigation.login()
+        }else{
+            this.$router.push("upload")
+        }
       }
     },
     components: {
@@ -333,6 +346,9 @@ import $ from 'jquery'
       font-size: 28px;
       vertical-align: middle;
       color: #444;
+      &:hover{
+        color: #409EFF;
+      }
     }
   }
   .icon-base{
