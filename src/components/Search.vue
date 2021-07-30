@@ -4,18 +4,17 @@
         <navigation ref="navigation" @searchIcons="searchIcons" @deleteSelectIcon="deleteSelectIcon"></navigation>
         <div class="m-search center-search">
           <div class="item">
-            <el-input size="medium" class="search" v-model="searchName" placeholder="输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
+            <el-input size="medium" class="search" v-model="searchName" placeholder="请输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
               <template #append><el-button size="medium" icon="el-icon-search" @click="querySearch('click')"></el-button></template>
             </el-input>
             <span class="u-icons">{{(pageInfo.total+'').replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g,'$1,')}} free icons</span>
             <div class="m-tab">
-              <span>
-              <i class="el-icon-s-grid grid"></i>
-              </span>
-              <span>
-                <i class="el-icon-menu menu"></i>
-              </span>
-              <div class="m-color-type">
+               <el-radio-group size="mini" v-model="boxType">
+                    <el-radio-button label="1"><i class="el-icon-s-grid grid"></i></el-radio-button>
+                    <el-radio-button label="2"> <i class="el-icon-menu menu"></i></el-radio-button>
+              </el-radio-group>
+            </div>
+            <div class="m-color-type">
               <el-radio-group size="mini" v-model="colorType" @change="changeColorType">
                     <el-radio-button label="1">所有</el-radio-button>
                     <el-radio-button label="4">掌门图标</el-radio-button>
@@ -23,47 +22,67 @@
                     <el-radio-button label="3">多色图标</el-radio-button>
               </el-radio-group>
             </div>
-            </div>
           </div>
         </div>
     </el-header>
     <el-main class="home" v-loading="loading">
       <div class="m-home-box">
-        <el-row v-if="tableData.length > 0" class="u-row" :gutter="20">
-          <el-col :xs="8" :sm="6" :md="6" :lg="4" v-for="(item,index) in tableData" :key="index" class="u-item">
-              <el-card :shadow="item.status ? 'never' : 'hover'"  v-bind:class=" item.status ? 'selected' : '' "  @click="selectUI($event, item, index)">
-                <div class="icon-base-view">
-                  <div class="icon-base-view-left" v-html="item.content"></div>
-                  <div class="icon-base-view-right">
-                      <div class="ellipsis">{{item.CH_Name}}</div>
-                      <div class="name">{{item.ENG_Name || 'other'}}</div>
-                  </div>
-                  <div class="icon-base-view-mask">
-                    <i :class="item.status ? 'ops-03f': 'ops-03'" class="opsfont" @click="addToCart($event, item)" title="添加到购物车"></i>
-                    <i class="opsfont ops-xiazai"  @click="downIcon(item)" title="下载"></i>
-                  </div>
-                  <!-- <span class="author"> <i class="el-icon-user user"></i> {{item.author || 'other'}}</span> -->
-                </div>
-              </el-card>
-          </el-col>
-        </el-row>
-        <div class="m-tips" v-else>
-          <div>
-            <img src="https://sf3-dycdn-tos.pstatp.com/obj/eden-cn/bqaeh7vhobd/feedback.svg">
-          </div>
-          <div class="tips">
-              <span>图标太少？点击上传图标</span> <i class="el-icon-upload upload" @click="upload"></i>
-          </div>
+        <div v-if="boxType === '1'">
+            <el-row v-if="tableData.length > 0" class="u-row" :gutter="20">
+              <el-col :xs="8" :sm="6" :md="6" :lg="4" v-for="(item,index) in tableData" :key="index" class="u-item">
+                  <el-card :shadow="item.status ? 'never' : 'hover'"  v-bind:class=" item.status ? 'selected' : '' "  @click="selectUI($event, item, index)">
+                    <div class="icon-base-view">
+                      <div class="icon-base-view-left" v-html="item.content"></div>
+                      <div class="icon-base-view-right">
+                          <div class="ellipsis">{{item.CH_Name}}</div>
+                          <div class="name">{{item.ENG_Name || 'other'}}</div>
+                      </div>
+                      <div class="icon-base-view-mask">
+                        <i :class="item.status ? 'ops-03f': 'ops-03'" class="opsfont" @click="addToCart($event, item)" title="添加到购物车"></i>
+                        <i class="opsfont ops-xiazai"  @click="downIcon(item)" title="下载"></i>
+                      </div>
+                      <!-- <span class="author"> <i class="el-icon-user user"></i> {{item.author || 'other'}}</span> -->
+                    </div>
+                  </el-card>
+              </el-col>
+            </el-row>
+            <div class="m-tips" v-else>
+              <div>
+                <img src="https://sf3-dycdn-tos.pstatp.com/obj/eden-cn/bqaeh7vhobd/feedback.svg">
+              </div>
+              <div class="tips">
+                  <span>图标太少？点击上传图标</span> <i class="el-icon-upload upload" @click="upload"></i>
+              </div>
+            </div>
+            <el-pagination
+              class="m-page"
+              @current-change="handleCurrentChange"
+              layout="total, prev, pager, next, jumper"
+              :page-sizes="[10, 30, 50,100]"
+              :page-size="pageInfo.pagesize"
+              :current-page="pageInfo.current"
+              :total="pageInfo.total">
+            </el-pagination>
         </div>
-        <el-pagination
-          class="m-page"
-          @current-change="handleCurrentChange"
-          layout="total, prev, pager, next, jumper"
-          :page-sizes="[10, 30, 50,100]"
-          :page-size="pageInfo.pagesize"
-          :current-page="pageInfo.current"
-          :total="pageInfo.total">
-        </el-pagination>
+        <div class="m-home-box-2" v-if="boxType === '2'">
+            <el-card class="m-block-collection" shadow="hover" v-for="(i, index) in 9" :key="index">
+              <div class="block-collection">
+                <ul class="clearfix">
+                  <li class="icon-wrap" v-for="(i, index) in 15" :key="index">
+                    <svg class="icon" style="width: 1em;height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="491"><path d="M822.234731 216.952236c0-39.7887 32.254225-72.043813 72.043813-72.043813 39.7887 0 72.043813 32.255113 72.043813 72.043813 0 39.7887-32.255113 72.043813-72.043813 72.043813-39.789588 0-72.043813-32.255113-72.043813-72.043813z m-760.40696-0.002662c0-30.870849 143.005061-55.894073 319.409914-55.894073 176.404853 0 319.40104 25.023224 319.401039 55.894073 0 30.870849-142.996187 55.894073-319.401039 55.894072-176.404853 0-319.409913-25.023224-319.409914-55.894072zM892.202149 439.956187c-39.7887 0-72.043813 32.255113-72.043813 72.043813 0 39.7887 32.255113 72.043813 72.043813 72.043813 39.7887 0 72.042925-32.255113 72.042926-72.043813 0-39.7887-32.254225-72.043813-72.042926-72.043813zM59.752263 511.998225c0-30.870849 143.005061-55.894073 319.409914-55.894072 176.404853 0 319.40104 25.023224 319.40104 55.894072 0 30.870849-142.996187 55.894073-319.40104 55.894073-176.404853 0-319.409913-25.023224-319.409914-55.894073z m830.376153 223.005726c-39.7887 0-72.043813 32.255113-72.043813 72.043813 0 39.7887 32.255113 72.043813 72.043813 72.043813 39.7887 0 72.041151-32.255113 72.041151-72.043813 0-39.7887-32.252451-72.043813-72.041151-72.043813zM57.677643 807.04599c0-30.870849 143.005061-55.894073 319.409913-55.894073 176.404853 0 319.40104 25.023224 319.40104 55.894073 0 30.870849-142.996187 55.894073-319.40104 55.894072-176.404853 0-319.409913-25.023224-319.409913-55.894072z" fill="#89B7FF" p-id="492"></path></svg>
+                  </li>
+                </ul>
+                <div class="collection-info mt10">
+                  <span class="f-fl"><i class="opsfont ops-log"></i> 后台管理</span>
+                  <span class="f-fr">icons <b>32</b></span>
+                </div>
+                <div class="collection-info mt5">
+                  <span class="f-fl"><el-avatar class="userImg" :size="24" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar> adfs</span>
+                  <span class="f-fr"><i class="el-icon-time"></i> 2021-5-21</span>
+                </div>
+              </div>
+            </el-card>
+        </div>
       </div>
        <!-- 小球 -->
         <transition appear
@@ -103,6 +122,7 @@ import $ from 'jquery'
         loading: false,
         activeIndex: '2',
         colorType: "1",
+        boxType: "1",
         searchName: this.$route.query.search,
         tableData: [],
         showMoveDot: [],
@@ -124,6 +144,7 @@ import $ from 'jquery'
     },
     mounted(){
       this.getIconsList(this.searchName)
+      this.getIconsList2()
     },
     methods: {
        beforeEnter(el) {
@@ -197,6 +218,21 @@ import $ from 'jquery'
       changeColorType(){
         this.pageInfo.current = 1
         this.getIconsList(this.searchName)
+      },
+      getIconsList2(){
+        this.loading = true
+        iconList({
+          "pageNum": 1,
+          "pageSize": 9,
+          "type": 1
+        }).then(res => {
+          console.log(1111, res)
+          this.loading = false
+          $(".el-main").scrollTop(0)
+        }).catch(err => {
+          console.log('错误', err)
+          this.loading = false
+        })
       },
       getIconsList(name){
         let parames = {
@@ -288,15 +324,35 @@ import $ from 'jquery'
         background-color: #fff;
     }
 }
+.m-tab{
+  .el-radio-button__inner{
+    padding: 7px;
+  }
+}
 </style>
 <style lang="less" scoped>
 .f-fr{
   float: right;
 }
+.f-fl{
+  float: left;
+}
+.clearfix{
+  overflow: hidden;
+}
+.mt5{
+  margin-top: 5px;
+}
+.mt10{
+  margin-top: 10px;
+}
 // .m-header-search{
 //   z-index: 99999;
 // }
 .u-icons{
+  display:inline-block;
+  width: 158px;
+  text-align: left;
   margin-left: 20px;
   font-size: 18px;
   color: #000;
@@ -325,29 +381,8 @@ import $ from 'jquery'
     .m-tab{
       display: inline-block;
       margin-left: 20px;
-      span{
-        display: inline-block;
-        border-radius: 4px;
-        height: 34px;
-        line-height: 34px;
-        width: 34px;
-        text-align: center;
-        border: 1px solid #ccc;
-        font-size: 16px;
-        cursor: pointer;
-      }
-      span:not(:last-child){
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-      }
-      span:not(:first-child){
-        margin-left: -1px;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-      }
       i{
-        position: relative;
-        top: 1px;
+        font-size: 18px;
       }
     }
   }
@@ -494,6 +529,39 @@ import $ from 'jquery'
   .m-page{
     margin-top: 20px;
     text-align: right;
+  }
+
+  .m-home-box-2{
+      width: 1182px;
+      // width: 1575px;
+      margin: 0 auto;
+  }
+
+  .m-block-collection{
+    padding: 15px;
+    width: 316px;
+    margin: 20px 33px 20px 12px;
+    display: inline-block;
+    .icon-wrap{
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      color: #666;
+      float: left;
+      margin-top: 14px;
+      margin-left: 11px;
+    }
+    .collection-info{
+      overflow: hidden;
+      height: 30px;
+      line-height: 30px;
+      text-align: left;
+      font-size: 12px;
+    }
+    .userImg{
+      vertical-align: middle;
+    }
   }
 
   .move_dot {

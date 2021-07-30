@@ -199,8 +199,8 @@ class IconfontSevice extends Service {
             let countTyle = 1
             let l1 = ctx.model.Iconfont.find(query1).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
             let l2 = ctx.model.Iconfont.find(query2).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
-            let p1 = ctx.model.Iconfont.find(query1).count()
-            let p2 = ctx.model.Iconfont.find(query2).count()
+            let p1 = ctx.model.Iconfont.countDocuments(query1)
+            let p2 = ctx.model.Iconfont.countDocuments(query2)
             let [list, list2, total1, total2] = await Promise.all([l1, l2, p1, p2])
             if(list.length < data.pageSize){
                 let a = [],b = []
@@ -223,29 +223,18 @@ class IconfontSevice extends Service {
         }
         if(data.type == 1){
             res.data = await ctx.model.Iconfont.aggregate([
-                { 
+                {
                     $group: { 
                         _id: {
-                            gurop: "$gurop", 
-                            author: "$author"
-                        }, 
-                        data: { 
-                            $addToSet : {
-                                CH_Name: "$CH_Name",
-                                ENG_Name: "$ENG_Name",
-                                content: "$content",
-                                createTime: "$createTime"
-                            }
-                        } 
+                            collectionId: "$collectionId"
+                        }
                     },
                 },
-                {$sort:{"_id": -1}},
-                { $skip : data.pageSize * (data.pageNum - 1) },
-                { $limit: parseInt(data.pageSize)}
-            ])
+            ]).allowDiskUse(true)
+            return res
         }else{
             let l1 = ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
-            let l2 =  data.iconColorType ||  query.type ? ctx.model.Iconfont.find(query).count() : ctx.model.Iconfont.count()
+            let l2 =  data.iconColorType ||  query.type ? ctx.model.Iconfont.countDocuments(query) : ctx.model.Iconfont.estimatedDocumentCount()
             let [result, total] = await Promise.all([l1, l2])
 
             res.data = result
