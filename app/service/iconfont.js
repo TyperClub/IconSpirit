@@ -107,6 +107,7 @@ class IconfontSevice extends Service {
                     type: "zhangmen",
                     guropType: "1",
                     gurop : "自建",
+                    iconColorType: "1",
                     author : user.userName,
                     authorEmail: user.userEmail,
                     CH_Name : data[item.filename.split(".svg")[0]].CH_Name,
@@ -184,6 +185,7 @@ class IconfontSevice extends Service {
             isDeleted: false
         }
         if(data.iconColorType) query.iconColorType = data.iconColorType
+        if(data.iconColorType === "0,1") query.iconColorType = { $in: [ "0", "1" ] }
         if(data.type) query.type = data.type
         let sort = {_id: -1}
         if(data.name){

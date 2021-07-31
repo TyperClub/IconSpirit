@@ -245,7 +245,7 @@ import $ from 'jquery'
         }else if(this.colorType === "3"){
           parames.iconColorType = "2"
         }else if(this.colorType === "4"){
-          parames.type = "zhangmen"
+          parames.iconColorType = "0,1"
         }
         this.loading = true
         iconList(parames).then(res => {
