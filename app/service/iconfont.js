@@ -190,12 +190,12 @@ class IconfontSevice extends Service {
         let sort = {_id: -1}
         if(data.name){
             let query1 = {
+                ...query,
                 CH_Name: {$regex: `^${data.name}`, $options:'i'}, 
-                ...query
             }
             let query2 = {
+                ...query,
                 CH_Name: {$regex: `${data.name}`, $options:'i'},
-                ...query
             }
             sort = {CH_Name: 1}
             let countTyle = 1
@@ -236,7 +236,7 @@ class IconfontSevice extends Service {
             return res
         }else{
             let l1 = ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
-            let l2 =  data.iconColorType ||  query.type ? ctx.model.Iconfont.countDocuments(query) : ctx.model.Iconfont.estimatedDocumentCount()
+            let l2 = null// data.iconColorType ||  query.type ? ctx.model.Iconfont.countDocuments(query) : ctx.model.Iconfont.estimatedDocumentCount()
             let [result, total] = await Promise.all([l1, l2])
 
             res.data = result
