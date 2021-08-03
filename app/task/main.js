@@ -232,6 +232,7 @@ class RunTask {
      
 
       try {
+        logger.info(`open https://www.iconfont.cn/search/index?page=1&q=${queryName}`)
         await this.openQuery(browser, `https://www.iconfont.cn/search/index?page=1&q=${queryName}`, 1)
       } catch (error) {
         logger.error(`page goto is error: ${error}`)
