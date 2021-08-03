@@ -2,8 +2,8 @@ const request = require('request')
 const rp  = require('request-promise');
 const Host = "http://10.111.247.210:8080"
 const Host1 = "http://127.0.0.1:7001"
-const iconsList = `${Host1}/api/v1/iconfont/list?pageNum=1&pageSize=9&type=1`
-const iconsCreate = `${Host1}/api/v1/iconfontCollection/create`
+const iconsList = `${Host}/api/v1/iconfont/list?pageNum=1&pageSize=9&type=1`
+const iconsCreate = `${Host}/api/v1/iconfontCollection/create`
 
 request({
     url: iconsList,
@@ -21,6 +21,7 @@ request({
             request({
                 url: iconsCreate,
                 method:'POST',
+                timeout: 20000000,
                 headers: {
                     'Content-Type': 'application/json'
                 },

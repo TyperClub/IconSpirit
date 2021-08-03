@@ -9,7 +9,7 @@
             </el-input>
             <span class="u-icons">{{(pageInfo.total+'').replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g,'$1,')}} free icons</span>
             <div class="m-tab">
-               <el-radio-group size="mini" v-model="boxType">
+               <el-radio-group size="mini" v-model="boxType" @change="changeBoxType">
                     <el-radio-button label="1"><i class="el-icon-s-grid grid"></i></el-radio-button>
                     <el-radio-button label="2"> <i class="el-icon-menu menu"></i></el-radio-button>
               </el-radio-group>
@@ -64,7 +64,7 @@
               :total="pageInfo.total">
             </el-pagination>
         </div>
-        <div class="m-home-box-2" v-if="boxType === '2'">
+        <div class="m-home-box-2" v-if="boxType === '2'" v-loading="loading1">
             <el-card class="m-block-collection" shadow="hover" v-for="(item, index) in iconsCollection" :key="index">
               <div class="block-collection">
                 <ul class="clearfix">
@@ -78,7 +78,7 @@
                 </div>
                 <div class="collection-info mt5">
                   <span class="f-fl"><el-avatar class="userImg" :size="24" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar> {{item.author}}</span>
-                  <span class="f-fr"><i class="el-icon-time"></i> 2021-5-21</span>
+                  <span class="f-fr"><i class="el-icon-time"></i> {{item.createTime}}</span>
                 </div>
               </div>
             </el-card>
@@ -113,6 +113,7 @@
 import {iconList} from '../services/index';
 import Navigation from './Navigation';
 import { mapState } from 'vuex'
+import Moment from 'moment'
 import $ from 'jquery'
 
   export default {
@@ -129,6 +130,7 @@ import $ from 'jquery'
       }
       return {
         loading: false,
+        loading1: false,
         activeIndex: '2',
         colorType: "1",
         boxType: "1",
@@ -234,24 +236,37 @@ import $ from 'jquery'
         this.pageInfo.current = 1
         this.getIconsList(this.searchName)
       },
+      changeBoxType(){
+        if(this.pageInfo.current != 1){
+          this.pageInfo.current = 1
+          this.getIconsList(this.searchName)
+        }
+        if(this.iconsCollectionPageInfo.current != 1){
+          this.iconsCollectionPageInfo.current = 1
+          this.getIconsList2()
+        }
+      },
       handleCurrentChange2(val){
         this.iconsCollectionPageInfo.current = val
         this.getIconsList2()
       },
       getIconsList2(){
-        this.loading = true
+        this.loading1 = true
         iconList({
           "pageNum": this.iconsCollectionPageInfo.current,
           "pageSize": this.iconsCollectionPageInfo.pagesize,
           "type": 2
         }).then(res => {
+          res.data.forEach(item => {
+            item.createTime = Moment(item.updated_at).format("YYYY-MM-DD HH:mm")
+          })
           this.iconsCollection = res.data
           this.iconsCollectionPageInfo.total = res.count
-          this.loading = false
+          this.loading1 = false
           $(".el-main").scrollTop(0)
         }).catch(err => {
           console.log('错误', err)
-          this.loading = false
+          this.loading1 = false
         })
       },
       getIconsList(name){
