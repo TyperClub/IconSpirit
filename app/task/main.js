@@ -469,5 +469,6 @@ class RunTask {
 // new RunTask().main(1,4,383)
 let arguments = process.argv.splice(2)
 if(arguments.length){
+    logger.info(`执行 RunTask queryName ${arguments}`)
     new RunTask().queryName(1, arguments[1])
 }
