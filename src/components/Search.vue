@@ -252,12 +252,21 @@ import $ from 'jquery'
         }
       },
       changeBoxType(){
-        this.searchName = ""
+        if(this.searchName){
+          this.searchName = ""
+          this.pageInfo.current = 1
+          this.getIconsList(this.searchName)
+          this.iconsCollectionPageInfo.current = 1
+          this.getIconsList2()
+          return
+        }
         if(this.pageInfo.current != 1){
+          this.searchName = ""
           this.pageInfo.current = 1
           this.getIconsList(this.searchName)
         }
         if(this.iconsCollectionPageInfo.current != 1){
+          this.searchName = ""
           this.iconsCollectionPageInfo.current = 1
           this.getIconsList2()
         }
