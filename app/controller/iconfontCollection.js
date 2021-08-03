@@ -4,7 +4,13 @@ const Controller = require('egg').Controller;
 
 class IconfontCollectionController extends Controller {
     async create(){
-        console.log(1111)
+        const { ctx } = this;
+        const body = ctx.request.body;
+        const result = await ctx.service.iconfontCollection.create(body);
+        ctx.helper.success({
+            ctx,
+            res: result
+        })
     }
 }
 

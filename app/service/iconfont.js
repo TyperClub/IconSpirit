@@ -234,6 +234,55 @@ class IconfontSevice extends Service {
                 },
             ]).allowDiskUse(true)
             return res
+        }else if(data.type == 2){
+            let [iconfontCollection, iconfontCollectionCount] = await Promise.all([
+                ctx.model.IconfontCollection.find().skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)),
+                ctx.model.IconfontCollection.countDocuments()
+            ])
+            let request = []
+            for (let index in iconfontCollection) {
+                request.push(ctx.model.Iconfont.find({
+                    collectionId: iconfontCollection[index].collectionId}, {
+                        _id: 0,
+                        id: 0, 
+                        author: 0, 
+                        gurop: 0, 
+                        unicode: 0, 
+                        unicodeAlibaba: 0,
+                        createTime: 0,
+                        isDeleted: 0,
+                        public: 0,
+                        tag_ids: 0,
+                        description: 0,
+                        iconColorType: 0
+                    }
+                ).limit(15))
+            }
+
+            for (let index in iconfontCollection) {
+                request.push(
+                    ctx.model.Iconfont.countDocuments({
+                        collectionId: iconfontCollection[index].collectionId
+                    })
+                )
+            }
+            let icons = await Promise.all(request)
+            let collection = []
+            let i = 0
+            for(let index in icons){
+                if(index > 8){
+                    let item = iconfontCollection[i]
+                    collection.push({
+                        ...item._doc,
+                        icons: icons[i],
+                        count: icons[index]
+                    })
+                    i++
+                }
+            }
+            res.count = iconfontCollectionCount
+            res.data = collection
+            return res
         }else{
             let l1 = ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
             let l2 =  data.iconColorType ||  query.type ? ctx.model.Iconfont.countDocuments(query) : ctx.model.Iconfont.estimatedDocumentCount()

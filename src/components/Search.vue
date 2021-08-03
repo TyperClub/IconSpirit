@@ -65,23 +65,32 @@
             </el-pagination>
         </div>
         <div class="m-home-box-2" v-if="boxType === '2'">
-            <el-card class="m-block-collection" shadow="hover" v-for="(i, index) in 9" :key="index">
+            <el-card class="m-block-collection" shadow="hover" v-for="(item, index) in iconsCollection" :key="index">
               <div class="block-collection">
                 <ul class="clearfix">
-                  <li class="icon-wrap" v-for="(i, index) in 15" :key="index">
-                    <svg class="icon" style="width: 1em;height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="491"><path d="M822.234731 216.952236c0-39.7887 32.254225-72.043813 72.043813-72.043813 39.7887 0 72.043813 32.255113 72.043813 72.043813 0 39.7887-32.255113 72.043813-72.043813 72.043813-39.789588 0-72.043813-32.255113-72.043813-72.043813z m-760.40696-0.002662c0-30.870849 143.005061-55.894073 319.409914-55.894073 176.404853 0 319.40104 25.023224 319.401039 55.894073 0 30.870849-142.996187 55.894073-319.401039 55.894072-176.404853 0-319.409913-25.023224-319.409914-55.894072zM892.202149 439.956187c-39.7887 0-72.043813 32.255113-72.043813 72.043813 0 39.7887 32.255113 72.043813 72.043813 72.043813 39.7887 0 72.042925-32.255113 72.042926-72.043813 0-39.7887-32.254225-72.043813-72.042926-72.043813zM59.752263 511.998225c0-30.870849 143.005061-55.894073 319.409914-55.894072 176.404853 0 319.40104 25.023224 319.40104 55.894072 0 30.870849-142.996187 55.894073-319.40104 55.894073-176.404853 0-319.409913-25.023224-319.409914-55.894073z m830.376153 223.005726c-39.7887 0-72.043813 32.255113-72.043813 72.043813 0 39.7887 32.255113 72.043813 72.043813 72.043813 39.7887 0 72.041151-32.255113 72.041151-72.043813 0-39.7887-32.252451-72.043813-72.041151-72.043813zM57.677643 807.04599c0-30.870849 143.005061-55.894073 319.409913-55.894073 176.404853 0 319.40104 25.023224 319.40104 55.894073 0 30.870849-142.996187 55.894073-319.40104 55.894072-176.404853 0-319.409913-25.023224-319.409913-55.894072z" fill="#89B7FF" p-id="492"></path></svg>
+                  <li class="icon-wrap" v-for="(icon, index) in item.icons" :key="index">
+                    <div v-html="icon.content"></div>
                   </li>
                 </ul>
                 <div class="collection-info mt10">
-                  <span class="f-fl"><i class="opsfont ops-log"></i> 后台管理</span>
-                  <span class="f-fr">icons <b>32</b></span>
+                  <span class="f-fl"><i class="opsfont ops-log"></i> {{item.gurop}}</span>
+                  <span class="f-fr">icons <b>{{item.count}}</b></span>
                 </div>
                 <div class="collection-info mt5">
-                  <span class="f-fl"><el-avatar class="userImg" :size="24" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar> adfs</span>
+                  <span class="f-fl"><el-avatar class="userImg" :size="24" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar> {{item.author}}</span>
                   <span class="f-fr"><i class="el-icon-time"></i> 2021-5-21</span>
                 </div>
               </div>
             </el-card>
+            <el-pagination
+              class="m-page"
+              @current-change="handleCurrentChange2"
+              layout="total, prev, pager, next, jumper"
+              :page-sizes="[10, 30, 50,100]"
+              :page-size="iconsCollectionPageInfo.pagesize"
+              :current-page="iconsCollectionPageInfo.current"
+              :total="iconsCollectionPageInfo.total">
+            </el-pagination>
         </div>
       </div>
        <!-- 小球 -->
@@ -125,6 +134,12 @@ import $ from 'jquery'
         boxType: "1",
         searchName: this.$route.query.search,
         tableData: [],
+        iconsCollection: [],
+        iconsCollectionPageInfo: {
+          pagesize: 9,
+          current: 1,
+          total: 0
+        },
         showMoveDot: [],
         imgUrl:'',
         elLeft: 0, //当前点击购物车按钮在网页中的绝对top值
@@ -219,14 +234,19 @@ import $ from 'jquery'
         this.pageInfo.current = 1
         this.getIconsList(this.searchName)
       },
+      handleCurrentChange2(val){
+        this.iconsCollectionPageInfo.current = val
+        this.getIconsList2()
+      },
       getIconsList2(){
         this.loading = true
         iconList({
-          "pageNum": 1,
-          "pageSize": 9,
-          "type": 1
+          "pageNum": this.iconsCollectionPageInfo.current,
+          "pageSize": this.iconsCollectionPageInfo.pagesize,
+          "type": 2
         }).then(res => {
-          console.log(1111, res)
+          this.iconsCollection = res.data
+          this.iconsCollectionPageInfo.total = res.count
           this.loading = false
           $(".el-main").scrollTop(0)
         }).catch(err => {

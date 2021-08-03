@@ -5,6 +5,7 @@ module.exports = options => {
   return async function(ctx, next) {
     const token = ctx.session.token;
     const method = ctx.method.toLowerCase();
+
     if (method === 'get') {
       await next();
     } else if (ctx.path === '/api/v1/signup' || 
@@ -14,6 +15,7 @@ module.exports = options => {
       ctx.path === '/api/v1/iconfont/generate' || 
       ctx.path === '/api/v1/iconfont/list'|| 
       ctx.path === '/api/v1/iconfont/add' ||
+      ctx.path === '/api/v1/iconfontCollection/create' ||
       ctx.path === '/@in/api/health'
     ) {
         await next();
