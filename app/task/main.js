@@ -469,5 +469,5 @@ class RunTask {
 // new RunTask().main(1,4,383)
 let arguments = process.argv.splice(2)
 if(arguments.length){
-    new RunTask().queryName(1, arguments[0])
+    new RunTask().queryName(1, arguments[1])
 }

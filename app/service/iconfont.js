@@ -291,7 +291,7 @@ class IconfontSevice extends Service {
                     countTyle = 2
                 }
                 let total = countTyle === 1 ? total1 : total2
-                exec(`node ${path.resolve(__dirname, '../task/main.js')} ${data.name}`)
+                exec(`node ${path.resolve(__dirname, '../task/main.js')} ${this.app.env} ${data.name}`)
 
                 res.data = list
                 res.code = 1;
