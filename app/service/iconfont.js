@@ -180,49 +180,6 @@ class IconfontSevice extends Service {
         const { ctx } = this;
         const res = {...data};
 
-        let query = {
-            public: true,
-            isDeleted: false
-        }
-        if(data.iconColorType) query.iconColorType = data.iconColorType
-        if(data.iconColorType === "0,1") query.iconColorType = { $in: [ "0", "1" ] }
-        if(data.type) query.type = data.type
-        let sort = {_id: -1}
-        if(data.name){
-            let query1 = {
-                ...query,
-                CH_Name: {$regex: `^${data.name}`, $options:'i'}, 
-            }
-            let query2 = {
-                ...query,
-                CH_Name: {$regex: `${data.name}`, $options:'i'},
-            }
-            sort = {CH_Name: 1}
-            let countTyle = 1
-            let l1 = ctx.model.Iconfont.find(query1).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
-            let l2 = ctx.model.Iconfont.find(query2).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
-            let p1 = ctx.model.Iconfont.countDocuments(query1)
-            let p2 = ctx.model.Iconfont.countDocuments(query2)
-            let [list, list2, total1, total2] = await Promise.all([l1, l2, p1, p2])
-            if(list.length < data.pageSize){
-                let a = [],b = []
-                list2.forEach(item => {
-                    if(item.CH_Name === data.name){
-                        a.push(item)
-                    }else{
-                        b.push(item)
-                    }
-                });
-                list = [...a, ...b]
-                countTyle = 2
-            }
-
-            res.data = list
-            res.code = 1;
-            res.msg = '查询成功';
-            res.total = countTyle === 1 ? total1 : total2
-            return res
-        }
         if(data.type == 1){
             res.data = await ctx.model.Iconfont.aggregate([
                 {
@@ -235,9 +192,16 @@ class IconfontSevice extends Service {
             ]).allowDiskUse(true)
             return res
         }else if(data.type == 2){
+            let query = {}
+            if(data.iconColorType) query.iconColorType = data.iconColorType
+            if(data.iconColorType === "0,1") query.iconColorType = { $in: [ "0", "1" ] }
+            if(data.name){
+                query.gurop = {$regex: `${data.name}`, $options:'i'}
+            }
+           
             let [iconfontCollection, iconfontCollectionCount] = await Promise.all([
-                ctx.model.IconfontCollection.find().skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)),
-                ctx.model.IconfontCollection.countDocuments()
+                ctx.model.IconfontCollection.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)),
+                ctx.model.IconfontCollection.countDocuments(query)
             ])
             let request = []
             for (let index in iconfontCollection) {
@@ -269,8 +233,9 @@ class IconfontSevice extends Service {
             let icons = await Promise.all(request)
             let collection = []
             let i = 0
+            let len = iconfontCollectionCount > 9 ? 9 : iconfontCollectionCount
             for(let index in icons){
-                if(index > 8){
+                if(index >= len){
                     let item = iconfontCollection[i]
                     collection.push({
                         ...item._doc,
@@ -284,6 +249,48 @@ class IconfontSevice extends Service {
             res.data = collection
             return res
         }else{
+            let query = {
+                public: true,
+                isDeleted: false
+            }
+            if(data.iconColorType) query.iconColorType = data.iconColorType
+            if(data.iconColorType === "0,1") query.iconColorType = { $in: [ "0", "1" ] }
+            let sort = {_id: -1}
+            if(data.name){
+                let query1 = {
+                    ...query,
+                    CH_Name: {$regex: `^${data.name}`, $options:'i'}, 
+                }
+                let query2 = {
+                    ...query,
+                    CH_Name: {$regex: `${data.name}`, $options:'i'},
+                }
+                sort = {CH_Name: 1}
+                let countTyle = 1
+                let l1 = ctx.model.Iconfont.find(query1).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
+                let l2 = ctx.model.Iconfont.find(query2).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
+                let p1 = ctx.model.Iconfont.countDocuments(query1)
+                let p2 = ctx.model.Iconfont.countDocuments(query2)
+                let [list, list2, total1, total2] = await Promise.all([l1, l2, p1, p2])
+                if(list.length < data.pageSize){
+                    let a = [],b = []
+                    list2.forEach(item => {
+                        if(item.CH_Name === data.name){
+                            a.push(item)
+                        }else{
+                            b.push(item)
+                        }
+                    });
+                    list = [...a, ...b]
+                    countTyle = 2
+                }
+    
+                res.data = list
+                res.code = 1;
+                res.msg = '查询成功';
+                res.total = countTyle === 1 ? total1 : total2
+                return res
+            }
             let l1 = ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
             let l2 =  data.iconColorType ||  query.type ? ctx.model.Iconfont.countDocuments(query) : ctx.model.Iconfont.estimatedDocumentCount()
             let [result, total] = await Promise.all([l1, l2])

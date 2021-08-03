@@ -4,10 +4,10 @@
         <navigation ref="navigation" @searchIcons="searchIcons" @deleteSelectIcon="deleteSelectIcon"></navigation>
         <div class="m-search center-search">
           <div class="item">
-            <el-input size="medium" class="search" v-model="searchName" placeholder="请输入图标关键词" @keyup.enter.prevent="querySearch($event)"  clearable>
+            <el-input size="medium" class="search" v-model="searchName" :placeholder="boxType === '1' ? '请输入图标关键词' : '请输入图标库关键词'" @keyup.enter.prevent="querySearch($event)"  clearable>
               <template #append><el-button size="medium" icon="el-icon-search" @click="querySearch('click')"></el-button></template>
             </el-input>
-            <span class="u-icons">{{(pageInfo.total+'').replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g,'$1,')}} free icons</span>
+            <span class="u-icons">{{( boxType === '1' ? pageInfo.total + '' : iconsCollectionPageInfo.total + '').replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g,'$1,')}} {{boxType === '1' ? 'free icons' : 'free library'}}</span>
             <div class="m-tab">
                <el-radio-group size="mini" v-model="boxType" @change="changeBoxType">
                     <el-radio-button label="1"><i class="el-icon-s-grid grid"></i></el-radio-button>
@@ -65,23 +65,33 @@
             </el-pagination>
         </div>
         <div class="m-home-box-2" v-if="boxType === '2'" v-loading="loading1">
-            <el-card class="m-block-collection" shadow="hover" v-for="(item, index) in iconsCollection" :key="index">
-              <div class="block-collection">
-                <ul class="clearfix">
-                  <li class="icon-wrap" v-for="(icon, index) in item.icons" :key="index">
-                    <div v-html="icon.content"></div>
-                  </li>
-                </ul>
-                <div class="collection-info mt10">
-                  <span class="f-fl"><i class="opsfont ops-log"></i> {{item.gurop}}</span>
-                  <span class="f-fr">icons <b>{{item.count}}</b></span>
+            <div v-if="iconsCollection.length > 0">
+              <el-card class="m-block-collection" shadow="hover" v-for="(item, index) in iconsCollection" :key="index">
+                <div class="block-collection">
+                  <ul class="clearfix">
+                    <li class="icon-wrap" v-for="(icon, index) in item.icons" :key="index">
+                      <div v-html="icon.content"></div>
+                    </li>
+                  </ul>
+                  <div class="collection-info mt10">
+                    <span class="f-fl"><i class="opsfont ops-log"></i> {{item.gurop}}</span>
+                    <span class="f-fr">icons <b>{{item.count}}</b></span>
+                  </div>
+                  <div class="collection-info mt5">
+                    <span class="f-fl"><el-avatar class="userImg" :size="24" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar> {{item.author}}</span>
+                    <span class="f-fr"><i class="el-icon-time"></i> {{item.createTime}}</span>
+                  </div>
                 </div>
-                <div class="collection-info mt5">
-                  <span class="f-fl"><el-avatar class="userImg" :size="24" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar> {{item.author}}</span>
-                  <span class="f-fr"><i class="el-icon-time"></i> {{item.createTime}}</span>
-                </div>
+              </el-card>
+            </div>
+            <div class="m-tips" v-else>
+              <div>
+                <img src="https://sf3-dycdn-tos.pstatp.com/obj/eden-cn/bqaeh7vhobd/feedback.svg">
               </div>
-            </el-card>
+              <div class="tips">
+                   <span>图标库太少？赶紧去创建图标库</span>
+              </div>
+            </div>
             <el-pagination
               class="m-page"
               @current-change="handleCurrentChange2"
@@ -233,10 +243,16 @@ import $ from 'jquery'
         })
       },
       changeColorType(){
-        this.pageInfo.current = 1
-        this.getIconsList(this.searchName)
+        if(this.boxType === "1"){
+          this.pageInfo.current = 1
+          this.getIconsList(this.searchName)
+        }else if(this.boxType === "2"){
+          this.iconsCollectionPageInfo.current = 1
+          this.getIconsList2()
+        }
       },
       changeBoxType(){
+        this.searchName = ""
         if(this.pageInfo.current != 1){
           this.pageInfo.current = 1
           this.getIconsList(this.searchName)
@@ -252,11 +268,20 @@ import $ from 'jquery'
       },
       getIconsList2(){
         this.loading1 = true
-        iconList({
+        let parames = {
           "pageNum": this.iconsCollectionPageInfo.current,
           "pageSize": this.iconsCollectionPageInfo.pagesize,
           "type": 2
-        }).then(res => {
+        }
+        if(this.colorType === "2"){
+          parames.iconColorType = "4"
+        }else if(this.colorType === "3"){
+          parames.iconColorType = "2"
+        }else if(this.colorType === "4"){
+          parames.iconColorType = "0,1"
+        }
+        if (this.searchName) parames.name = this.searchName
+        iconList(parames).then(res => {
           res.data.forEach(item => {
             item.createTime = Moment(item.updated_at).format("YYYY-MM-DD HH:mm")
           })
@@ -306,15 +331,28 @@ import $ from 'jquery'
         })
       },
       querySearch(e){
-        this.pageInfo.current = 1
-        if(e === "click"){
-           this.getIconsList(this.searchName)
-        }else{
-          let keyCode = window.event ? e.keyCode : e.which;
-          if (keyCode == 13) {
+        if(this.boxType === '1'){
+          this.pageInfo.current = 1
+          if(e === "click"){
             this.getIconsList(this.searchName)
+          }else{
+            let keyCode = window.event ? e.keyCode : e.which;
+            if (keyCode == 13) {
+              this.getIconsList(this.searchName)
+            }
+          }
+        }else{
+          this.iconsCollectionPageInfo.current = 1
+          if(e === "click"){
+            this.getIconsList2(this.searchName)
+          }else{
+            let keyCode = window.event ? e.keyCode : e.which;
+            if (keyCode == 13) {
+              this.getIconsList2(this.searchName)
+            }
           }
         }
+        
       },
       handleCurrentChange(val){
         this.pageInfo.current = val
