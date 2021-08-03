@@ -13,9 +13,9 @@ log4js.configure({
             pattern: 'yyyy-MM-dd.log',
             alwaysIncludePattern: true
         },
-        err: {  //错误日志
+        error: {  //错误日志
             type: 'dateFile',
-            filename: 'logs/task/err',
+            filename: 'logs/task/error',
             pattern: 'yyyy-MM-dd.log',
             alwaysIncludePattern: true
         },
@@ -30,7 +30,7 @@ log4js.configure({
     categories: {
         //appenders:采用的appender,取appenders项,level:设置级别
         default: { appenders: ['stdout', 'info'], level: 'debug' },
-        err: { appenders: ['stdout', 'err'], level: 'error' },
+        error: { appenders: ['stdout', 'error'], level: 'error' },
     }
 });
 
