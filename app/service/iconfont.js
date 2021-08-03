@@ -38,6 +38,8 @@ class IconfontSevice extends Service {
         }
 
         let d = []
+        let type = data.type
+        data = data.data
         for(let index in data){
             let item = data[index]
             let iconRes = await ctx.model.Iconfont.find({
@@ -50,14 +52,16 @@ class IconfontSevice extends Service {
                     unicode: iconId
                 })
             }else{// 修改数据
-                let ENG_Name = item.ENG_Name
-                if(item.ENG_Name === "other"){
-                    ENG_Name = iconRes[0].ENG_Name ? iconRes[0].ENG_Name: "other"
+                if(type != 1){
+                    let ENG_Name = item.ENG_Name
+                    if(item.ENG_Name === "other"){
+                        ENG_Name = iconRes[0].ENG_Name ? iconRes[0].ENG_Name: "other"
+                    }
+                    await ctx.model.Iconfont.updateOne({id: item.id}, {
+                        ...item,
+                        ENG_Name
+                    })
                 }
-                await ctx.model.Iconfont.updateOne({id: item.id}, {
-                    ...item,
-                    ENG_Name
-                })
             }
         }
         if(d.length){
@@ -284,17 +288,21 @@ class IconfontSevice extends Service {
                     list = [...a, ...b]
                     countTyle = 2
                 }
-    
+                let total = countTyle === 1 ? total1 : total2
+                if(total === 0){
+                    //https://www.iconfont.cn/search/index?q=%E8%89%B2%E5%B7%AE
+                }
                 res.data = list
                 res.code = 1;
                 res.msg = '查询成功';
-                res.total = countTyle === 1 ? total1 : total2
+                res.total = total
                 return res
             }
+
             let l1 = ctx.model.Iconfont.find(query).skip(data.pageSize * (data.pageNum - 1)).limit(parseInt(data.pageSize)).sort(sort);
             let l2 =  data.iconColorType ||  query.type ? ctx.model.Iconfont.countDocuments(query) : ctx.model.Iconfont.estimatedDocumentCount()
             let [result, total] = await Promise.all([l1, l2])
-
+            
             res.data = result
             res.code = 1;
             res.msg = '查询成功';

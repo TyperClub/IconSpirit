@@ -38,7 +38,7 @@ class IconfontController extends Controller {
   async add(){
     const { ctx } = this;
     const body = ctx.request.body;
-    const result = await ctx.service.iconfont.add(body.data);
+    const result = await ctx.service.iconfont.add(body);
     ctx.body = result;
   }
 

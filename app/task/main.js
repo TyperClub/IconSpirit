@@ -77,7 +77,7 @@ async function getIconName(name){
     return Eg_names
 }
 
-function requestData(data, url){
+function requestData(data, url, parameter){
     logger.info(`add ${data.length} icon..., url ${url}`)
     request({
         url: iconsAddUrl,
@@ -86,7 +86,8 @@ function requestData(data, url){
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            data: data
+            data: data,
+            ...parameter
         })
     }, function (err, response, body) {
         if (body) {
@@ -105,7 +106,7 @@ function requestData(data, url){
                         logger.info(`add ${data.length} icon of data successfully, url ${url}，返回：${d.msg}`)
                     }
                 }else{
-                    logger.error(`添加失败，返回参数：${d} url：${url}`)
+                    logger.error(`添加失败，返回参数：${body} url：${url}`)
                 }
            } catch (error) {
                 logger.error(`添加失败：${error} url： ${url}`)
@@ -210,8 +211,156 @@ class RunTask {
       });
     }
 
+    async queryName(num, queryName, pageCount){
+        const browser = await puppeteer.launch({
+            headless: process.argv[2] === 'fat'? true: false,
+            args: [
+                // '--proxy-server=http://101.89.158.216:28100',
+                '--ignore-certificate-errors',
+                '--ignore-certificate-errors-spki-list',
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-gpu',
+                '--disable-dev-shm-usage'
+            ]
+        });
+
+    //   await page.authenticate({
+    //     username: "p307",
+    //     password: "p3071",
+    //   });
+     
+
+      try {
+        await this.openQuery(browser, `https://www.iconfont.cn/search/index?page=1&q=${queryName}`, 1)
+      } catch (error) {
+        logger.error(`page goto is error: ${error}`)
+        await browser.close();
+      }
+      
+      browser.on('targetdestroyed', async target => {
+        const openPages = await browser.pages();
+        let pageList = []
+        openPages.forEach(item => {
+            pageList.push(item.url())
+        })
+        logger.info('targetdestroyed event，Open pages:', openPages.length, pageList);
+        if (openPages.length == 1) {
+          logger.info('Closing empty browser');
+          await browser.close();
+          logger.info('Browser closed');
+          new RunTask().queryName(++num, queryName)
+        }
+      });
+    }
+
+    async openQuery (browser, url, itemIndex){
+        let page = await browser.newPage();
+        await page.setUserAgent(
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36'
+        );
+        await page._client.send('Network.enable', {
+            maxResourceBufferSize: 1024 * 1024 * 150, // 150Mb
+            maxTotalBufferSize: 1024 * 1024 * 300, // 300mb
+        })
+        await page.setDefaultNavigationTimeout(0);//将浏览器响应时间改为无限长,默认为30秒
+
+        let results = {} // collects all results
+
+        let paused = false;
+        let pausedRequests = [];
+
+        const nextRequest = () => { // continue the next request or "unpause"
+            if (pausedRequests.length === 0) {
+                paused = false;
+            } else {
+                // continue first request in "queue"
+                (pausedRequests.shift())(); // calls the request.continue function
+            }
+        };
+
+        await page.setRequestInterception(true);
+        page.on('request', request => {
+            if (paused) {
+                pausedRequests.push(() => request.continue());
+            } else {
+                paused = true; // pause, as we are processing a request now
+                request.continue();
+            }
+        });
+
+        page.on('requestfinished', async (request) => {
+            if(/https:\/\/www.iconfont.cn\/api\/icon\/search\.json/.test(request.url())){
+                const response = await request.response();
+                let responseBody;
+                if (request.redirectChain().length === 0) {
+                    // body can only be access for non-redirect responses
+                    responseBody = await response.json();
+                }
+                results = {
+                    url: request.url(),
+                    responseBody,
+                };
+            }
+            nextRequest(); // continue with next request
+        });
+        page.on('requestfailed', (request) => {
+            // handle failed request
+            nextRequest();
+        });
+
+
+        await page.goto(url, {
+            waitUntil: 'networkidle0'
+        })
+        await page.waitForTimeout(3000*itemIndex);
+        if(results.responseBody && results.responseBody.code == 200){
+            let res = results.responseBody.data
+            let data = []
+            let CH_Names = []
+            for(let index in res.icons){
+                let obj = res.icons[index]
+                let CH_Name = getBeforeValidationName(obj.name)
+                CH_Names.push(CH_Name)
+            }
+            
+            for(let index in res.icons){
+                let obj = res.icons[index]
+                let $ = cheerio.load(obj.show_svg);
+                let content = $("svg").removeAttr('style').prop("outerHTML");
+                // let ENG_Name = ENG_Names[index]
+                logger.info(index, obj.name)
+                let item = {
+                    id: `J_icon_id_${obj.id}`,
+                    type: "alibaba",
+                    gurop: "alibaba",
+                    guropType: "3",
+                    author: "alibaba",
+                    CH_Name: obj.name,
+                    ENG_Name: obj.font_class || 'other',
+                    unicodeAlibaba: obj.unicode,
+                    slug: obj.slug,
+                    iconColorType: this.iconColorType,
+                    createTime: new Date(),
+                    content: content
+                }
+                data.push(item)
+            }
+            requestData(data, url, {type: 1})
+        }else{
+            logger.error(`获取失败 results： ${results} url：${url}`)
+        }
+        
+        await page.waitForTimeout(1000);
+        await page.close()
+        process.exit(1)
+    }
+
     async open (browser, url, itemIndex){
         let page = await browser.newPage();
+        await page.setUserAgent(
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36'
+        );
         await page._client.send('Network.enable', {
             maxResourceBufferSize: 1024 * 1024 * 150, // 150Mb
             maxTotalBufferSize: 1024 * 1024 * 300, // 300mb
@@ -292,6 +441,7 @@ class RunTask {
                     id: `J_icon_id_${obj.id}`,
                     type: "alibaba",
                     gurop: res.collection.name,
+                    guropType: "2",
                     author: res.creator.nickname,
                     CH_Name: obj.name,
                     ENG_Name: ENG_Name || 'other',
@@ -316,4 +466,6 @@ class RunTask {
     }
 }
 
-new RunTask().main(1,4,383)
+// new RunTask().main(1,4,383)
+
+new RunTask().queryName(1, "a", 1)

@@ -42,7 +42,7 @@ module.exports = app => {
     iconColorType: { //0 官网, 1 个人, 2 单色，4 多色
       type: String,
     },
-    guropType: {    //1 我的上传 2 图标库
+    guropType: {    //1 我的上传 2 图标库 3 阿里个人上传
       type: String,
       required: true,
     },
