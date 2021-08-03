@@ -211,7 +211,7 @@ class RunTask {
       });
     }
 
-    async queryName(num, queryName, pageCount){
+    async queryName(num, queryName){
         const browser = await puppeteer.launch({
             headless: process.argv[2] === 'fat'? true: false,
             args: [
@@ -467,5 +467,7 @@ class RunTask {
 }
 
 // new RunTask().main(1,4,383)
-
-new RunTask().queryName(1, "a", 1)
+let arguments = process.argv.splice(2)
+if(arguments.length){
+    new RunTask().queryName(1, arguments[0])
+}

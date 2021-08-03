@@ -3,6 +3,8 @@ const Service = require('egg').Service
 const FontCarrier = require('@icons/font-carrier')
 const Oss = require('../util/oss')
 const configOss = require('../config/oss_config');
+const {exec} = require('child_process')
+
 const { InitCssStyle, addItemStyle, transfer } = require('../util/cssStyle')
 const fs = require('fs')
 const path = require('path')
@@ -289,9 +291,8 @@ class IconfontSevice extends Service {
                     countTyle = 2
                 }
                 let total = countTyle === 1 ? total1 : total2
-                if(total === 0){
-                    //https://www.iconfont.cn/search/index?q=%E8%89%B2%E5%B7%AE
-                }
+                exec(`node ${path.resolve(__dirname, '../task/main.js')} ${data.name}`)
+
                 res.data = list
                 res.code = 1;
                 res.msg = '查询成功';
