@@ -212,6 +212,9 @@ class RunTask {
     }
 
     async queryName(num, queryName){
+        
+     
+      try {
         const browser = await puppeteer.launch({
             headless: process.argv[2] === 'fat'? true: false,
             args: [
@@ -225,35 +228,27 @@ class RunTask {
             ]
         });
 
-    //   await page.authenticate({
-    //     username: "p307",
-    //     password: "p3071",
-    //   });
-     
-
-      try {
         logger.info(`open https://www.iconfont.cn/search/index?page=1&q=${queryName}`)
         await this.openQuery(browser, `https://www.iconfont.cn/search/index?page=1&q=${queryName}`, 1)
+
+        browser.on('targetdestroyed', async target => {
+            const openPages = await browser.pages();
+            let pageList = []
+            openPages.forEach(item => {
+                pageList.push(item.url())
+            })
+            logger.info('targetdestroyed event，Open pages:', openPages.length, pageList);
+            if (openPages.length == 1) {
+              logger.info('Closing empty browser');
+              await browser.close();
+              logger.info('Browser closed');
+              new RunTask().queryName(++num, queryName)
+            }
+          });
       } catch (error) {
         console.log(`page goto is error: ${error}`)
         logger.error(`page goto is error: ${error}`)
-        await browser.close();
       }
-      
-      browser.on('targetdestroyed', async target => {
-        const openPages = await browser.pages();
-        let pageList = []
-        openPages.forEach(item => {
-            pageList.push(item.url())
-        })
-        logger.info('targetdestroyed event，Open pages:', openPages.length, pageList);
-        if (openPages.length == 1) {
-          logger.info('Closing empty browser');
-          await browser.close();
-          logger.info('Browser closed');
-          new RunTask().queryName(++num, queryName)
-        }
-      });
     }
 
     async openQuery (browser, url, itemIndex){
