@@ -1,3 +1,3 @@
-const {exec} = require('child_process')
+const {execSync} = require('child_process')
 
-exec("node ./main.js ll a")
+execSync("node ./main.js ll a")
