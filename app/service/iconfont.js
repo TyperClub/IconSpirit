@@ -293,7 +293,7 @@ class IconfontSevice extends Service {
                 }
                 let total = countTyle === 1 ? total1 : total2
                 // exec(`node ${path.resolve(__dirname, '../task/main.js')} ${this.app.env} ${data.name}`)
-                new RunTask().queryName(1, data.name, this.app.env)
+                // new RunTask().queryName(1, data.name, this.app.env)
                 res.data = list
                 res.code = 1;
                 res.msg = '查询成功';
