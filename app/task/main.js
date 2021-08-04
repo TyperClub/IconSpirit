@@ -5,6 +5,8 @@ const rp  = require('request-promise');
 const MD5  = require('./md5');
 const log4js = require('./log');
 const shell = require('shelljs');
+const puppeteerPool = require('../util/puppeteer-pool');
+
 
 const logger = log4js.getLogger();
 
@@ -216,46 +218,52 @@ class RunTask {
         
      
       try {
-        const browser = await puppeteer.launch({
-            headless: process.argv[2] === 'fat'? true: false,
-            args: [
-                // '--proxy-server=http://101.89.158.216:28100',
-                '--ignore-certificate-errors',
-                '--ignore-certificate-errors-spki-list',
-                '--no-sandbox',
-                '--single-process',
-                '--no-zygote',
-                '--disable-setuid-sandbox',
-                '--disable-gpu',
-                '--disable-dev-shm-usage'
-            ]
-        });
+        // const browser = await puppeteer.launch({
+        //     headless: process.argv[2] === 'fat'? true: false,
+        //     args: [
+        //         // '--proxy-server=http://101.89.158.216:28100',
+        //         '--ignore-certificate-errors',
+        //         '--ignore-certificate-errors-spki-list',
+        //         '--no-sandbox',
+        //         '--single-process',
+        //         '--no-zygote',
+        //         '--disable-setuid-sandbox',
+        //         '--disable-gpu',
+        //         '--disable-dev-shm-usage'
+        //     ]
+        // });
 
-        logger.info(`open https://www.iconfont.cn/search/index?page=1&q=${queryName}`)
-        await this.openQuery(browser, `https://www.iconfont.cn/search/index?page=1&q=${queryName}`, 1, env)
+        puppeteerPool().use(async(instance) => {
+            const page = await instance.use()
+            // await page.goto("http://www.baidu.com")
+            logger.info(`open https://www.iconfont.cn/search/index?page=1&q=${queryName}`)
+            await this.openQuery(page, `https://www.iconfont.cn/search/index?page=1&q=${queryName}`, 1, env)
+        })
 
-        browser.on('targetdestroyed', async target => {
-            const openPages = await browser.pages();
-            let pageList = []
-            openPages.forEach(item => {
-                pageList.push(item.url())
-            })
-            logger.info('targetdestroyed event，Open pages:', openPages.length, pageList);
-            if (openPages.length == 1) {
-              logger.info('Closing empty browser');
-              await browser.close();
-              logger.info('Browser closed');
-              new RunTask().queryName(++num, queryName)
-            }
-          });
+        
+
+        // browser.on('targetdestroyed', async target => {
+        //     const openPages = await browser.pages();
+        //     let pageList = []
+        //     openPages.forEach(item => {
+        //         pageList.push(item.url())
+        //     })
+        //     logger.info('targetdestroyed event，Open pages:', openPages.length, pageList);
+        //     if (openPages.length == 1) {
+        //       logger.info('Closing empty browser');
+        //       await browser.close();
+        //       logger.info('Browser closed');
+        //       new RunTask().queryName(++num, queryName)
+        //     }
+        //   });
       } catch (error) {
         console.log(`page goto is error: ${error}`)
         logger.error(`page goto is error: ${error}`)
       }
     }
 
-    async openQuery (browser, url, itemIndex, env){
-        let page = await browser.newPage();
+    async openQuery (page, url, itemIndex, env){
+        // let page = await browser.newPage();
         await page.setUserAgent(
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36'
         );

@@ -36,6 +36,7 @@
     "egg-scripts": "^2.11.0",
     "egg-validate": "^1.0.0",
     "element-plus": "^1.0.2-beta.48",
+    "generic-pool": "^3.8.2",
     "jquery": "^3.6.0",
     "jsonwebtoken": "^8.5.1",
     "ldap-authentication": "^2.2.7",
