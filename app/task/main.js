@@ -128,8 +128,6 @@ class RunTask {
                 '--ignore-certificate-errors',
                 '--ignore-certificate-errors-spki-list',
                 '--no-sandbox',
-                '--user-data-dir',
-                '--disable-setuid-sandbox',
                 '--disable-gpu',
                 '--disable-dev-shm-usage'
             ]
