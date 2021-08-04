@@ -1,4 +1,5 @@
 const log4js = require('log4js');
+const path = require('path')
 
 log4js.configure({
     replaceConsole: true,
@@ -9,19 +10,19 @@ log4js.configure({
         },
         info: {  //请求转发日志
             type: 'dateFile',    //指定日志文件按时间打印
-            filename: 'logs/task/info',  //指定输出文件路径
+            filename: path.resolve(__dirname, '../../logs/task/info'),  //指定输出文件路径
             pattern: 'yyyy-MM-dd.log',
             alwaysIncludePattern: true
         },
         error: {  //错误日志
             type: 'dateFile',
-            filename: 'logs/task/error',
+            filename: path.resolve(__dirname, '../../logs/task/error'),
             pattern: 'yyyy-MM-dd.log',
             alwaysIncludePattern: true
         },
         oth: {  //其他日志
             type: 'dateFile',
-            filename: 'logs/othlog/oth',
+            filename: path.resolve(__dirname, '../../logs/task/oth'),
             pattern: 'yyyy-MM-dd.log',
             alwaysIncludePattern: true
         }
