@@ -4,6 +4,7 @@ const request = require('request')
 const rp  = require('request-promise');
 const MD5  = require('./md5');
 const log4js = require('./log');
+const shell = require('shelljs');
 
 const logger = log4js.getLogger();
 
@@ -77,10 +78,10 @@ async function getIconName(name){
     return Eg_names
 }
 
-function requestData(data, url, parameter){
+function requestData(data, url, parameter, env){
     logger.info(`add ${data.length} icon..., url ${url}`)
     request({
-        url: iconsAddUrl,
+        url: env === 'fat' ? 'http://10.111.247.210:8080/api/v1/iconfont/add' : iconsAddUrl,
         method:'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -211,7 +212,7 @@ class RunTask {
       });
     }
 
-    async queryName(num, queryName){
+    async queryName(num, queryName, env){
         
      
       try {
@@ -231,7 +232,7 @@ class RunTask {
         });
 
         logger.info(`open https://www.iconfont.cn/search/index?page=1&q=${queryName}`)
-        await this.openQuery(browser, `https://www.iconfont.cn/search/index?page=1&q=${queryName}`, 1)
+        await this.openQuery(browser, `https://www.iconfont.cn/search/index?page=1&q=${queryName}`, 1, env)
 
         browser.on('targetdestroyed', async target => {
             const openPages = await browser.pages();
@@ -253,7 +254,7 @@ class RunTask {
       }
     }
 
-    async openQuery (browser, url, itemIndex){
+    async openQuery (browser, url, itemIndex, env){
         let page = await browser.newPage();
         await page.setUserAgent(
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36'
@@ -345,14 +346,14 @@ class RunTask {
                 }
                 data.push(item)
             }
-            requestData(data, url, {type: 1})
+            requestData(data, url, {type: 1}, env)
         }else{
             logger.error(`获取失败 results： ${results} url：${url}`)
         }
         
         await page.waitForTimeout(1000);
         await page.close()
-        process.exit(1)
+        shell.exec('pkill chrome')
     }
 
     async open (browser, url, itemIndex){
@@ -466,8 +467,10 @@ class RunTask {
 }
 
 // new RunTask().main(1,4,383)
-let arguments = process.argv.splice(2)
-if(arguments.length){
-    logger.info(`执行 RunTask queryName ${arguments}`)
-    new RunTask().queryName(1, arguments[1])
-}
+// let arguments = process.argv.splice(2)
+// if(arguments.length){
+//     logger.info(`执行 RunTask queryName ${arguments}`)
+//     new RunTask().queryName(1, arguments[1])
+// }
+
+module.exports = RunTask

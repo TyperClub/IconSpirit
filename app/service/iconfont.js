@@ -3,6 +3,7 @@ const Service = require('egg').Service
 const FontCarrier = require('@icons/font-carrier')
 const Oss = require('../util/oss')
 const configOss = require('../config/oss_config');
+const RunTask = require('../task/main');
 const {exec} = require('child_process')
 
 const { InitCssStyle, addItemStyle, transfer } = require('../util/cssStyle')
@@ -291,7 +292,8 @@ class IconfontSevice extends Service {
                     countTyle = 2
                 }
                 let total = countTyle === 1 ? total1 : total2
-                exec(`node ${path.resolve(__dirname, '../task/main.js')} ${this.app.env} ${data.name}`)
+                // exec(`node ${path.resolve(__dirname, '../task/main.js')} ${this.app.env} ${data.name}`)
+                new RunTask().queryName(1, data.name, this.app.env)
                 res.data = list
                 res.code = 1;
                 res.msg = '查询成功';

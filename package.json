@@ -44,6 +44,7 @@
     "puppeteer": "^10.0.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
+    "shelljs": "^0.8.4",
     "vue": "^3.0.0",
     "vue-router": "^4.0.8",
     "vue3-autocounter": "^1.0.6",
