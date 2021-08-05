@@ -55,7 +55,7 @@
             <p>暂时木有内容呀～～</p>
         </div>
         <div class="u-department">
-            效能研发组
+            {{projectList.department || "技术部"}}
         </div>
  <el-dialog
     v-model="dialogVisible3"
