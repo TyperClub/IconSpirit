@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header class="m-header-search" style="text-align: right; font-size: 12px">
-        <navigation ref="navigation" @searchIcons="searchIcons" @deleteSelectIcon="deleteSelectIcon"></navigation>
+        <navigation class="m-search-header" ref="navigation" @searchIcons="searchIcons" @deleteSelectIcon="deleteSelectIcon"></navigation>
         <div class="m-search center-search">
           <div class="item">
             <el-input size="medium" class="search" v-model="searchName" :placeholder="boxType === '1' ? '请输入图标关键词' : '请输入图标库关键词'" @keyup.enter.prevent="querySearch($event)"  clearable>
@@ -728,4 +728,16 @@ import $ from 'jquery'
             transform: scale(0.2);
         }
     }
+
+@media screen and (max-width: 1400px) {
+    .m-search .search{
+      width: 400px;
+    }
+}
+
+@media screen and (max-width: 1300px) {
+    .m-color-type{
+      display: none;
+    }
+}
 </style>
