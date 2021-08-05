@@ -80,4 +80,10 @@ html, body {
       display: none;
     }
 }
+
+@media screen and (max-width: 990px) {
+    .u-menu-nav{
+      display: none;
+    }
+}
 </style>
