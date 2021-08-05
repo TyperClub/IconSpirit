@@ -75,7 +75,7 @@ html, body {
   fill: currentColor;
   overflow: hidden;
 }
-@media screen and (max-width: 1240px) {
+@media screen and (max-width: 1250px) {
     .m-nav-search{
       display: none;
     }
