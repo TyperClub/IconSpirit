@@ -165,6 +165,8 @@ export default {
                                     }
                                 })
                             }
+                        }).catch(err => {
+                            this.$message.error(err.error)
                         })
                     }else{
                         return false;

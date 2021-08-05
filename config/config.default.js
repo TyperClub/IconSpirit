@@ -30,7 +30,12 @@ module.exports = appInfo => {
       ignoreJSON: true, // 默认为 false，当设置为 true 时，将会放过所有 content-type 为 `application/json` 的请求
     },
     // 允许访问接口的白名单
-    domainWhiteList: [ 'http://localhost:3000' ]
+    domainWhiteList: [ 'http://localhost:8080' ]
+  };
+
+  config.cors = {
+    origin: '*', // 匹配规则  域名+端口  *则为全匹配
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
   };
 
     // 加密盐

@@ -339,7 +339,7 @@ class IconfontSevice extends Service {
             let unicode16 = unicode.toString(16)
             let className = res.prefix + item.ENG_Name
             cssStyle.push(addItemStyle(className, unicode16))
-            font.setSvg(`&#x${unicode16};`, item.content)
+            font.setSvg(`&#x${unicode16};`, item.content) // 设置 svg
         }
 
         // fs.writeFile(path.resolve(__dirname, '../../test/font.css'), cssStyle.join(''), { encoding: 'utf8' }, err => {})
