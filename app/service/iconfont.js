@@ -240,7 +240,7 @@ class IconfontSevice extends Service {
             let icons = await Promise.all(request)
             let collection = []
             let i = 0
-            let len = iconfontCollectionCount > 9 ? 9 : iconfontCollectionCount
+            let len = iconfontCollection.length > 9 ? 9 : iconfontCollection.length
             for(let index in icons){
                 if(index >= len){
                     let item = iconfontCollection[i]
