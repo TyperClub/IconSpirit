@@ -423,6 +423,18 @@ class IconfontSevice extends Service {
             this.ctx.throw(500, e);
         }        
     }
+
+    async collectionIcons(data){
+        const { ctx } = this;
+        try{
+            let res = await ctx.model.Iconfont.find({
+                collectionId: data.id
+            })
+            return res
+        }catch(e){
+            this.ctx.throw(500, e);
+        }
+    }
 }
 
 module.exports = IconfontSevice

@@ -28,6 +28,14 @@ const router = createRouter({
       }
     },
     {
+      path: '/detail',
+      name: 'detail',
+      component: () => import('../components/Detail'),
+      meta: {
+        index: 1
+      }
+    },
+    {
       path: '/projects',
       name: 'projects',
       component: () => import('../components/Projects'),

@@ -9,6 +9,7 @@ const downloadCssFile = params => http.get(`/api/v1/iconfont/fontCss/download?_t
 const deleteIcons = query => http.post(`/api/v1/iconfont/delete`, query)
 const editIcons = query => http.post("/api/v1/iconfont/edit", query)
 const publicIcons = query => http.post("/api/v1/iconfont/public", query)
+const getCollectionIcons = params => http.get(`/api/v1/iconfont/collection/icons`, params)
 
 const createProjects = params => http.post('/api/v1/project/create', params)
 const editProjects = params => http.post('/api/v1/project/edit', params)
@@ -37,6 +38,7 @@ const getLatelyHistory =  params => http.get(`/api/v1/history/lately?_t=${Date.n
 export {
     downloadCssFile,
     iconList,
+    getCollectionIcons,
     myUploadIcons,
     deleteIcons,
     editIcons,

@@ -101,6 +101,16 @@ class IconfontController extends Controller {
         res: result
     })
   }
+
+  async collectionIcons(){
+    const { ctx } = this;
+    const body = ctx.query;
+    const result = await ctx.service.iconfont.collectionIcons(body);
+    ctx.helper.success({
+        ctx,
+        res: result
+    })
+  }
 }
 
 module.exports = IconfontController;

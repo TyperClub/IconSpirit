@@ -68,7 +68,7 @@
             <div v-if="iconsCollection.length > 0">
               <el-card class="m-block-collection" shadow="hover" v-for="(item, index) in iconsCollection" :key="index">
                 <div class="block-collection">
-                  <ul class="clearfix">
+                  <ul class="clearfix block-collection-icons" @click="openCollection(item)">
                     <li class="icon-wrap" v-for="(icon, index) in item.icons" :key="index">
                       <div v-html="icon.content"></div>
                     </li>
@@ -174,7 +174,7 @@ import $ from 'jquery'
       this.getIconsList2()
     },
     methods: {
-       beforeEnter(el) {
+      beforeEnter(el) {
             // 设置transform值
             el.style.opacity = 0;
             el.style.transform = 'translate(0, 0)'
@@ -373,6 +373,14 @@ import $ from 'jquery'
         }else{
             this.$router.push("upload")
         }
+      },
+      openCollection(item){
+        this.$router.push({
+            name: 'detail',
+            query: {
+                collectionId: item.collectionId
+            }
+        })
       }
     },
     components: {
@@ -633,6 +641,9 @@ import $ from 'jquery'
       float: left;
       margin-top: 14px;
       margin-left: 11px;
+    }
+    .block-collection-icons{
+      cursor: pointer;
     }
     .collection-info{
       overflow: hidden;
