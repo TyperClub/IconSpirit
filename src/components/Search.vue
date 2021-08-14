@@ -138,12 +138,13 @@ import $ from 'jquery'
       if(document.body.clientHeight >= 1100){
         pagesize = 66
       }
+      let boxType = this.$route.query.type ? this.$route.query.type : "1"
       return {
         loading: false,
         loading1: false,
         activeIndex: '2',
         colorType: "1",
-        boxType: "1",
+        boxType,
         searchName: this.$route.query.search,
         tableData: [],
         iconsCollection: [],
@@ -270,6 +271,12 @@ import $ from 'jquery'
           this.iconsCollectionPageInfo.current = 1
           this.getIconsList2()
         }
+        this.$router.push({
+            name: 'search',
+            query: {
+                type: this.boxType
+            }
+        })
       },
       handleCurrentChange2(val){
         this.iconsCollectionPageInfo.current = val

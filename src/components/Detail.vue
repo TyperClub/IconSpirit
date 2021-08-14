@@ -7,13 +7,20 @@
             <div class="m-content" v-loading="loading">
                 <div class="m-user">
                     <div class="m-row-user">
-                        <div class="user-logo">
-                            <el-avatar class="logo" :size="100" :src="circleUrl"></el-avatar>
+                        <div class="u-nav">
+                            <span class="main-nav" @click="goBack"> <i class="opsfont ops-report"></i> <b>图标库</b></span>
+                            <i class="el-icon-arrow-right arrow-right"></i>
+                            <span> {{tableData.length && tableData[0].gurop || ""}}</span>
                         </div>
-                        <div class="user-info">
-                            <div>{{tableData.length && tableData[0].gurop || "集合图标"}}</div>
-                            <p class="f-size-14">{{tableData.length}} icons</p>
-                            <p class="f-size-14">{{tableData.length && tableData[0].author}}</p>
+                        <div class="m-row-user-info">
+                            <div class="user-logo">
+                                <el-avatar class="logo" :size="100" :src="circleUrl"></el-avatar>
+                            </div>
+                            <div class="user-info">
+                                <div>{{tableData.length && tableData[0].gurop || "" }}</div>
+                                <p class="f-size-14">{{tableData.length}} icons</p>
+                                <p class="f-size-14">{{tableData.length && tableData[0].author}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -51,6 +58,7 @@
                   v-if="item" :style="{top:elTop+'px',left:elLeft+'px'}" v-html="imgUrl">
             </div>
         </transition>
+        <el-backtop></el-backtop>
     </el-container>
 </template>
 
@@ -161,6 +169,14 @@ export default {
           }
         })
       },
+      goBack(){
+          this.$router.push({
+            name: 'search',
+            query: {
+                type: "2"
+            }
+        })
+      }
     },
     components: {
         Navigation
@@ -186,13 +202,37 @@ export default {
     background: #f9f9f9;
     padding: 90px 0 30px;
 }
+
+.u-nav{
+    font-size: 14px;
+    .ops-report{
+        color: #666;
+        font-size: 14px;
+    }
+    .arrow-right{
+        font-size: 14px;
+        padding: 0 6px;
+    }
+    .main-nav{
+        top: -1px;
+        position: relative;
+        cursor: pointer;
+        *{
+            vertical-align: middle;
+        }
+    }
+}
+
 .m-row-user{
-    display: flex;
-    align-items: center;
     z-index: 2;
     position: relative;
     max-width: 1200px;
-    margin: 32px auto auto;
+    margin: 0 auto;
+    .m-row-user-info{
+        padding-top: 30px;
+        display: flex;
+        align-items: center;
+    }
     .user-logo{
         margin-right: 25px;
         .logo:hover{
