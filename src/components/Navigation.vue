@@ -40,7 +40,7 @@
                 <el-menu-item @click="projects('/search')" index="/search">图标库</el-menu-item>
                 <el-menu-item v-if="!username" @click="projects('/projects')">项目管理</el-menu-item>
                 <el-menu-item v-else @click="projects('/projects')"  index="/projects">项目管理</el-menu-item>
-                <el-menu-item class="u-menu-nav" index="/help">使用指南</el-menu-item>
+                <el-menu-item class="u-menu-nav"  @click="projects('/help')" index="/help">使用指南</el-menu-item>
                 <el-menu-item class="u-menu-nav" @click="projects('/gitlab')" index="/gitlab"><span class="u-gitlab"><i class="opsfont ops-other67b7b"></i> <b>GitLab</b></span></el-menu-item>
             </el-menu>
         </div>
