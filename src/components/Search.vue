@@ -17,7 +17,7 @@
             <div class="m-color-type">
               <el-radio-group size="mini" v-model="colorType" @change="changeColorType">
                     <el-radio-button label="1">所有</el-radio-button>
-                    <el-radio-button label="4">掌门图标</el-radio-button>
+                    <el-radio-button label="4">官网图标</el-radio-button>
                     <el-radio-button label="2">单色图标</el-radio-button>
                     <el-radio-button label="3">多色图标</el-radio-button>
               </el-radio-group>

@@ -4,8 +4,8 @@
     <el-col :span="6">
         <div class="m-logo">
             <a class="home-link" href="#">
-                <img class="logo" :src="logoStatus ? require('../assets/logo_white.png') : require('../assets/logo_black.png')" alt="">
-                <span class="site-name" :class="logoStatus ? 'site-name-white': ''">ICONS</span> 
+                <img class="logo" :src="logoStatus ? require('../assets/IconSpiritd1.png') : require('../assets/IconSpiritd.png')" alt="">
+                <!-- <span class="site-name" :class="logoStatus ? 'site-name-white': ''">IconSpirit</span>  -->
             </a>
         </div>
     </el-col>
@@ -378,7 +378,8 @@ export default {
         line-height: 28px;
         margin: 0 .8rem 0 2.4rem;
         vertical-align: middle;
-        top: -4px;
+        top: 16px;
+        image-rendering: crisp-edges;
         position: relative;
     }
     .site-name{

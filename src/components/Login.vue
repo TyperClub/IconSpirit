@@ -1,7 +1,8 @@
 <template>
     <div class="login-content">
         <h1 class="title">
-            <img class="logo" src="../assets/logo1.png" alt="">
+            <img class="logo" src="../assets/IconSpiritd.png" alt="">
+            <p>这里有你需要的图标，也有属于你的风格~</p>
         </h1>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" size="meddle" class="login-form">
             <el-form-item prop="account">
@@ -73,10 +74,18 @@ export default {
 <style lang="less" scoped>
 .login-content{
     .title{
-        padding-bottom: 40px;
-        display: flex;
-        align-items: center;
+        padding-bottom: 20px;
+        text-align: center;
         justify-content: center;
+        .logo{
+            display: inline-block;
+            height: 32px;
+        }
+        p{
+            font-size: 14px;
+            font-weight: normal;
+            padding-top: 10px;
+        }
     }
     .submit-btn{
         width: 100%;

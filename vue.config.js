@@ -19,7 +19,7 @@ module.exports = {
   },
   chainWebpack: config => {
     config.plugin('html').tap(args => {
-      args[0].title = '掌门 ICONS'
+      args[0].title = 'IconSpirit'
       return args
     })
   },
