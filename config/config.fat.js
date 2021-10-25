@@ -10,7 +10,7 @@ module.exports = {
     },
     mongoose: {
         client: {
-            url: consulConfig.mongoose.url,
+            url: consulConfig ? consulConfig.mongoose.url : "mongodb://127.0.0.1:27017/ops-iconfont",
             options: {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
@@ -22,10 +22,15 @@ module.exports = {
         }
     },
     redis: {
-        client: consulConfig.redis
+        client: consulConfig ? consulConfig.redis : {
+            port: 6379,          // Redis port
+            host: '127.0.0.1',   // Redis host
+            password: 'cc',
+            db: 0
+        }
     },
     logger: {
-        dir: '/opt/logs/13654/applog',
+        dir: 'logs',
         coreLogName: 'info.log',
         errorLogName: 'error.log',
     },
