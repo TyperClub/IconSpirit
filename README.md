@@ -28,10 +28,10 @@
 2. 支持上传阿里云 css 样式，反解析，同时生成 css 样式到 oss 仓库
 
 
-#### 部署
+### 部署
 在虚机上 npm run egg:start 启动后端服务器，前端 npm run fat 打包，再部署在服务器就可以了。同时需要配置 redis，mognodb，oss，Ldap 链接地址。同时默认是支持从 consul 获取配置数据信息。
 
-##### mognodb 配置
+#### mognodb 配置
 打开 config/config.local.js 文件，找到 redis 配置
 ```javascript
 exports.mongoose = {
@@ -41,7 +41,7 @@ exports.mongoose = {
     }
 }
 ```
-##### redis 配置
+#### redis 配置
 打开 config/config.local.js 文件，找到 redis 配置
 
 ```javascript
@@ -54,7 +54,7 @@ exports.redis = {
     }
 }
 ```
-##### oss 配置
+#### oss 配置
 生成的字体文件最终会上传到 oss 仓库，所以需要在 app/config/oss_config.js 中找到 OSS_local 或 OSS_local 配置进行修改。
 
 ```javascript
