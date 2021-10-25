@@ -1,5 +1,5 @@
 const config = require('../config/oss_config');
-const FontCarrier = require('@icons/font-carrier')
+const FontCarrier = require('iconspirit-font-carrier')
 const request = require('request')
 const rp  = require('request-promise');
 const { insertStr, hex2int } = require('./tool')

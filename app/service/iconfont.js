@@ -1,6 +1,6 @@
 // service -> user.js
 const Service = require('egg').Service
-const FontCarrier = require('@icons/font-carrier')
+const FontCarrier = require('iconspirit-font-carrier')
 const Oss = require('../util/oss')
 const configOss = require('../config/oss_config');
 const RunTask = require('../task/main');
