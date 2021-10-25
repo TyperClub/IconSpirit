@@ -5,10 +5,10 @@ const DEFAULT_CONFIG = {
   ldapOpts: {
     url: '',
   },
-  adminDn: consulConfig.ldap?.adminDn,
-  adminPassword: consulConfig.ldap?.adminPassword,
-  userSearchBase: consulConfig.ldap?.userSearchBase,
-  usernameAttribute: consulConfig.ldap?.usernameAttribute,
+  adminDn: consulConfig ? consulConfig.ldap.adminDn: "",
+  adminPassword: consulConfig ? consulConfig.ldap.adminPassword: "",
+  userSearchBase: consulConfig ? consulConfig.ldap.userSearchBase: "",
+  usernameAttribute: consulConfig ? consulConfig.ldap.usernameAttribute : "",
   username: '',
   userPassword: '',
 };
