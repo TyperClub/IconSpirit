@@ -8,8 +8,6 @@
     "egg:restart": "npm run egg:stop && npm run egg:start",
     "egg:dev": "EGG_SERVER_ENV=local egg-bin dev",
     "egg:fat": "EGG_SERVER_ENV=fat egg-bin dev",
-    "egg:uat": "EGG_SERVER_ENV=fat egg-bin dev",
-    "egg:pro": "EGG_SERVER_ENV=fat egg-bin dev",
     "task": "node app/task/main.js",
     "task:fat": "node app/task/main.js fat  >/dev/null 2>log &",
     "serve": "vue-cli-service serve",
