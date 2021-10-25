@@ -8,19 +8,7 @@ if(consulStatus){
     if(!result) console.error("consul request was failure...")
     result = JSON.parse(result.toString())
 }else{
-    result = {
-        oss: {
-            local: {
-                website: "",
-                region: "",
-                accessKeyId: "",
-                accessKeySecret: "",
-                bucket: "",
-                cname: true,
-                path: ""
-            }
-        }
-    }
+    result = false // 未取得 consul 配置，走默认配置
 }
 
 module.exports.consulConfig = result
