@@ -10,7 +10,7 @@ module.exports = {
     },
     mongoose: {
         client: {
-            url: consulConfig ? consulConfig.mongoose.url : "mongodb://127.0.0.1:27017/ops-iconfont",
+            url: consulConfig ? consulConfig.mongoose.url : 'mongodb://root:wslAgWlCc80VsXG7@172.17.78.128:27017/ops-iconfont',//内网地址
             options: {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
@@ -24,7 +24,7 @@ module.exports = {
     redis: {
         client: consulConfig ? consulConfig.redis : {
             port: 6379,          // Redis port
-            host: '127.0.0.1',   // Redis host
+            host: '172.17.78.128',   // Redis host
             password: 'cc',
             db: 0
         }

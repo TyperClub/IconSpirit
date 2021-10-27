@@ -188,7 +188,7 @@ export default {
             }
         },
         feedback(){
-            window.open('https://gitlab.zmaxis.com/zmdevops/ops-iconfont/issues','target','');
+            window.open('https://github.com/Baiang/IconSpirit/issues','target','');
         },
         clearIcons(){
             window.sessionStorage.setItem('ops-icons', '')
@@ -292,7 +292,7 @@ export default {
         },
         projects(name){
             if(name === "/gitlab"){
-                window.open('https://gitlab.zmaxis.com/zmdevops/ops-iconfont','target','');
+                window.open('https://github.com/Baiang/IconSpirit','target','');
                 return
             }
             if(name === "/projects" && !this.username){

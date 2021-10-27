@@ -32,7 +32,7 @@
 在虚机上 npm run egg:start 启动后端服务器，前端 npm run fat 打包，再部署在服务器就可以了。同时需要配置 redis，mognodb，oss，Ldap 链接地址。同时默认是支持从 consul 获取配置数据信息。
 
 #### mognodb 配置
-打开 config/config.local.js 文件，找到 redis 配置
+打开 config/config.local.js 文件，找到 redis 配置。mognodb 请安装 4.2 及以上版本。
 ```javascript
 exports.mongoose = {
     client: {
