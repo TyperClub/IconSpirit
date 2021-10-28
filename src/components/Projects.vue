@@ -148,7 +148,7 @@
     v-model="dialogVisible"
     width="600px"
     :before-close="handleClose">
-        <el-form  :model="form" :rules="rules" ref="form"  label-width="115px">
+        <el-form  :model="form" :rules="rules" ref="form"  label-width="115px" v-loading="submitloading">
             <el-form-item label="项目名称" prop="name">
                 <el-input :class="dialogType !== 'create' ? 'u-input-text-1': ''" size="medium" v-model="form.name" placeholder="请输入项目名" clearable></el-input>
             </el-form-item>
@@ -225,6 +225,7 @@ export default {
         corpCurrent: 0,
         deleteProjectStatus: false,
         delProjects: [],
+        submitloading: false,
         form: {
             name: "",
             description: "",
@@ -333,6 +334,7 @@ export default {
         onSubmit(formName){
             this.$refs[formName].validate((valid) => {
                 if (valid) {
+                    this.submitloading = true
                     if(this.dialogType === "create"){
                         createProjects({
                             ...this.form
@@ -350,6 +352,10 @@ export default {
                                 })
                                 this.getProjects()
                             }
+                            this.submitloading = false
+                        }).catch(err =>{
+                            console.log(err)
+                            this.submitloading = true
                         })
                     }else{
                         editProjects({
@@ -362,6 +368,10 @@ export default {
                                 this.$message.success("修改成功！")
                                 this.getProjects()
                             }
+                            this.submitloading = false
+                        }).catch(err => {
+                            console.log(err)
+                            this.submitloading = true
                         })
                     }
                 } else {
