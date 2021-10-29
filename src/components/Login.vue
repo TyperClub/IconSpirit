@@ -16,7 +16,8 @@
             </el-form-item>
         </el-form>
         <div class="tips">
-            请使用域账号登录 <a href="#" target="_blank;">帮助</a>
+            <p>如需要体验请使用 <span class="f-red">admin/admin</span> 登录</p>
+            <p>在公司内部使用，请接入域账号后进行登录 <a href="#" target="_blank;">帮助</a></p>
         </div>
   </div>
 </template>
@@ -72,6 +73,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.f-red{
+    color: red;
+}
 .login-content{
     .title{
         padding-bottom: 20px;

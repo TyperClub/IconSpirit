@@ -16,8 +16,8 @@ class UserSevice extends Service {
         data = {
           cn: username,
           mail: `${username}@iconspirit.com`,
-          mobile: "137****4034",
-          telephoneNumber: "137***4034",
+          mobile: "13700004034",
+          telephoneNumber: "13700004034",
           title: "研发工程师",
           description: ""
         }
