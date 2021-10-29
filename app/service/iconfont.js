@@ -111,7 +111,7 @@ class IconfontSevice extends Service {
                 let iconId = await this.app.redis.incr("icon_id");
                 let itemData = {
                     id: `zmc-${iconId}`,
-                    type: "zhangmen",
+                    type: "iconspirit",
                     guropType: "1",
                     gurop : "自建",
                     iconColorType: "1",

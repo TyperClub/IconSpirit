@@ -16,7 +16,7 @@
             </el-form-item>
         </el-form>
         <div class="tips">
-            请使用 zmdesk 域账号登录 <a href="http://confluence.zmops.cc/pages/viewpage.action?pageId=36560349" target="_blank;">帮助</a>
+            请使用域账号登录 <a href="#" target="_blank;">帮助</a>
         </div>
   </div>
 </template>

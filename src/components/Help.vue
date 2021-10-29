@@ -56,16 +56,16 @@
           <p>Unicode 使用步骤如下：</p>
           <h3 id="link-preload">第一步：在 HTML 页面为字体增加 preload，提升字体加载速度：</h3>
 
-<pre><code class="language-html">&lt;link rel="preload" href="//t-fat.zmlearn.com/test/font/font_60df06ac9824f66506988086_2.woff2" as="font" type="font/woff2" crossorigin="anonymous"&gt;
+<pre><code class="language-html">&lt;link rel="preload" href="//f.vue2.net/test/font/font_60df06ac9824f66506988086_2.woff2" as="font" type="font/woff2" crossorigin="anonymous"&gt;
 </code></pre>
 
           <h3 id="-font-face">第二步：拷贝项目下面生成的 <code>@font-face</code></h3>
 <pre><code class="language-css"
 >@font-face {
   font-family: 'iconfont';
-  src: url('//t-fat.zmlearn.com/test/font/font_60df06ac9824f66506988086_2.woff2?t=1625055528367') format('woff2'),
-       url('//t-fat.zmlearn.com/test/font/font_60df06ac9824f66506988086_2.woff?t=1625055528367') format('woff'),
-       url('//t-fat.zmlearn.com/test/font/font_60df06ac9824f66506988086_2.ttf?t=1625055528367') format('truetype');
+  src: url('//f.vue2.net/test/font/font_60df06ac9824f66506988086_2.woff2?t=1625055528367') format('woff2'),
+       url('//f.vue2.net/test/font/font_60df06ac9824f66506988086_2.woff?t=1625055528367') format('woff'),
+       url('//f.vue2.net/test/font/font_60df06ac9824f66506988086_2.ttf?t=1625055528367') format('truetype');
 }
 </code></pre>
           <h3 id="-iconfont-">第三步：定义使用 iconfont 的样式</h3>
@@ -141,11 +141,11 @@
         <p>使用步骤如下：</p>
         <h3 id="link-preload">第一步：在 HTML 页面为字体增加 preload，提升字体加载速度：</h3>
 
-<pre><code class="language-html">&lt;link rel="preload" href="//t-fat.zmlearn.com/test/font/font_60df06ac9824f66506988086_2.woff2" as="font" type="font/woff2" crossorigin="anonymous"&gt;
+<pre><code class="language-html">&lt;link rel="preload" href="//f.vue2.net/test/font/font_60df06ac9824f66506988086_2.woff2" as="font" type="font/woff2" crossorigin="anonymous"&gt;
 </code></pre>
 
         <h3 id="-fontclass-">第二步：引入项目下面生成的 fontclass 代码：</h3>
-<pre><code class="language-html">&lt;link rel="stylesheet" href="//t-fat.zmlearn.com/test/font/font_60df06ac9824f66506988086_2.css"&gt;
+<pre><code class="language-html">&lt;link rel="stylesheet" href="//f.vue2.net/test/font/font_60df06ac9824f66506988086_2.css"&gt;
 </code></pre>
         <h3 id="-">第三步：挑选相应图标并获取类名，应用于页面：</h3>
 <pre><code class="language-html">&lt;span class="iconfont icon-xxx"&gt;&lt;/span&gt;

@@ -15,14 +15,15 @@ class UserSevice extends Service {
       if(username == "admin" && password == "admin"){
         data = {
           cn: username,
-          mail: `${username}@zhangmen.com`,
-          mobile: "13788954031",
-          telephoneNumber: "13788954031",
+          mail: `${username}@iconspirit.com`,
+          mobile: "137****4034",
+          telephoneNumber: "137***4034",
           title: "研发工程师",
           description: ""
         }
-        department = "研发效能组"
+        department = "前端研发组"
       }else{
+        // 查询 OA 
         const options = AUTH_CONFIG[this.app.env]({ username, password })
         data = await authenticate(options)
         department = data.distinguishedName.split(',')[2].split('=')[1]
@@ -69,7 +70,6 @@ class UserSevice extends Service {
   async getUserInfoByMobile({ mobile }) {
     const ctx = this.ctx;
     let userData;
-    // curl http://open-ng.zmlearn.com/api/oa/personManage/getBasePersonInfo -X POST -d '{"mobile": "13651813361"}' --header "Content-Type: application/json"
     try {
       userData = await ctx.curl(`${OA_HOST(this.app.env)}/api/oa/personManage/getBasePersonInfo`, {
         method: 'POST',
