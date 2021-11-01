@@ -20,7 +20,7 @@
 3. 设计师的 Icons 平台：支持设计师上传 svg 素材到公司内网 IconSpirit 上，打造设计师的 Icons 内部公共平台；
 4. 接口能力：支持其它平台调用 IconSpirit 接口。比如公司内部低代码平台需要使用到 icon 图标，可以直接接口调用查询 IconSpirit。
 
-### 部署
+### 快速部署
 1. 数据库配置：IconSpirit 需要配置 Redis，MongoDB 4.2+，阿里云 oss，Ldap 链接地址。默认是支持从 consul 获取配置数据信息。（见下文配置）
 2. 部署后端：在虚机上使用 node 14+，运行 npm run egg:start 启动后端服务器；
 3. 部署前端：npm run build 打包；在服务器上配置 nginx 映射到对应的 dist 目录上。
