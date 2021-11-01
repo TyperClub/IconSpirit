@@ -2,7 +2,7 @@
 
 <div align="center">
   <a href="https://iconspirit.vue2.net">
-    <img src="https://f.vue2.net/IconSpiritd-03.jpg" alt="IconSpirit Logo" height="200">
+    <img src="https://f.vue2.net/IconSpiritd-03.jpg" alt="IconSpirit Logo" height="160">
   </a>
 </div>
 
