@@ -2,7 +2,7 @@
 
 <div align="center">
   <a href="https://iconspirit.vue2.net">
-    <img src="https://f.vue2.net/IconSpiritd-02.jpg" alt="IconSpirit Logo" height="300">
+    <img src="https://f.vue2.net/IconSpiritd-03.jpg" alt="IconSpirit Logo" height="300">
   </a>
 </div>
 
@@ -18,7 +18,7 @@
 1. 生成文件：支持生成的文件上传到阿里云 oss 平台，方便做 cdn 加速；
 2. iconfont 迁移：支持从便阿里云 iconfont 字体迁移到 IconSpirit 上，通过 css 链接地址反解析生成 IconSpirit 新的项目；
 3. 设计师的 Icons 平台：支持设计师上传 svg 素材到公司内网 IconSpirit 上，打造设计师的 Icons 内部公共平台；
-4. 接口提供：支持公司内部其它接口调用。比如低代码平台接口调用查询 icons。
+4. 接口提供：支持其它平台调用 IconSpirit 接口。比如公司内部低代码平台需要使用到 icon 图标，可以直接接口调用查询 IconSpirit。
 
 ### 部署
 1. 数据库配置：IconSpirit 需要配置 Redis，MongoDB 4.2+，阿里云 oss，Ldap 链接地址。默认是支持从 consul 获取配置数据信息。（见下文配置）
