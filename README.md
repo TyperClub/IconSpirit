@@ -6,6 +6,10 @@
   </a>
 </div>
 
+### 介绍
+
+IconSpirit 是基于 node + vue 开发的开源的 svg 矢量图库，吸取了市场上已有的阿里云 Iconfont、Icons8 等优秀的特点，适合在公司内网搭建使用。
+
 ### 在线字体生成方案
 
 通过 font-carrier 在线生成链接地址
