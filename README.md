@@ -12,8 +12,6 @@
 
 ### 在线字体生成方案
 
-通过 font-carrier 在线生成链接地址
-
 ![preview](https://web-data.zmlearn.com/image/cwyi1FF2iSbJtqXKrKiy1b/502280468-5cec90de12b0a_fix732.png)
 
 
@@ -24,7 +22,7 @@
 
 ### 部署
 1. 数据库配置：IconSpirit 需要配置 redis，mognodb 4+，阿里云 oss，Ldap 链接地址。默认是支持从 consul 获取配置数据信息。（见下文配置）；
-2. 部署后端：在虚机上 npm run egg:start 启动后端服务器；
+2. 部署后端：在虚机上使用 node 14+，运行 npm run egg:start 启动后端服务器；
 3. 部署前端：npm run build 打包；
 
 #### mognodb 配置
