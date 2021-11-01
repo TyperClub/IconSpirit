@@ -5,7 +5,7 @@ let OSS_local, OSS_fat
 
 if(!consulConfig){//未取得 consul 配置，走默认配置
  OSS_local =  {
-    website: "",
+    website: "", //阿里云 bucket 绑定的域名
     region: "",
     accessKeyId: "",
     accessKeySecret: "",

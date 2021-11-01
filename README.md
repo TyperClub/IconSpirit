@@ -21,9 +21,9 @@
 4. 接口提供：支持公司内部其它接口调用。比如低代码平台接口调用查询 icons。
 
 ### 部署
-1. 数据库配置：IconSpirit 需要配置 redis，mognodb 4+，阿里云 oss，Ldap 链接地址。默认是支持从 consul 获取配置数据信息。（见下文配置）；
+1. 数据库配置：IconSpirit 需要配置 redis，mognodb 4.2+，阿里云 oss，Ldap 链接地址。默认是支持从 consul 获取配置数据信息。（见下文配置）；
 2. 部署后端：在虚机上使用 node 14+，运行 npm run egg:start 启动后端服务器；
-3. 部署前端：npm run build 打包；
+3. 部署前端：npm run build 打包；在服务器上配置 nginx 映射到对应的 dist 目录上。
 
 #### mognodb 配置
 打开 config/config.local.js 文件，找到 redis 配置。mognodb 请安装 4.2 及以上版本。
@@ -49,11 +49,11 @@ exports.redis = {
 }
 ```
 #### oss 配置
-生成的字体文件最终会上传到 oss 仓库，所以需要在 app/config/oss_config.js 中找到 OSS_local 或 OSS_local 配置进行修改。
+生成的字体文件最终会上传到阿里云 oss 仓库，所以需要在 app/config/oss_config.js 中找到 OSS_local 或 OSS_fat 配置进行修改。
 
 ```javascript
  OSS_local =  {
-    website: "",
+    website: "", //阿里云 bucket 绑定的域名
     region: "",
     accessKeyId: "",
     accessKeySecret: "",
@@ -62,6 +62,8 @@ exports.redis = {
     path: ""
   }
 ```
+
+
 ##### Ldap 配置
 在 app/config/ldap_config.js 文件内，填写对应的 Ldap 账号信息
 ```javascript
