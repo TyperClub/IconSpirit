@@ -79,3 +79,7 @@ const DEFAULT_CONFIG = {
   userPassword: '',
 }
 ```
+
+### Todo List 计划
+- [ ] 极速体验容器化部署 IconSpirit。（发布时间 11 月）
+- [ ] 增加管理员页面，可在页面配置是否使用 Ldap、oss 等，同时可以管理团队、项目、成员。（发布时间 11 月）
