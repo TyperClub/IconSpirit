@@ -1,6 +1,12 @@
-#  Icon 技术方案
+# IconSpirit
 
-### 在线字体生成
+<div align="center">
+  <a href="https://iconspirit.vue2.net">
+    <img src="https://f.vue2.net/IconSpiritd-02.jpg" alt="IconSpirit Logo" height="300">
+  </a>
+</div>
+
+### 在线字体生成方案
 
 通过 font-carrier 在线生成链接地址
 
@@ -10,18 +16,6 @@
 
 1. 生成 js 文件
 2. 生成字体文件
-
-### 在线组件生成
-
-```
-<iconpark-icon icon-id="15885"></iconpark-icon>
-<iconpark-icon icon-id="15886"></iconpark-icon>
-```
-
-### 前端页面渲染 svg
-
-1：根据接口返回渲染 html
-
 
 #### 上传 svg 
 1. 同步阿里云矢量图库
