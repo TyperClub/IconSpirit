@@ -36,7 +36,7 @@ exports.mongoose = {
 }
 ```
 #### Redis 配置
-打开 config/config.local.js 文件，找到 Redis 配置
+打开 config/config.local.js 文件，找到 Redis 配置。
 
 ```javascript
 exports.redis = {
@@ -65,7 +65,7 @@ const OSS_local =  {
 
 
 ##### Ldap 登录配置
-在 app/config/ldap_config.js 文件内，填写对应的 Ldap 账号信息
+在 app/config/ldap_config.js 文件内，填写对应的 Ldap 账号信息。
 ```javascript
 const DEFAULT_CONFIG = {
   ldapOpts: {
