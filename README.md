@@ -8,7 +8,7 @@
 
 ### 介绍
 
-<a href="https://iconspirit.vue2.net">IconSpirit</a> 是基于 node + vue 开发的企业内网矢量图标库，吸取了市场上已有的阿里云 Iconfont、Icons8 等优秀的特点。为了契合公司局内网使用，增加了公司组织结构及权限功能，方便开发团队维护及使用。同时也适合设计师上传 svg 素材到公司内网 IconSpirit 上，打造自己的 Icons 内部公共平台。为了方便阿里云 iconfont 字体迁移到 IconSpirit 上，在项目管理页面上支持输入 css 链接地址，一键迁移操作。
+<a href="https://iconspirit.vue2.net">IconSpirit</a> 是基于 node + vue 开发的企业内网矢量图标库，吸收了市场上已有的阿里云 Iconfont、Icons8 等优秀的特点。为了契合公司局内网使用，增加了公司组织结构及权限功能，方便开发团队维护及使用。同时也适合设计师上传 svg 素材到公司内网 IconSpirit 上，打造自己的 Icons 内部公共平台。为了方便阿里云 iconfont 字体迁移到 IconSpirit 上，在项目管理页面上支持输入 css 链接地址，一键迁移操作。
 
 ### 在线字体生成方案
 
