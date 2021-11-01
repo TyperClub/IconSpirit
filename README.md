@@ -8,7 +8,7 @@
 
 ### 介绍
 
-IconSpirit 是基于 node + vue 开发的开源的 svg 矢量图库，吸取了市场上已有的阿里云 Iconfont、Icons8 等优秀的特点，适合在公司内网搭建使用。
+IconSpirit 是基于 node + vue 开发的 svg 矢量字体图库，吸取了市场上已有的阿里云 Iconfont、Icons8 等优秀的特点。为了契合公司局内网使用，增加了组织结构及权限功能，适合在公司内网搭建使用。为了方便阿里云 iconfont 字体迁移到 IconSpirit 上，在项目管理页面上支持输入 css 链接地址，一键迁移操作。
 
 ### 在线字体生成方案
 
@@ -16,14 +16,9 @@ IconSpirit 是基于 node + vue 开发的开源的 svg 矢量图库，吸取了�
 
 ![preview](https://web-data.zmlearn.com/image/cwyi1FF2iSbJtqXKrKiy1b/502280468-5cec90de12b0a_fix732.png)
 
-生成输出
 
-1. 生成 js 文件
-2. 生成字体文件
-
-#### 上传 svg 
-1. 同步阿里云矢量图库
-2. 支持上传阿里云 css 样式，反解析，同时生成 css 样式到 oss 仓库
+1. 支持上传阿里云 css 样式，反解析
+2. 生成字体文件，可以同步 css 及字体到 oss 仓库。
 
 
 ### 部署
