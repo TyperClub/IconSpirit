@@ -52,15 +52,15 @@ exports.redis = {
 生成的字体文件最终会上传到阿里云 oss 仓库，所以需要在 app/config/oss_config.js 中找到 OSS_local 或 OSS_fat 配置进行修改。
 
 ```javascript
- OSS_local =  {
-    website: "", //阿里云 bucket 绑定的域名
-    region: "",
-    accessKeyId: "",
-    accessKeySecret: "",
-    bucket: "",
-    cname: true,
-    path: ""
-  }
+const OSS_local =  {
+  website: "", //阿里云 bucket 绑定的域名
+  region: "",
+  accessKeyId: "",
+  accessKeySecret: "",
+  bucket: "",
+  cname: true,
+  path: ""
+}
 ```
 
 
@@ -71,11 +71,11 @@ const DEFAULT_CONFIG = {
   ldapOpts: {
     url: '',
   },
-  adminDn: consulConfig ? consulConfig.ldap.adminDn: "",
-  adminPassword: consulConfig ? consulConfig.ldap.adminPassword: "",
-  userSearchBase: consulConfig ? consulConfig.ldap.userSearchBase: "",
-  usernameAttribute: consulConfig ? consulConfig.ldap.usernameAttribute : "",
+  adminDn: "",
+  adminPassword: "",
+  userSearchBase: "",
+  usernameAttribute: "",
   username: '',
   userPassword: '',
-};
+}
 ```
